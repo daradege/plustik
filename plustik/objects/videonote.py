@@ -7,16 +7,13 @@ if TYPE_CHECKING:
     from plustik.objects.photosize import PhotoSize
 
 
-class Animation:
+class VideoNote:
     def __init__(self,
                  file_id: str,
                  file_unique_id: str,
-                 width: int,
-                 height: int,
+                 length: int,
                  duration: int,
                  thumb: "PhotoSize" | None = None,
-                 file_name: str | None = None,
-                 mime_type: str | None = None,
                  file_size: int | None = None,
                  client: Client | None = None,
                  *args,
@@ -24,12 +21,9 @@ class Animation:
                  ):
         self.file_id = file_id
         self.file_unique_id = file_unique_id
-        self.width = width
-        self.height = height
+        self.length = length
         self.duration = duration
         self.thumb = thumb
-        self.file_name = file_name
-        self.mime_type = mime_type
         self.file_size = file_size
         self.client = client
         self.args = args

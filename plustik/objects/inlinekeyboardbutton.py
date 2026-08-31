@@ -4,27 +4,20 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from plustik.client import Client
-    from plustik.objects.user import User
 
 
-class MessageEntity:
+class InlineKeyboardButton:
     def __init__(self,
-                 type: str,
-                 offset: int,
-                 length: int,
+                 text: str,
                  url: str | None = None,
-                 user: User | None = None,
-                 language: str | None = None,
+                 callback_data: str | None = None,
                  client: Client | None = None,
                  *args,
                  **kwargs
                  ):
-        self.type = type
-        self.offset = offset
-        self.length = length
+        self.text = text
         self.url = url
-        self.user = user
-        self.language = language
+        self.callback_data = callback_data
         self.client = client
         self.args = args
         self.kwargs = kwargs

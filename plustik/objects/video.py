@@ -7,7 +7,7 @@ if TYPE_CHECKING:
     from plustik.objects.photosize import PhotoSize
 
 
-class Animation:
+class Video:
     def __init__(self,
                  file_id: str,
                  file_unique_id: str,
