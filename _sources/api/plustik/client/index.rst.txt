@@ -801,6 +801,9 @@ Package Contents
 
 
 
+   .. py:method:: run()
+
+
    .. py:method:: __aenter__()
       :async:
 

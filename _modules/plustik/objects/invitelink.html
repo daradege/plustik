@@ -233,6 +233,7 @@
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">.user</span><span class="w"> </span><span class="kn">import</span> <span class="n">User</span>
 
+
 <div class="viewcode-block" id="InviteLink">
 <a class="viewcode-back" href="../../../api/plustik/objects/invitelink/index.html#plustik.objects.invitelink.InviteLink">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">InviteLink</span><span class="p">:</span>
@@ -251,17 +252,17 @@
 <span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">invite_link</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">creator</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
-        <span class="n">creates_join_request</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
-        <span class="n">is_primary</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
-        <span class="n">is_revoked</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
-        <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">expire_date</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">member_limit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">pending_join_request_count</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">invite_link</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="n">creator</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+            <span class="n">creates_join_request</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+            <span class="n">is_primary</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+            <span class="n">is_revoked</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+            <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">expire_date</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">member_limit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">pending_join_request_count</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
 <div class="viewcode-block" id="InviteLink.invite_link">
 <a class="viewcode-back" href="../../../api/plustik/objects/invitelink/index.html#plustik.objects.invitelink.InviteLink.invite_link">[docs]</a>

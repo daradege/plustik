@@ -229,8 +229,10 @@
         <article role="main" id="furo-main-content">
           <h1>Source code for plustik.objects.inlinekeyboardmarkup</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">ButtonTypes</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..exceptions.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">PlustikException</span>
+
 
 <div class="viewcode-block" id="InlineKeyboardMarkup">
 <a class="viewcode-back" href="../../../api/plustik/objects/inlinekeyboardmarkup/index.html#plustik.objects.inlinekeyboardmarkup.InlineKeyboardMarkup">[docs]</a>
@@ -279,13 +281,13 @@
 <div class="viewcode-block" id="InlineKeyboardMarkup.add_button">
 <a class="viewcode-back" href="../../../api/plustik/objects/inlinekeyboardmarkup/index.html#plustik.objects.inlinekeyboardmarkup.InlineKeyboardMarkup.add_button">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_button</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">callback_data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">web_app</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="s2">"WebAppInfo"</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">copy_text_button</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="s2">"CopyTextButton"</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="n">callback_data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">web_app</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="s2">"WebAppInfo"</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">copy_text_button</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="s2">"CopyTextButton"</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"InlineKeyboardMarkup"</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Add a button to the keyboard."""</span>
         <span class="n">button</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"text"</span><span class="p">:</span> <span class="n">text</span><span class="p">}</span>

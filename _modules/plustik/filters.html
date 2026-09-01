@@ -229,11 +229,11 @@
         <article role="main" id="furo-main-content">
           <h1>Source code for plustik.filters</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">..objects.user</span><span class="w"> </span><span class="kn">import</span> <span class="n">User</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">..client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
+
 
 <div class="viewcode-block" id="Filter">
 <a class="viewcode-back" href="../../api/plustik/filters/index.html#plustik.filters.Filter">[docs]</a>
@@ -292,21 +292,31 @@
 </div>
 
 
+
 <div class="viewcode-block" id="equals">
 <a class="viewcode-back" href="../../api/plustik/filters/index.html#plustik.filters.equals">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">equals</span><span class="p">(</span><span class="n">expected_text</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]):</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Check if the event text or caption or callbackQuery data is equal to the expected text.</span>
 <span class="sd">    """</span>
+
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">expected_text</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-                <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="n">expected_text</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"caption"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="n">expected_text</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"data"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="n">expected_text</span>
+                <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="n">expected_text</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"caption"</span><span class="p">,</span>
+                                                                                <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="n">expected_text</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span>
+                                                                                                                  <span class="s2">"data"</span><span class="p">,</span>
+                                                                                                                  <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="n">expected_text</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">in</span> <span class="n">expected_text</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"caption"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">in</span> <span class="n">expected_text</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"data"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">in</span> <span class="n">expected_text</span>
+                <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">in</span> <span class="n">expected_text</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"caption"</span><span class="p">,</span>
+                                                                                <span class="kc">None</span><span class="p">)</span> <span class="ow">in</span> <span class="n">expected_text</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span>
+                                                                                                                  <span class="s2">"data"</span><span class="p">,</span>
+                                                                                                                  <span class="kc">None</span><span class="p">)</span> <span class="ow">in</span> <span class="n">expected_text</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
+
     <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">check</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="startswith">
@@ -315,19 +325,26 @@
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Check if the event text or caption or callbackQuery data starts with the expected text.</span>
 <span class="sd">    """</span>
+
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">expected_text</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-                <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">expected_text</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"caption"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">expected_text</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"data"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">expected_text</span><span class="p">)</span>
+                <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">expected_text</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"caption"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span>
+                    <span class="n">expected_text</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"data"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">expected_text</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">e_texts</span> <span class="o">=</span> <span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">expected_textt</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"caption"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">expected_textt</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"data"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">expected_textt</span><span class="p">)</span> <span class="k">for</span> <span class="n">expected_textt</span> <span class="ow">in</span> <span class="n">expected_text</span><span class="p">]</span>
+                <span class="n">e_texts</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">expected_textt</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"caption"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span>
+                        <span class="n">expected_textt</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"data"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">expected_textt</span><span class="p">)</span> <span class="k">for</span> <span class="n">expected_textt</span> <span class="ow">in</span>
+                    <span class="n">expected_text</span><span class="p">]</span>
                 <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">e_texts</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">e</span><span class="p">:</span>
                         <span class="k">return</span> <span class="kc">True</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
+
     <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">check</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="regex">
@@ -336,12 +353,15 @@
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Check if the event text or caption matches the given regex pattern.</span>
 <span class="sd">    """</span>
+
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">,</span> <span class="s2">""</span><span class="p">))</span> <span class="ow">or</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"caption"</span><span class="p">,</span> <span class="s2">""</span><span class="p">))</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
+
     <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">check</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="from_users">
@@ -355,7 +375,7 @@
             <span class="n">allowed_users</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">allowed_users</span><span class="p">)]</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"User IDs can only be digits"</span><span class="p">)</span>
-    
+
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">event_user</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"user"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -364,192 +384,249 @@
                 <span class="k">return</span> <span class="kc">True</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
+
     <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">check</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="text">
 <a class="viewcode-back" href="../../api/plustik/filters/index.html#plustik.filters.text">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">text</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">"""Check if the event has text."""</span>
+
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">))</span>
+
     <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">check</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="photo">
 <a class="viewcode-back" href="../../api/plustik/filters/index.html#plustik.filters.photo">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">photo</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">"""Check if the event has a photo."""</span>
+
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"photo"</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"photo"</span><span class="p">))</span>
+
     <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">check</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="video">
 <a class="viewcode-back" href="../../api/plustik/filters/index.html#plustik.filters.video">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">video</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">"""Check if the event has a video."""</span>
+
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"video"</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"video"</span><span class="p">))</span>
+
     <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">check</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="audio">
 <a class="viewcode-back" href="../../api/plustik/filters/index.html#plustik.filters.audio">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">audio</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">"""Check if the event has an audio."""</span>
+
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"audio"</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"audio"</span><span class="p">))</span>
+
     <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">check</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="voice">
 <a class="viewcode-back" href="../../api/plustik/filters/index.html#plustik.filters.voice">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">voice</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">"""Check if the event has a voice message."""</span>
+
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"voice"</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"voice"</span><span class="p">))</span>
+
     <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">check</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="document">
 <a class="viewcode-back" href="../../api/plustik/filters/index.html#plustik.filters.document">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">document</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">"""Check if the event has a document."""</span>
+
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"document"</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"document"</span><span class="p">))</span>
+
     <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">check</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="contact">
 <a class="viewcode-back" href="../../api/plustik/filters/index.html#plustik.filters.contact">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">contact</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">"""Check if the event has a contact."""</span>
+
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"contact"</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"contact"</span><span class="p">))</span>
+
     <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">check</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="location">
 <a class="viewcode-back" href="../../api/plustik/filters/index.html#plustik.filters.location">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">location</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">"""Check if the event has a location."""</span>
+
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"location"</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"location"</span><span class="p">))</span>
+
     <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">check</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="animation">
 <a class="viewcode-back" href="../../api/plustik/filters/index.html#plustik.filters.animation">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">animation</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">"""Check if the event has an animation."""</span>
+
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"animation"</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"animation"</span><span class="p">))</span>
+
     <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">check</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="dice">
 <a class="viewcode-back" href="../../api/plustik/filters/index.html#plustik.filters.dice">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">dice</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">"""Check if the event has a dice."""</span>
+
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"dice"</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"dice"</span><span class="p">))</span>
+
     <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">check</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="sticker">
 <a class="viewcode-back" href="../../api/plustik/filters/index.html#plustik.filters.sticker">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">sticker</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">"""Check if the event has a sticker."""</span>
+
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"sticker"</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"sticker"</span><span class="p">))</span>
+
     <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">check</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="private">
 <a class="viewcode-back" href="../../api/plustik/filters/index.html#plustik.filters.private">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">private</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">"""Check if the event is in a private chat."""</span>
+
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">chat</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"chat"</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">chat</span><span class="o">.</span><span class="n">private</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
+
     <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">check</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="group">
 <a class="viewcode-back" href="../../api/plustik/filters/index.html#plustik.filters.group">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">group</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">"""Check if the event is in a group chat."""</span>
+
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">chat</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"chat"</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">chat</span><span class="o">.</span><span class="n">type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"group"</span><span class="p">,</span> <span class="s2">"supergroup"</span><span class="p">]</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
+
     <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">check</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="channel">
 <a class="viewcode-back" href="../../api/plustik/filters/index.html#plustik.filters.channel">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">channel</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">"""Check if the event is in a channel."""</span>
+
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">chat</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"chat"</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">chat</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"channel"</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
+
     <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">check</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="reply">
 <a class="viewcode-back" href="../../api/plustik/filters/index.html#plustik.filters.reply">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">reply</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">"""Check if the event is a reply to a message."""</span>
+
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"reply_to_message"</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
+
     <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">check</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="forwarded">
 <a class="viewcode-back" href="../../api/plustik/filters/index.html#plustik.filters.forwarded">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">forwarded</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">"""Check if the event is a forwarded message."""</span>
+
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"forward_from"</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"forward_from_chat"</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
+
     <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">check</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="digit">
 <a class="viewcode-back" href="../../api/plustik/filters/index.html#plustik.filters.digit">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">digit</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">"""Check if the event text or data is numeric."""</span>
+
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"caption"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"data"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span>
+            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="s2">"caption"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">event</span><span class="p">,</span>
+                                                                                                              <span class="s2">"data"</span><span class="p">,</span>
+                                                                                                              <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
+
     <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">check</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="func">
 <a class="viewcode-back" href="../../api/plustik/filters/index.html#plustik.filters.func">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="n">function</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Create a filter from a custom function."""</span>
+
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">function</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
+
     <span class="k">return</span> <span class="n">Filter</span><span class="p">(</span><span class="n">check</span><span class="p">)</span></div>
 
 </pre></div>

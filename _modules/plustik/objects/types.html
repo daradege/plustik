@@ -230,9 +230,8 @@
           <h1>Source code for plustik.objects.types</h1><div class="highlight"><pre>
 <span></span><span class="sd">"""Type aliases used across plustik."""</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Union</span>
 
-<span class="c1"># Core types</span>
 <div class="viewcode-block" id="JSONValue">
 <a class="viewcode-back" href="../../../api/plustik/objects/types/index.html#plustik.objects.types.JSONValue">[docs]</a>
 <span class="n">JSONValue</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="s2">"JSONValue"</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="s2">"JSONValue"</span><span class="p">]]</span></div>
@@ -242,19 +241,16 @@
 <span class="n">JSONSerializable</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span></div>
 
 
-<span class="c1"># Update types</span>
 <div class="viewcode-block" id="UpdateType">
 <a class="viewcode-back" href="../../../api/plustik/objects/types/index.html#plustik.objects.types.UpdateType">[docs]</a>
 <span class="n">UpdateType</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"message"</span><span class="p">,</span> <span class="s2">"message_edited"</span><span class="p">,</span> <span class="s2">"callback_query"</span><span class="p">,</span> <span class="s2">"command"</span><span class="p">,</span> <span class="s2">"photo"</span><span class="p">,</span> <span class="s2">"update"</span><span class="p">]</span></div>
 
 
-<span class="c1"># Parse modes</span>
 <div class="viewcode-block" id="ParseMode">
 <a class="viewcode-back" href="../../../api/plustik/objects/types/index.html#plustik.objects.types.ParseMode">[docs]</a>
 <span class="n">ParseMode</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"HTML"</span><span class="p">,</span> <span class="s2">"MarkdownV2"</span><span class="p">,</span> <span class="s2">"Markdown"</span><span class="p">]</span></div>
 
 
-<span class="c1"># Chat member statuses</span>
 <div class="viewcode-block" id="ChatMemberStatus">
 <a class="viewcode-back" href="../../../api/plustik/objects/types/index.html#plustik.objects.types.ChatMemberStatus">[docs]</a>
 <span class="n">ChatMemberStatus</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span>
@@ -262,43 +258,37 @@
 <span class="p">]</span></div>
 
 
-<span class="c1"># Reply markup types</span>
 <div class="viewcode-block" id="ReplyMarkup">
 <a class="viewcode-back" href="../../../api/plustik/objects/types/index.html#plustik.objects.types.ReplyMarkup">[docs]</a>
 <span class="n">ReplyMarkup</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="s2">"ReplyKeyboardMarkup"</span><span class="p">,</span> <span class="s2">"ReplyKeyboardRemove"</span><span class="p">,</span> <span class="s2">"ForceReply"</span><span class="p">,</span> <span class="s2">"InlineKeyboardMarkup"</span><span class="p">]</span></div>
 
 
-<span class="c1"># File-like input</span>
 <div class="viewcode-block" id="InputFileType">
 <a class="viewcode-back" href="../../../api/plustik/objects/types/index.html#plustik.objects.types.InputFileType">[docs]</a>
 <span class="n">InputFileType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="s2">"InputFile"</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span></div>
 
 
-<span class="c1"># Callback result</span>
 <div class="viewcode-block" id="CallbackResult">
 <a class="viewcode-back" href="../../../api/plustik/objects/types/index.html#plustik.objects.types.CallbackResult">[docs]</a>
 <span class="n">CallbackResult</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="s2">"Message"</span><span class="p">]</span></div>
 
 
-<span class="c1"># Message ID</span>
 <div class="viewcode-block" id="MessageIdType">
 <a class="viewcode-back" href="../../../api/plustik/objects/types/index.html#plustik.objects.types.MessageIdType">[docs]</a>
 <span class="n">MessageIdType</span> <span class="o">=</span> <span class="nb">int</span></div>
 
 
-<span class="c1"># Bot command scope</span>
 <div class="viewcode-block" id="BotCommandScopeType">
 <a class="viewcode-back" href="../../../api/plustik/objects/types/index.html#plustik.objects.types.BotCommandScopeType">[docs]</a>
-<span class="n">BotCommandScopeType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="s2">"BotCommandScope"</span><span class="p">,</span> <span class="s2">"BotCommandScopeDefault"</span><span class="p">,</span> <span class="s2">"BotCommandScopeAllPrivateChats"</span><span class="p">,</span> <span class="s2">"BotCommandScopeChat"</span><span class="p">]</span></div>
+<span class="n">BotCommandScopeType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span>
+    <span class="s2">"BotCommandScope"</span><span class="p">,</span> <span class="s2">"BotCommandScopeDefault"</span><span class="p">,</span> <span class="s2">"BotCommandScopeAllPrivateChats"</span><span class="p">,</span> <span class="s2">"BotCommandScopeChat"</span><span class="p">]</span></div>
 
 
-<span class="c1"># Filter check callable type</span>
 <div class="viewcode-block" id="FilterCheckCallable">
 <a class="viewcode-back" href="../../../api/plustik/objects/types/index.html#plustik.objects.types.FilterCheckCallable">[docs]</a>
 <span class="n">FilterCheckCallable</span> <span class="o">=</span> <span class="n">Any</span></div>
 
 
-<span class="c1"># Update handler callback</span>
 <div class="viewcode-block" id="UpdateHandlerCallback">
 <a class="viewcode-back" href="../../../api/plustik/objects/types/index.html#plustik.objects.types.UpdateHandlerCallback">[docs]</a>
 <span class="n">UpdateHandlerCallback</span> <span class="o">=</span> <span class="n">Any</span></div>

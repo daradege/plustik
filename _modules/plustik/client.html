@@ -230,60 +230,43 @@
           <h1>Source code for plustik.client</h1><div class="highlight"><pre>
 <span></span><span class="sd">"""Async client for the Soroush Plus Bot API."""</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Awaitable</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">traceback</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">traceback</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">json</span><span class="w"> </span><span class="kn">import</span> <span class="n">dumps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">aiohttp</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.animation</span><span class="w"> </span><span class="kn">import</span> <span class="n">Animation</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.audio</span><span class="w"> </span><span class="kn">import</span> <span class="n">Audio</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">PlustikException</span><span class="p">,</span> <span class="n">InvalidTokenException</span><span class="p">,</span> <span class="n">NotFoundException</span><span class="p">,</span>
+    <span class="n">ForbiddenException</span><span class="p">,</span> <span class="n">InternalServerException</span><span class="p">,</span> <span class="n">ConflictException</span><span class="p">,</span> <span class="n">RateLimitException</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.botcommand</span><span class="w"> </span><span class="kn">import</span> <span class="n">BotCommand</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.botcommandscope</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BotCommandScope</span>
+<span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..objects.callbackquery</span><span class="w"> </span><span class="kn">import</span> <span class="n">CallbackQuery</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.chatmember</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatMember</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.chatphoto</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatPhoto</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.chat</span><span class="w"> </span><span class="kn">import</span> <span class="n">Chat</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..objects.chatfullinfo</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChatFullInfo</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.contact</span><span class="w"> </span><span class="kn">import</span> <span class="n">Contact</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.copytextbutton</span><span class="w"> </span><span class="kn">import</span> <span class="n">CopyTextButton</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.document</span><span class="w"> </span><span class="kn">import</span> <span class="n">Document</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">UpdatesTypes</span><span class="p">,</span> <span class="n">ChatAction</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..objects.file</span><span class="w"> </span><span class="kn">import</span> <span class="n">File</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.inlinekeyboardbutton</span><span class="w"> </span><span class="kn">import</span> <span class="n">InlineKeyboardButton</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.forcereply</span><span class="w"> </span><span class="kn">import</span> <span class="n">ForceReply</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..objects.inlinekeyboardmarkup</span><span class="w"> </span><span class="kn">import</span> <span class="n">InlineKeyboardMarkup</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..objects.inputfile</span><span class="w"> </span><span class="kn">import</span> <span class="n">InputFile</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..objects.inputmedias</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">InputMedia</span><span class="p">,</span> <span class="n">InputMediaAudio</span><span class="p">,</span> <span class="n">InputMediaDocument</span><span class="p">,</span> <span class="n">InputMediaPhoto</span><span class="p">,</span> <span class="n">InputMediaVideo</span>
+    <span class="n">InputMediaAudio</span><span class="p">,</span> <span class="n">InputMediaDocument</span><span class="p">,</span> <span class="n">InputMediaPhoto</span><span class="p">,</span> <span class="n">InputMediaVideo</span>
 <span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.location</span><span class="w"> </span><span class="kn">import</span> <span class="n">Location</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..objects.message</span><span class="w"> </span><span class="kn">import</span> <span class="n">Message</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.messageentity</span><span class="w"> </span><span class="kn">import</span> <span class="n">MessageEntity</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..objects.messageid</span><span class="w"> </span><span class="kn">import</span> <span class="n">MessageId</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.photosize</span><span class="w"> </span><span class="kn">import</span> <span class="n">PhotoSize</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..objects.replykeyboardmarkup</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReplyKeyboardMarkup</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..objects.replykeyboardremove</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReplyKeyboardRemove</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.forcereply</span><span class="w"> </span><span class="kn">import</span> <span class="n">ForceReply</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..objects.sticker</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sticker</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..objects.stickerset</span><span class="w"> </span><span class="kn">import</span> <span class="n">StickerSet</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.user</span><span class="w"> </span><span class="kn">import</span> <span class="n">User</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.video</span><span class="w"> </span><span class="kn">import</span> <span class="n">Video</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.videonote</span><span class="w"> </span><span class="kn">import</span> <span class="n">VideoNote</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.voice</span><span class="w"> </span><span class="kn">import</span> <span class="n">Voice</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.webappdata</span><span class="w"> </span><span class="kn">import</span> <span class="n">WebAppData</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..objects.update</span><span class="w"> </span><span class="kn">import</span> <span class="n">Update</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.webappinfo</span><span class="w"> </span><span class="kn">import</span> <span class="n">WebAppInfo</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.messageentity</span><span class="w"> </span><span class="kn">import</span> <span class="n">MessageEntity</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.dice</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dice</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.user</span><span class="w"> </span><span class="kn">import</span> <span class="n">User</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..objects.userprofilephotos</span><span class="w"> </span><span class="kn">import</span> <span class="n">UserProfilePhotos</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.botcommand</span><span class="w"> </span><span class="kn">import</span> <span class="n">BotCommand</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.botcommandscope</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">BotCommandScope</span><span class="p">,</span> <span class="n">BotCommandScopeDefault</span><span class="p">,</span> <span class="n">BotCommandScopeAllPrivateChats</span><span class="p">,</span> <span class="n">BotCommandScopeChat</span>
-<span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..objects.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">pythonize</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..objects.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">UpdatesTypes</span><span class="p">,</span> <span class="n">ChatAction</span><span class="p">,</span> <span class="n">ChatType</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">..exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">PlustikException</span><span class="p">,</span> <span class="n">InvalidTokenException</span><span class="p">,</span> <span class="n">NotFoundException</span><span class="p">,</span>
-    <span class="n">ForbiddenException</span><span class="p">,</span> <span class="n">InternalServerException</span><span class="p">,</span> <span class="n">TimeoutException</span><span class="p">,</span>
-    <span class="n">ConflictException</span><span class="p">,</span> <span class="n">RateLimitException</span>
-<span class="p">)</span>
 
 
 <div class="viewcode-block" id="Client">
@@ -311,9 +294,9 @@
 <span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">base_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"https://api.splus.ir/bot"</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">token</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="n">base_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"https://api.splus.ir/bot"</span><span class="p">,</span>
     <span class="p">):</span>
 <div class="viewcode-block" id="Client.token">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.token">[docs]</a>
@@ -362,11 +345,11 @@
         <span class="k">return</span> <span class="n">reply_markup</span>
 
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_make_request</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">files</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">aiohttp</span><span class="o">.</span><span class="n">FormData</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="n">endpoint</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="n">data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">files</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">aiohttp</span><span class="o">.</span><span class="n">FormData</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Make an HTTP request to the API."""</span>
         <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_api_url</span><span class="p">(</span><span class="n">endpoint</span><span class="p">)</span>
@@ -406,8 +389,6 @@
         <span class="p">}</span>
         <span class="n">exc_class</span> <span class="o">=</span> <span class="n">error_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">PlustikException</span><span class="p">)</span>
         <span class="k">raise</span> <span class="n">exc_class</span><span class="p">(</span><span class="sa">f</span><span class="s2">"API error </span><span class="si">{</span><span class="n">code</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">desc</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-    <span class="c1"># ── Bot info ─────────────────────────────────────────────────────</span>
 
 <div class="viewcode-block" id="Client.get_me">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.get_me">[docs]</a>
@@ -451,16 +432,14 @@
         <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"result"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span></div>
 
 
-    <span class="c1"># ── Updates ──────────────────────────────────────────────────────</span>
-
 <div class="viewcode-block" id="Client.get_updates">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.get_updates">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_updates</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">offset</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">limit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">allowed_updates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">offset</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">limit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">allowed_updates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Get incoming updates using long polling.</span>
 
@@ -487,13 +466,13 @@
 <div class="viewcode-block" id="Client.set_webhook">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.set_webhook">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">set_webhook</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">certificate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InputFile</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">ip_address</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">max_connections</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">allowed_updates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">drop_pending_updates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="n">certificate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InputFile</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">ip_address</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">max_connections</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">allowed_updates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">drop_pending_updates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Set a webhook to receive updates via HTTPS POST.</span>
 
@@ -559,20 +538,19 @@
         <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"result"</span><span class="p">,</span> <span class="p">{})</span></div>
 
 
-    <span class="c1"># ── Sending messages ─────────────────────────────────────────────</span>
-
 <div class="viewcode-block" id="Client.send_message">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.send_message">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send_message</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">parse_mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">entities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MessageEntity</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">reply_to_message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">,</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">,</span> <span class="n">ReplyKeyboardRemove</span><span class="p">,</span> <span class="n">ForceReply</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">disable_web_page_preview</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">allow_sending_without_reply</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="n">parse_mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">entities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MessageEntity</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reply_to_message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+                <span class="n">Union</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">,</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">,</span> <span class="n">ReplyKeyboardRemove</span><span class="p">,</span> <span class="n">ForceReply</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">disable_web_page_preview</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">allow_sending_without_reply</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Message</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Send a text message.</span>
 
@@ -610,10 +588,10 @@
 <div class="viewcode-block" id="Client.forward_message">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.forward_message">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">forward_message</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">from_chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">message_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">from_chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">message_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Message</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Forward an existing message.</span>
 
@@ -633,14 +611,14 @@
 <div class="viewcode-block" id="Client.copy_message">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.copy_message">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">copy_message</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">from_chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">message_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-        <span class="n">caption</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">parse_mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">caption_entities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MessageEntity</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">,</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">from_chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">message_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+            <span class="n">caption</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">parse_mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">caption_entities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MessageEntity</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">,</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MessageId</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Copy a message without a forward link.</span>
 
@@ -670,19 +648,17 @@
         <span class="k">return</span> <span class="n">MessageId</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">"result"</span><span class="p">][</span><span class="s2">"message_id"</span><span class="p">])</span></div>
 
 
-    <span class="c1"># ── Media sending ────────────────────────────────────────────────</span>
-
 <div class="viewcode-block" id="Client.send_photo">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.send_photo">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send_photo</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">photo</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">InputFile</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">caption</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">parse_mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">caption_entities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MessageEntity</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">reply_to_message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">,</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">photo</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">InputFile</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">caption</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">parse_mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">caption_entities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MessageEntity</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reply_to_message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">,</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Message</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Send a photo.</span>
 
@@ -707,7 +683,8 @@
             <span class="k">if</span> <span class="n">parse_mode</span><span class="p">:</span>
                 <span class="n">form</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="s2">"parse_mode"</span><span class="p">,</span> <span class="n">parse_mode</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">caption_entities</span><span class="p">:</span>
-                <span class="n">form</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="s2">"caption_entities"</span><span class="p">,</span> <span class="n">dumps</span><span class="p">([</span><span class="n">e</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"to_dict"</span><span class="p">)</span> <span class="k">else</span> <span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">caption_entities</span><span class="p">]))</span>
+                <span class="n">form</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="s2">"caption_entities"</span><span class="p">,</span>
+                               <span class="n">dumps</span><span class="p">([</span><span class="n">e</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="s2">"to_dict"</span><span class="p">)</span> <span class="k">else</span> <span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">caption_entities</span><span class="p">]))</span>
             <span class="k">if</span> <span class="n">reply_to_message_id</span><span class="p">:</span>
                 <span class="n">form</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="s2">"reply_to_message_id"</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">reply_to_message_id</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">reply_markup</span><span class="p">:</span>
@@ -733,18 +710,18 @@
 <div class="viewcode-block" id="Client.send_audio">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.send_audio">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send_audio</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">audio</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">InputFile</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">caption</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">parse_mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">caption_entities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MessageEntity</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">duration</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">performer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">thumb</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InputFile</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">reply_to_message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">,</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">audio</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">InputFile</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">caption</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">parse_mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">caption_entities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MessageEntity</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">duration</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">performer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">thumb</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InputFile</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reply_to_message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">,</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Message</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Send an audio file (MP3/M4A).</span>
 
@@ -811,16 +788,16 @@
 <div class="viewcode-block" id="Client.send_document">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.send_document">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send_document</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">document</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">InputFile</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">caption</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">parse_mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">caption_entities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MessageEntity</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">thumb</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InputFile</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">disable_content_type_detection</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">reply_to_message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">,</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">document</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">InputFile</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">caption</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">parse_mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">caption_entities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MessageEntity</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">thumb</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InputFile</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">disable_content_type_detection</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reply_to_message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">,</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Message</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Send a general file.</span>
 
@@ -877,19 +854,19 @@
 <div class="viewcode-block" id="Client.send_video">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.send_video">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send_video</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">video</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">InputFile</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">caption</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">parse_mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">caption_entities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MessageEntity</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">duration</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">width</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">height</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">thumb</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InputFile</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">supports_streaming</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">reply_to_message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">,</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">video</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">InputFile</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">caption</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">parse_mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">caption_entities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MessageEntity</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">duration</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">width</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">height</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">thumb</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InputFile</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">supports_streaming</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reply_to_message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">,</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Message</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Send a video file (MPEG4).</span>
 
@@ -961,18 +938,18 @@
 <div class="viewcode-block" id="Client.send_animation">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.send_animation">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send_animation</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">animation</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">InputFile</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">caption</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">parse_mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">caption_entities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MessageEntity</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">duration</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">width</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">height</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">thumb</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InputFile</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">reply_to_message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">,</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">animation</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">InputFile</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">caption</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">parse_mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">caption_entities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MessageEntity</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">duration</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">width</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">height</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">thumb</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InputFile</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reply_to_message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">,</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Message</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Send an animation (GIF).</span>
 
@@ -1039,15 +1016,15 @@
 <div class="viewcode-block" id="Client.send_voice">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.send_voice">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send_voice</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">voice</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">InputFile</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">caption</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">parse_mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">caption_entities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MessageEntity</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">duration</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">reply_to_message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">,</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">voice</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">InputFile</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">caption</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">parse_mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">caption_entities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MessageEntity</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">duration</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reply_to_message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">,</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Message</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Send a voice message (OGG/MP3/M4A).</span>
 
@@ -1101,14 +1078,14 @@
 <div class="viewcode-block" id="Client.send_video_note">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.send_video_note">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send_video_note</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">video_note</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">InputFile</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">duration</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">length</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">thumb</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InputFile</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">reply_to_message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">,</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">video_note</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">InputFile</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">duration</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">length</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">thumb</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InputFile</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reply_to_message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">,</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Message</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Send a round video note.</span>
 
@@ -1157,10 +1134,10 @@
 <div class="viewcode-block" id="Client.send_media_group">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.send_media_group">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send_media_group</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">media</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InputMediaPhoto</span><span class="p">,</span> <span class="n">InputMediaVideo</span><span class="p">,</span> <span class="n">InputMediaAudio</span><span class="p">,</span> <span class="n">InputMediaDocument</span><span class="p">]],</span>
-        <span class="n">reply_to_message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">media</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InputMediaPhoto</span><span class="p">,</span> <span class="n">InputMediaVideo</span><span class="p">,</span> <span class="n">InputMediaAudio</span><span class="p">,</span> <span class="n">InputMediaDocument</span><span class="p">]],</span>
+            <span class="n">reply_to_message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Message</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Send a group of photos, videos, documents, or audios as an album.</span>
 
@@ -1205,18 +1182,16 @@
         <span class="k">return</span> <span class="p">[</span><span class="n">Message</span><span class="p">(</span><span class="o">**</span><span class="n">pythonize</span><span class="p">(</span><span class="n">msg</span><span class="p">),</span> <span class="n">client</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span> <span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">response</span><span class="p">[</span><span class="s2">"result"</span><span class="p">]]</span></div>
 
 
-    <span class="c1"># ── Other send methods ───────────────────────────────────────────</span>
-
 <div class="viewcode-block" id="Client.send_location">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.send_location">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send_location</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">latitude</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-        <span class="n">longitude</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-        <span class="n">horizontal_accuracy</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">reply_to_message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">,</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">latitude</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+            <span class="n">longitude</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+            <span class="n">horizontal_accuracy</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reply_to_message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">,</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Message</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Send a point on the map.</span>
 
@@ -1246,14 +1221,14 @@
 <div class="viewcode-block" id="Client.send_contact">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.send_contact">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send_contact</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">phone_number</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">first_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">last_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">vcard</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">reply_to_message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">,</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">phone_number</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="n">first_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="n">last_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">vcard</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reply_to_message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">,</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Message</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Send a phone contact.</span>
 
@@ -1286,11 +1261,11 @@
 <div class="viewcode-block" id="Client.send_dice">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.send_dice">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send_dice</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">emoji</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">reply_to_message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">,</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">emoji</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reply_to_message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">,</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Message</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Send an animated emoji with a random value.</span>
 
@@ -1318,11 +1293,11 @@
 <div class="viewcode-block" id="Client.send_sticker">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.send_sticker">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send_sticker</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">sticker</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">InputFile</span><span class="p">,</span> <span class="n">Sticker</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">reply_to_message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">,</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">sticker</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">InputFile</span><span class="p">,</span> <span class="n">Sticker</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">reply_to_message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">,</span> <span class="n">ReplyKeyboardMarkup</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Message</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Send a sticker.</span>
 
@@ -1376,9 +1351,9 @@
 <div class="viewcode-block" id="Client.send_chat_action">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.send_chat_action">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send_chat_action</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">action</span><span class="p">:</span> <span class="n">ChatAction</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">action</span><span class="p">:</span> <span class="n">ChatAction</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Send a chat action (typing, uploading, etc.).</span>
 
@@ -1397,15 +1372,13 @@
         <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"result"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span></div>
 
 
-    <span class="c1"># ── Info retrieval ───────────────────────────────────────────────</span>
-
 <div class="viewcode-block" id="Client.get_user_profile_photos">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.get_user_profile_photos">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_user_profile_photos</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-        <span class="n">offset</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">limit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+            <span class="n">offset</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">limit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UserProfilePhotos</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Get a user's profile photos.</span>
 
@@ -1442,14 +1415,12 @@
         <span class="k">return</span> <span class="n">File</span><span class="p">(</span><span class="o">**</span><span class="n">pythonize</span><span class="p">(</span><span class="n">response</span><span class="p">[</span><span class="s2">"result"</span><span class="p">]))</span></div>
 
 
-    <span class="c1"># ── Chat management ──────────────────────────────────────────────</span>
-
 <div class="viewcode-block" id="Client.pin_chat_message">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.pin_chat_message">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">pin_chat_message</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">message_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">message_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Pin a message in a chat.</span>
 
@@ -1468,9 +1439,9 @@
 <div class="viewcode-block" id="Client.unpin_chat_message">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.unpin_chat_message">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">unpin_chat_message</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">chat_id</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+            <span class="n">message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Unpin a message in a chat.</span>
 
@@ -1520,17 +1491,15 @@
         <span class="k">return</span> <span class="n">ChatFullInfo</span><span class="p">(</span><span class="o">**</span><span class="n">result</span><span class="p">)</span></div>
 
 
-    <span class="c1"># ── Callback queries ─────────────────────────────────────────────</span>
-
 <div class="viewcode-block" id="Client.answer_callback_query">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.answer_callback_query">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">answer_callback_query</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">callback_query_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">text</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">show_alert</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">cache_time</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">callback_query_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="n">text</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">show_alert</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">cache_time</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Answer a callback query.</span>
 
@@ -1558,19 +1527,17 @@
         <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"result"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span></div>
 
 
-    <span class="c1"># ── Message editing ──────────────────────────────────────────────</span>
-
 <div class="viewcode-block" id="Client.edit_message_text">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.edit_message_text">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">edit_message_text</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">chat_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">text</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">parse_mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">entities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MessageEntity</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">disable_web_page_preview</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">chat_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">text</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">parse_mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">entities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MessageEntity</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">disable_web_page_preview</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Message</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Edit the text of a message.</span>
 
@@ -1609,13 +1576,13 @@
 <div class="viewcode-block" id="Client.edit_message_caption">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.edit_message_caption">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">edit_message_caption</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">chat_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">caption</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">parse_mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">caption_entities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MessageEntity</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">chat_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">caption</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">parse_mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">caption_entities</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MessageEntity</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Message</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Edit the caption of a message.</span>
 
@@ -1653,11 +1620,11 @@
 <div class="viewcode-block" id="Client.edit_message_media">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.edit_message_media">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">edit_message_media</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">media</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">InputMediaPhoto</span><span class="p">,</span> <span class="n">InputMediaVideo</span><span class="p">,</span> <span class="n">InputMediaAudio</span><span class="p">,</span> <span class="n">InputMediaDocument</span><span class="p">],</span>
-        <span class="n">chat_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">media</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">InputMediaPhoto</span><span class="p">,</span> <span class="n">InputMediaVideo</span><span class="p">,</span> <span class="n">InputMediaAudio</span><span class="p">,</span> <span class="n">InputMediaDocument</span><span class="p">],</span>
+            <span class="n">chat_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Message</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Edit the media content of a message.</span>
 
@@ -1687,10 +1654,10 @@
 <div class="viewcode-block" id="Client.edit_message_reply_markup">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.edit_message_reply_markup">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">edit_message_reply_markup</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">chat_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">chat_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">message_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">reply_markup</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">InlineKeyboardMarkup</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Message</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Edit the inline keyboard markup of a message.</span>
 
@@ -1733,15 +1700,13 @@
         <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"result"</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span></div>
 
 
-    <span class="c1"># ── Bot commands ─────────────────────────────────────────────────</span>
-
 <div class="viewcode-block" id="Client.set_my_commands">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.set_my_commands">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">set_my_commands</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">commands</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BotCommand</span><span class="p">],</span>
-        <span class="n">scope</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BotCommandScope</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">language_code</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">commands</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">BotCommand</span><span class="p">],</span>
+            <span class="n">scope</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BotCommandScope</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">language_code</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Set the bot's command list.</span>
 
@@ -1766,9 +1731,9 @@
 <div class="viewcode-block" id="Client.delete_my_commands">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.delete_my_commands">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete_my_commands</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">scope</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BotCommandScope</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">language_code</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">scope</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BotCommandScope</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">language_code</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">"""Delete the bot's command list.</span>
 
@@ -1792,9 +1757,9 @@
 <div class="viewcode-block" id="Client.get_my_commands">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.get_my_commands">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_my_commands</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">scope</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BotCommandScope</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">language_code</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">scope</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BotCommandScope</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">language_code</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">BotCommand</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">"""Get the current list of the bot's commands.</span>
 
@@ -1815,15 +1780,13 @@
         <span class="k">return</span> <span class="p">[</span><span class="n">BotCommand</span><span class="p">(</span><span class="o">**</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"result"</span><span class="p">,</span> <span class="p">[])]</span></div>
 
 
-    <span class="c1"># ── Update processing ────────────────────────────────────────────</span>
-
 <div class="viewcode-block" id="Client.wait_for">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.wait_for">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">wait_for</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">update_type</span><span class="p">:</span> <span class="n">UpdatesTypes</span><span class="p">,</span>
-        <span class="n">check</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">update_type</span><span class="p">:</span> <span class="n">UpdatesTypes</span><span class="p">,</span>
+            <span class="n">check</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">"""Wait for a specific update matching a condition.</span>
 
@@ -1875,7 +1838,6 @@
         <span class="k">if</span> <span class="n">update_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">update_id</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_update_id</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">last_update_id</span> <span class="o">=</span> <span class="n">update_id</span>
 
-        <span class="c1"># Process waiters</span>
         <span class="n">waiters_to_remove</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">waiter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_waiters</span><span class="p">[:]:</span>
             <span class="n">w_type</span><span class="p">,</span> <span class="n">check</span><span class="p">,</span> <span class="n">future</span> <span class="o">=</span> <span class="n">waiter</span>
@@ -1916,7 +1878,6 @@
             <span class="k">if</span> <span class="n">waiter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_waiters</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_waiters</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">waiter</span><span class="p">)</span>
 
-        <span class="c1"># Process handlers</span>
         <span class="k">for</span> <span class="n">handler</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">handlers</span><span class="p">:</span>
             <span class="n">handler_type</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"type"</span><span class="p">)</span>
             <span class="n">event</span> <span class="o">=</span> <span class="kc">None</span>
@@ -1943,7 +1904,6 @@
             <span class="k">if</span> <span class="n">event</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">continue</span>
 
-            <span class="c1"># Apply filters</span>
             <span class="n">skip</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">handler</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"filters"</span><span class="p">,</span> <span class="p">[]):</span>
                 <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
@@ -1984,9 +1944,12 @@
             <span class="k">elif</span> <span class="n">handler_type</span> <span class="o">==</span> <span class="n">UpdatesTypes</span><span class="o">.</span><span class="n">UPDATE</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">Update</span><span class="p">(</span>
                     <span class="n">update_id</span><span class="o">=</span><span class="n">event_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"update_id"</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span>
-                    <span class="n">message</span><span class="o">=</span><span class="n">Message</span><span class="p">(</span><span class="o">**</span><span class="n">pythonize</span><span class="p">(</span><span class="n">event_data</span><span class="p">[</span><span class="s2">"message"</span><span class="p">]),</span> <span class="n">client</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span> <span class="k">if</span> <span class="n">event_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"message"</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
-                    <span class="n">edited_message</span><span class="o">=</span><span class="n">Message</span><span class="p">(</span><span class="o">**</span><span class="n">pythonize</span><span class="p">(</span><span class="n">event_data</span><span class="p">[</span><span class="s2">"edited_message"</span><span class="p">]),</span> <span class="n">client</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span> <span class="k">if</span> <span class="n">event_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"edited_message"</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
-                    <span class="n">callback_query</span><span class="o">=</span><span class="n">CallbackQuery</span><span class="p">(</span><span class="o">**</span><span class="n">pythonize</span><span class="p">(</span><span class="n">event_data</span><span class="p">[</span><span class="s2">"callback_query"</span><span class="p">]),</span> <span class="n">client</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span> <span class="k">if</span> <span class="n">event_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"callback_query"</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">message</span><span class="o">=</span><span class="n">Message</span><span class="p">(</span><span class="o">**</span><span class="n">pythonize</span><span class="p">(</span><span class="n">event_data</span><span class="p">[</span><span class="s2">"message"</span><span class="p">]),</span> <span class="n">client</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span> <span class="k">if</span> <span class="n">event_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                        <span class="s2">"message"</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">edited_message</span><span class="o">=</span><span class="n">Message</span><span class="p">(</span><span class="o">**</span><span class="n">pythonize</span><span class="p">(</span><span class="n">event_data</span><span class="p">[</span><span class="s2">"edited_message"</span><span class="p">]),</span> <span class="n">client</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span> <span class="k">if</span> <span class="n">event_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                        <span class="s2">"edited_message"</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">callback_query</span><span class="o">=</span><span class="n">CallbackQuery</span><span class="p">(</span><span class="o">**</span><span class="n">pythonize</span><span class="p">(</span><span class="n">event_data</span><span class="p">[</span><span class="s2">"callback_query"</span><span class="p">]),</span>
+                                                 <span class="n">client</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span> <span class="k">if</span> <span class="n">event_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"callback_query"</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
                     <span class="n">client</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
                     <span class="n">json</span><span class="o">=</span><span class="n">event_data</span><span class="p">,</span>
                 <span class="p">)</span>
@@ -1996,8 +1959,6 @@
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Error converting event </span><span class="si">{</span><span class="n">handler_type</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span>
             <span class="k">return</span> <span class="n">event_data</span>
-
-    <span class="c1"># ── Handler decorators ───────────────────────────────────────────</span>
 
 <div class="viewcode-block" id="Client.on_command">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.on_command">[docs]</a>
@@ -2014,9 +1975,11 @@
 <span class="sd">            command: Command name (without /).</span>
 <span class="sd">            *filters: Filter functions to apply.</span>
 <span class="sd">        """</span>
+
         <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="n">callback</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">add_handler</span><span class="p">(</span><span class="n">UpdatesTypes</span><span class="o">.</span><span class="n">COMMAND</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="o">*</span><span class="n">filters</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="n">command</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">callback</span>
+
         <span class="k">return</span> <span class="n">decorator</span></div>
 
 
@@ -2034,9 +1997,11 @@
 <span class="sd">        Args:</span>
 <span class="sd">            *filters: Filter functions to apply.</span>
 <span class="sd">        """</span>
+
         <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="n">callback</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">add_handler</span><span class="p">(</span><span class="n">UpdatesTypes</span><span class="o">.</span><span class="n">MESSAGE</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="o">*</span><span class="n">filters</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">callback</span>
+
         <span class="k">return</span> <span class="n">decorator</span></div>
 
 
@@ -2044,9 +2009,11 @@
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.on_edited_message">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_edited_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">filters</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">"""Register an edited message handler."""</span>
+
         <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="n">callback</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">add_handler</span><span class="p">(</span><span class="n">UpdatesTypes</span><span class="o">.</span><span class="n">MESSAGE_EDITED</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="o">*</span><span class="n">filters</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">callback</span>
+
         <span class="k">return</span> <span class="n">decorator</span></div>
 
 
@@ -2064,9 +2031,11 @@
 <span class="sd">        Args:</span>
 <span class="sd">            *filters: Filter functions to apply.</span>
 <span class="sd">        """</span>
+
         <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="n">callback</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">add_handler</span><span class="p">(</span><span class="n">UpdatesTypes</span><span class="o">.</span><span class="n">CALLBACK_QUERY</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="o">*</span><span class="n">filters</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">callback</span>
+
         <span class="k">return</span> <span class="n">decorator</span></div>
 
 
@@ -2074,9 +2043,11 @@
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.on_update">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">filters</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">"""Register a handler for all update types."""</span>
+
         <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="n">callback</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">add_handler</span><span class="p">(</span><span class="n">UpdatesTypes</span><span class="o">.</span><span class="n">UPDATE</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="o">*</span><span class="n">filters</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">callback</span>
+
         <span class="k">return</span> <span class="n">decorator</span></div>
 
 
@@ -2102,8 +2073,6 @@
 <span class="w">        </span><span class="sd">"""Remove all registered handlers."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">handlers</span> <span class="o">=</span> <span class="p">[]</span></div>
 
-
-    <span class="c1"># ── Lifecycle ────────────────────────────────────────────────────</span>
 
 <div class="viewcode-block" id="Client.start_polling">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.start_polling">[docs]</a>
@@ -2156,7 +2125,11 @@
         <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_update</span><span class="p">(</span><span class="n">update_data</span><span class="p">)</span></div>
 
 
-    <span class="c1"># ── Context manager ──────────────────────────────────────────────</span>
+<div class="viewcode-block" id="Client.run">
+<a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.run">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_polling</span><span class="p">())</span></div>
+
 
 <div class="viewcode-block" id="Client.__aenter__">
 <a class="viewcode-back" href="../../api/plustik/client/index.html#plustik.client.Client.__aenter__">[docs]</a>
