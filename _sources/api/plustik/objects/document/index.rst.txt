@@ -15,7 +15,7 @@ Classes
 Module Contents
 ---------------
 
-.. py:class:: Document(file_id, file_unique_id, thumb = None, file_name = None, mime_type = None, file_size = None, **kwargs)
+.. py:class:: Document(file_id, file_unique_id, thumb = None, file_name = None, mime_type = None, file_size = None, duration = None, **kwargs)
 
    Represents a general file.
 
@@ -55,6 +55,12 @@ Module Contents
 
       :type: Optional[int]
 
+   .. attribute:: duration
+
+      Duration of the file in seconds (for video/audio documents)
+
+      :type: Optional[int]
+
 
    .. py:attribute:: file_id
 
@@ -78,6 +84,11 @@ Module Contents
 
 
    .. py:attribute:: file_size
+      :value: None
+
+
+
+   .. py:attribute:: duration
       :value: None
 
 

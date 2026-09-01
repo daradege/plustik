@@ -46,3 +46,39 @@ add buttons under your message ✅
 `Edit Inline markup <./edit_reply_markup>`_
 ****
 how to edit buttons after sending messages ✨
+
+`Document <./document>`_
+****
+send and handle documents 📄
+
+`Photo <./photo>`_
+****
+send and handle photos 🖼️
+
+`Video <./video>`_
+****
+send and handle videos 📹
+
+`Conversation <./conversation>`_
+****
+have a conversation with your user! 💬
+
+`Command <./command>`_
+****
+add command to plustik 🤖
+
+`Filters <./filters>`_
+****
+use filters in handlers 🔎
+
+`Defined messages <./defined_messages>`_
+****
+define your messages and let plustik answer 📕
+
+`Handler system <./handler_system>`_
+****
+define custom handlers in plustik ✏️
+
+`Echo bot <./echo_bot>`_
+****
+create a bot that can echo every message 🗣️
