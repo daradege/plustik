@@ -14,6 +14,7 @@ class Document:
         file_name (Optional[str]): Original filename
         mime_type (Optional[str]): MIME type of the file
         file_size (Optional[int]): File size in bytes
+        duration (Optional[int]): Duration of the file in seconds (for video/audio documents)
     """
 
     def __init__(
@@ -24,6 +25,7 @@ class Document:
             file_name: Optional[str] = None,
             mime_type: Optional[str] = None,
             file_size: Optional[int] = None,
+            duration: Optional[int] = None,
             **kwargs
     ):
         self.file_id = file_id
@@ -32,3 +34,4 @@ class Document:
         self.file_name = file_name
         self.mime_type = mime_type
         self.file_size = file_size
+        self.duration = duration

@@ -3,9 +3,10 @@ Plustik Documentation
 
 .. toctree::
    :maxdepth: 2
-   :caption: API Documents
+   :caption: Contents
 
    api/index
+   examples/index
 
 .. image:: https://raw.githubusercontent.com/daradege/plustik/refs/heads/master/plustik.svg
    :alt: plustik text
@@ -16,43 +17,50 @@ SPlus Bot API Python Library
 
 A modern, easy-to-use Python wrapper for the SPlus Bot API that makes building SPlus bots simple and intuitive.
 
-Features
---------
-
-- 🚀 **Simple & Intuitive** – Clean, Pythonic API design
-- 📨 **Full Message Support** – Text, photos, videos, documents, and more
-- ⌨️ **Interactive Elements** – Inline keyboards, reply keyboards, and buttons
-- 🔄 **Real-time Updates** – Webhook and polling support
-- 📁 **File Handling** – Easy upload and download of media files
-- 🛡️ **Error Handling** – Comprehensive exception handling
-- 📖 **Type Hints** – Full typing support for better development experience
-- 🔁 **Async & Sync Support** – Works with both asynchronous and synchronous handlers
-
-Installation
-------------
+## 📦 Installation
 
 .. code-block:: bash
 
    pip install plustik
 
-Quick Start
------------
+## 🚀 Quick Start
 
 .. code-block:: python
 
-   from plustik.client import Client
-   from plustik.objects import Message, UpdatesTypes
+   from plustik import Client
 
    bot = Client("YOUR_BOT_TOKEN")
 
    @bot.on_message()
-   async def message_handler(message: Message):
+   async def message_handler(message):
        await message.reply("Hello, world!")
 
    bot.run()
 
-Examples
---------
+## 📄 Examples
+
+A collection of ready-to-use examples to help you get started quickly. See the :ref:`examples` section for more details.
+
+## 🛠️ Core Abilities
+
+- **Message Handling** - Process text, commands, and media messages
+- **Callback Queries** - Handle inline keyboard interactions
+- **File Operations** - Send and receive photos, videos, documents, and audio
+- **Chat Management** - Get chat info, member management
+- **Custom Keyboards** - Create interactive user interfaces
+- **Webhook Support** - Production-ready webhook handling
+- **Middleware Support** - Add custom processing layers
+- **Defined Messages** - Set up static responses for commands
+
+## 📖 For Detailed Documentation
+
+Visit our documentation site: [`plustik.readthedocs.io`](https://plustik.readthedocs.io)
+
+## 🔗 Links
+
+- **GitHub**: https://github.com/daradege/plustik
+- **Documentation**: https://plustik.readthedocs.io
+- **Examples**: See the examples section above
 
 Conversation Bot
 ~~~~~~~~~~~~~~~~
@@ -125,45 +133,3 @@ Inline Keyboard
        buttons.add_button("WebApp", web_app="https://plustik.vercel.app")
        buttons.add_button("Copy", copy_text_button=CopyTextButton("TEXT"))
        await message.reply("Hello, world!", reply_markup=buttons)
-
-Core Abilities
---------------
-
-- **Message Handling** – Process text, commands, and media messages
-- **Callback Queries** – Handle inline keyboard interactions
-- **File Operations** – Send and receive photos, videos, documents
-- **Chat Management** – Get chat info, member management
-- **Custom Keyboards** – Create interactive user interfaces
-- **Webhook Support** – Production-ready webhook handling
-- **Middleware Support** – Add custom processing layers
-
-Documentation
--------------
-
-For detailed documentation and advanced usage, visit our documentation site:
-
-- `plustik.readthedocs.io <https://plustik.readthedocs.io>`_ 
-
-Contributing
-------------
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-License
--------
-
-This project is licensed under the MIT License – see the `LICENSE <LICENSE>`_ file for details.
-
-Support
--------
-
-- 📖 `Docs <https://plustik.readthedocs.io>`_
-- 🐛 `Issue Tracker <https://github.com/daradege/plustik/issues>`_
-- 💬 `Discussions <https://github.com/daradege/plustik/discussions>`_
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

@@ -1,13 +1,13 @@
 :root {
-  --color-foreground-primary: #7c3aed;
-  --color-foreground-secondary: #6d28d9;
+  --color-foreground-primary: #3b82f6;
+  --color-foreground-secondary: #8b5cf6;
   --color-background-primary: #ffffff;
   --color-background-secondary: #f8fafc;
 }
 
 
 [data-theme="dark"] {
-  --color-foreground-primary: #a78bfa;
+  --color-foreground-primary: #60a5fa;
   --color-background-primary: #0f172a;
   --color-background-secondary: #1e293b;
 }
@@ -56,7 +56,7 @@ th {
 
 
 .announcement {
-  background: linear-gradient(135deg, #7c3aed, #6d28d9) !important;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6) !important;
   color: white !important;
   font-weight: 600;
 }
@@ -70,7 +70,7 @@ th {
 .plustik-hero {
   text-align: center;
   padding: 3rem 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
   color: white;
   border-radius: 12px;
   margin: 2rem 0;
