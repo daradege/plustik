@@ -17,32 +17,29 @@ class Update:
     """
 
     def __init__(
-        self,
-        update_id: int,
-        message: Optional["Message"] = None,
-        edited_message: Optional["Message"] = None,
-        callback_query: Optional["CallbackQuery"] = None,
-        client=None,
-        **kwargs
+            self,
+            update_id: int,
+            message: Optional["Message"] = None,
+            edited_message: Optional["Message"] = None,
+            callback_query: Optional["CallbackQuery"] = None,
+            client=None,
+            **kwargs
     ):
         self.update_id = update_id
         self.json = kwargs.get("json")
 
-        # Parse message from dict if needed
         if isinstance(message, dict):
             from .message import Message
             self.message = Message(**message, client=client)
         else:
             self.message = message
 
-        # Parse edited_message from dict if needed
         if isinstance(edited_message, dict):
             from .message import Message
             self.edited_message = Message(**edited_message, client=client)
         else:
             self.edited_message = edited_message
 
-        # Parse callback_query from dict if needed
         if isinstance(callback_query, dict):
             from .callbackquery import CallbackQuery
             self.callback_query = CallbackQuery(**callback_query, client=client)

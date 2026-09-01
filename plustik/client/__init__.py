@@ -1,59 +1,42 @@
 """Async client for the Soroush Plus Bot API."""
 
-from typing import Optional, Union, List, Dict, Any, Callable, Awaitable
-import traceback
-import inspect
 import asyncio
+import inspect
+import traceback
 from json import dumps
+from typing import Optional, Union, List, Dict, Any, Callable
+
 import aiohttp
 
-from ..objects.animation import Animation
-from ..objects.audio import Audio
+from ..exceptions import (
+    PlustikException, InvalidTokenException, NotFoundException,
+    ForbiddenException, InternalServerException, ConflictException, RateLimitException
+)
+from ..objects.botcommand import BotCommand
+from ..objects.botcommandscope import (
+    BotCommandScope
+)
 from ..objects.callbackquery import CallbackQuery
-from ..objects.chatmember import ChatMember
-from ..objects.chatphoto import ChatPhoto
-from ..objects.chat import Chat
 from ..objects.chatfullinfo import ChatFullInfo
-from ..objects.contact import Contact
-from ..objects.copytextbutton import CopyTextButton
-from ..objects.document import Document
+from ..objects.enums import UpdatesTypes, ChatAction
 from ..objects.file import File
-from ..objects.inlinekeyboardbutton import InlineKeyboardButton
+from ..objects.forcereply import ForceReply
 from ..objects.inlinekeyboardmarkup import InlineKeyboardMarkup
 from ..objects.inputfile import InputFile
 from ..objects.inputmedias import (
-    InputMedia, InputMediaAudio, InputMediaDocument, InputMediaPhoto, InputMediaVideo
+    InputMediaAudio, InputMediaDocument, InputMediaPhoto, InputMediaVideo
 )
-from ..objects.location import Location
 from ..objects.message import Message
+from ..objects.messageentity import MessageEntity
 from ..objects.messageid import MessageId
-from ..objects.photosize import PhotoSize
 from ..objects.replykeyboardmarkup import ReplyKeyboardMarkup
 from ..objects.replykeyboardremove import ReplyKeyboardRemove
-from ..objects.forcereply import ForceReply
 from ..objects.sticker import Sticker
 from ..objects.stickerset import StickerSet
-from ..objects.user import User
-from ..objects.video import Video
-from ..objects.videonote import VideoNote
-from ..objects.voice import Voice
-from ..objects.webappdata import WebAppData
 from ..objects.update import Update
-from ..objects.webappinfo import WebAppInfo
-from ..objects.messageentity import MessageEntity
-from ..objects.dice import Dice
+from ..objects.user import User
 from ..objects.userprofilephotos import UserProfilePhotos
-from ..objects.botcommand import BotCommand
-from ..objects.botcommandscope import (
-    BotCommandScope, BotCommandScopeDefault, BotCommandScopeAllPrivateChats, BotCommandScopeChat
-)
 from ..objects.utils import pythonize
-from ..objects.enums import UpdatesTypes, ChatAction, ChatType
-from ..exceptions import (
-    PlustikException, InvalidTokenException, NotFoundException,
-    ForbiddenException, InternalServerException, TimeoutException,
-    ConflictException, RateLimitException
-)
 
 
 class Client:
@@ -79,9 +62,9 @@ class Client:
     """
 
     def __init__(
-        self,
-        token: str,
-        base_url: str = "https://api.splus.ir/bot",
+            self,
+            token: str,
+            base_url: str = "https://api.splus.ir/bot",
     ):
         self.token = token
         self.base_url = base_url
@@ -106,11 +89,11 @@ class Client:
         return reply_markup
 
     async def _make_request(
-        self,
-        method: str,
-        endpoint: str,
-        data: Optional[dict] = None,
-        files: Optional[aiohttp.FormData] = None,
+            self,
+            method: str,
+            endpoint: str,
+            data: Optional[dict] = None,
+            files: Optional[aiohttp.FormData] = None,
     ) -> dict:
         """Make an HTTP request to the API."""
         url = self.build_api_url(endpoint)
@@ -151,8 +134,6 @@ class Client:
         exc_class = error_map.get(code, PlustikException)
         raise exc_class(f"API error {code}: {desc}")
 
-    # ── Bot info ─────────────────────────────────────────────────────
-
     async def get_me(self) -> User:
         """Get basic information about the bot.
 
@@ -186,14 +167,12 @@ class Client:
         response = await self._make_request("GET", "close")
         return response.get("result", False)
 
-    # ── Updates ──────────────────────────────────────────────────────
-
     async def get_updates(
-        self,
-        offset: Optional[int] = None,
-        limit: Optional[int] = None,
-        timeout: Optional[int] = None,
-        allowed_updates: Optional[List[str]] = None,
+            self,
+            offset: Optional[int] = None,
+            limit: Optional[int] = None,
+            timeout: Optional[int] = None,
+            allowed_updates: Optional[List[str]] = None,
     ) -> List[Dict]:
         """Get incoming updates using long polling.
 
@@ -217,13 +196,13 @@ class Client:
         return response.get("result", [])
 
     async def set_webhook(
-        self,
-        url: str,
-        certificate: Optional[InputFile] = None,
-        ip_address: Optional[str] = None,
-        max_connections: Optional[int] = None,
-        allowed_updates: Optional[List[str]] = None,
-        drop_pending_updates: Optional[bool] = None,
+            self,
+            url: str,
+            certificate: Optional[InputFile] = None,
+            ip_address: Optional[str] = None,
+            max_connections: Optional[int] = None,
+            allowed_updates: Optional[List[str]] = None,
+            drop_pending_updates: Optional[bool] = None,
     ) -> bool:
         """Set a webhook to receive updates via HTTPS POST.
 
@@ -282,18 +261,17 @@ class Client:
         response = await self._make_request("GET", "getWebhookInfo")
         return response.get("result", {})
 
-    # ── Sending messages ─────────────────────────────────────────────
-
     async def send_message(
-        self,
-        chat_id: Union[int, str],
-        text: str,
-        parse_mode: Optional[str] = None,
-        entities: Optional[List[MessageEntity]] = None,
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]] = None,
-        disable_web_page_preview: Optional[bool] = None,
-        allow_sending_without_reply: Optional[bool] = None,
+            self,
+            chat_id: Union[int, str],
+            text: str,
+            parse_mode: Optional[str] = None,
+            entities: Optional[List[MessageEntity]] = None,
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[
+                Union[InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, ForceReply]] = None,
+            disable_web_page_preview: Optional[bool] = None,
+            allow_sending_without_reply: Optional[bool] = None,
     ) -> Message:
         """Send a text message.
 
@@ -328,10 +306,10 @@ class Client:
         return Message(**pythonize(response["result"]), client=self)
 
     async def forward_message(
-        self,
-        chat_id: Union[int, str],
-        from_chat_id: Union[int, str],
-        message_id: int,
+            self,
+            chat_id: Union[int, str],
+            from_chat_id: Union[int, str],
+            message_id: int,
     ) -> Message:
         """Forward an existing message.
 
@@ -348,14 +326,14 @@ class Client:
         return Message(**pythonize(response["result"]), client=self)
 
     async def copy_message(
-        self,
-        chat_id: Union[int, str],
-        from_chat_id: Union[int, str],
-        message_id: int,
-        caption: Optional[str] = None,
-        parse_mode: Optional[str] = None,
-        caption_entities: Optional[List[MessageEntity]] = None,
-        reply_markup: Optional[Union[InlineKeyboardMarkup, ReplyKeyboardMarkup]] = None,
+            self,
+            chat_id: Union[int, str],
+            from_chat_id: Union[int, str],
+            message_id: int,
+            caption: Optional[str] = None,
+            parse_mode: Optional[str] = None,
+            caption_entities: Optional[List[MessageEntity]] = None,
+            reply_markup: Optional[Union[InlineKeyboardMarkup, ReplyKeyboardMarkup]] = None,
     ) -> MessageId:
         """Copy a message without a forward link.
 
@@ -384,17 +362,15 @@ class Client:
         response = await self._make_request("POST", "copyMessage", data=data)
         return MessageId(response["result"]["message_id"])
 
-    # ── Media sending ────────────────────────────────────────────────
-
     async def send_photo(
-        self,
-        chat_id: Union[int, str],
-        photo: Union[InputFile, str],
-        caption: Optional[str] = None,
-        parse_mode: Optional[str] = None,
-        caption_entities: Optional[List[MessageEntity]] = None,
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[Union[InlineKeyboardMarkup, ReplyKeyboardMarkup]] = None,
+            self,
+            chat_id: Union[int, str],
+            photo: Union[InputFile, str],
+            caption: Optional[str] = None,
+            parse_mode: Optional[str] = None,
+            caption_entities: Optional[List[MessageEntity]] = None,
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[Union[InlineKeyboardMarkup, ReplyKeyboardMarkup]] = None,
     ) -> Message:
         """Send a photo.
 
@@ -419,7 +395,8 @@ class Client:
             if parse_mode:
                 form.add_field("parse_mode", parse_mode)
             if caption_entities:
-                form.add_field("caption_entities", dumps([e.to_dict() if hasattr(e, "to_dict") else e for e in caption_entities]))
+                form.add_field("caption_entities",
+                               dumps([e.to_dict() if hasattr(e, "to_dict") else e for e in caption_entities]))
             if reply_to_message_id:
                 form.add_field("reply_to_message_id", str(reply_to_message_id))
             if reply_markup:
@@ -442,18 +419,18 @@ class Client:
         return Message(**pythonize(response["result"]), client=self)
 
     async def send_audio(
-        self,
-        chat_id: Union[int, str],
-        audio: Union[InputFile, str],
-        caption: Optional[str] = None,
-        parse_mode: Optional[str] = None,
-        caption_entities: Optional[List[MessageEntity]] = None,
-        duration: Optional[int] = None,
-        performer: Optional[str] = None,
-        title: Optional[str] = None,
-        thumb: Optional[InputFile] = None,
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[Union[InlineKeyboardMarkup, ReplyKeyboardMarkup]] = None,
+            self,
+            chat_id: Union[int, str],
+            audio: Union[InputFile, str],
+            caption: Optional[str] = None,
+            parse_mode: Optional[str] = None,
+            caption_entities: Optional[List[MessageEntity]] = None,
+            duration: Optional[int] = None,
+            performer: Optional[str] = None,
+            title: Optional[str] = None,
+            thumb: Optional[InputFile] = None,
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[Union[InlineKeyboardMarkup, ReplyKeyboardMarkup]] = None,
     ) -> Message:
         """Send an audio file (MP3/M4A).
 
@@ -517,16 +494,16 @@ class Client:
         return Message(**pythonize(response["result"]), client=self)
 
     async def send_document(
-        self,
-        chat_id: Union[int, str],
-        document: Union[InputFile, str],
-        caption: Optional[str] = None,
-        parse_mode: Optional[str] = None,
-        caption_entities: Optional[List[MessageEntity]] = None,
-        thumb: Optional[InputFile] = None,
-        disable_content_type_detection: Optional[bool] = None,
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[Union[InlineKeyboardMarkup, ReplyKeyboardMarkup]] = None,
+            self,
+            chat_id: Union[int, str],
+            document: Union[InputFile, str],
+            caption: Optional[str] = None,
+            parse_mode: Optional[str] = None,
+            caption_entities: Optional[List[MessageEntity]] = None,
+            thumb: Optional[InputFile] = None,
+            disable_content_type_detection: Optional[bool] = None,
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[Union[InlineKeyboardMarkup, ReplyKeyboardMarkup]] = None,
     ) -> Message:
         """Send a general file.
 
@@ -580,19 +557,19 @@ class Client:
         return Message(**pythonize(response["result"]), client=self)
 
     async def send_video(
-        self,
-        chat_id: Union[int, str],
-        video: Union[InputFile, str],
-        caption: Optional[str] = None,
-        parse_mode: Optional[str] = None,
-        caption_entities: Optional[List[MessageEntity]] = None,
-        duration: Optional[int] = None,
-        width: Optional[int] = None,
-        height: Optional[int] = None,
-        thumb: Optional[InputFile] = None,
-        supports_streaming: Optional[bool] = None,
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[Union[InlineKeyboardMarkup, ReplyKeyboardMarkup]] = None,
+            self,
+            chat_id: Union[int, str],
+            video: Union[InputFile, str],
+            caption: Optional[str] = None,
+            parse_mode: Optional[str] = None,
+            caption_entities: Optional[List[MessageEntity]] = None,
+            duration: Optional[int] = None,
+            width: Optional[int] = None,
+            height: Optional[int] = None,
+            thumb: Optional[InputFile] = None,
+            supports_streaming: Optional[bool] = None,
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[Union[InlineKeyboardMarkup, ReplyKeyboardMarkup]] = None,
     ) -> Message:
         """Send a video file (MPEG4).
 
@@ -661,18 +638,18 @@ class Client:
         return Message(**pythonize(response["result"]), client=self)
 
     async def send_animation(
-        self,
-        chat_id: Union[int, str],
-        animation: Union[InputFile, str],
-        caption: Optional[str] = None,
-        parse_mode: Optional[str] = None,
-        caption_entities: Optional[List[MessageEntity]] = None,
-        duration: Optional[int] = None,
-        width: Optional[int] = None,
-        height: Optional[int] = None,
-        thumb: Optional[InputFile] = None,
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[Union[InlineKeyboardMarkup, ReplyKeyboardMarkup]] = None,
+            self,
+            chat_id: Union[int, str],
+            animation: Union[InputFile, str],
+            caption: Optional[str] = None,
+            parse_mode: Optional[str] = None,
+            caption_entities: Optional[List[MessageEntity]] = None,
+            duration: Optional[int] = None,
+            width: Optional[int] = None,
+            height: Optional[int] = None,
+            thumb: Optional[InputFile] = None,
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[Union[InlineKeyboardMarkup, ReplyKeyboardMarkup]] = None,
     ) -> Message:
         """Send an animation (GIF).
 
@@ -736,15 +713,15 @@ class Client:
         return Message(**pythonize(response["result"]), client=self)
 
     async def send_voice(
-        self,
-        chat_id: Union[int, str],
-        voice: Union[InputFile, str],
-        caption: Optional[str] = None,
-        parse_mode: Optional[str] = None,
-        caption_entities: Optional[List[MessageEntity]] = None,
-        duration: Optional[int] = None,
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[Union[InlineKeyboardMarkup, ReplyKeyboardMarkup]] = None,
+            self,
+            chat_id: Union[int, str],
+            voice: Union[InputFile, str],
+            caption: Optional[str] = None,
+            parse_mode: Optional[str] = None,
+            caption_entities: Optional[List[MessageEntity]] = None,
+            duration: Optional[int] = None,
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[Union[InlineKeyboardMarkup, ReplyKeyboardMarkup]] = None,
     ) -> Message:
         """Send a voice message (OGG/MP3/M4A).
 
@@ -795,14 +772,14 @@ class Client:
         return Message(**pythonize(response["result"]), client=self)
 
     async def send_video_note(
-        self,
-        chat_id: Union[int, str],
-        video_note: Union[InputFile, str],
-        duration: Optional[int] = None,
-        length: Optional[int] = None,
-        thumb: Optional[InputFile] = None,
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[Union[InlineKeyboardMarkup, ReplyKeyboardMarkup]] = None,
+            self,
+            chat_id: Union[int, str],
+            video_note: Union[InputFile, str],
+            duration: Optional[int] = None,
+            length: Optional[int] = None,
+            thumb: Optional[InputFile] = None,
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[Union[InlineKeyboardMarkup, ReplyKeyboardMarkup]] = None,
     ) -> Message:
         """Send a round video note.
 
@@ -848,10 +825,10 @@ class Client:
         return Message(**pythonize(response["result"]), client=self)
 
     async def send_media_group(
-        self,
-        chat_id: Union[int, str],
-        media: List[Union[InputMediaPhoto, InputMediaVideo, InputMediaAudio, InputMediaDocument]],
-        reply_to_message_id: Optional[int] = None,
+            self,
+            chat_id: Union[int, str],
+            media: List[Union[InputMediaPhoto, InputMediaVideo, InputMediaAudio, InputMediaDocument]],
+            reply_to_message_id: Optional[int] = None,
     ) -> List[Message]:
         """Send a group of photos, videos, documents, or audios as an album.
 
@@ -895,16 +872,14 @@ class Client:
         response = await self._make_request("POST", "sendMediaGroup", data=data)
         return [Message(**pythonize(msg), client=self) for msg in response["result"]]
 
-    # ── Other send methods ───────────────────────────────────────────
-
     async def send_location(
-        self,
-        chat_id: Union[int, str],
-        latitude: float,
-        longitude: float,
-        horizontal_accuracy: Optional[float] = None,
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[Union[InlineKeyboardMarkup, ReplyKeyboardMarkup]] = None,
+            self,
+            chat_id: Union[int, str],
+            latitude: float,
+            longitude: float,
+            horizontal_accuracy: Optional[float] = None,
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[Union[InlineKeyboardMarkup, ReplyKeyboardMarkup]] = None,
     ) -> Message:
         """Send a point on the map.
 
@@ -931,14 +906,14 @@ class Client:
         return Message(**pythonize(response["result"]), client=self)
 
     async def send_contact(
-        self,
-        chat_id: Union[int, str],
-        phone_number: str,
-        first_name: str,
-        last_name: Optional[str] = None,
-        vcard: Optional[str] = None,
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[Union[InlineKeyboardMarkup, ReplyKeyboardMarkup]] = None,
+            self,
+            chat_id: Union[int, str],
+            phone_number: str,
+            first_name: str,
+            last_name: Optional[str] = None,
+            vcard: Optional[str] = None,
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[Union[InlineKeyboardMarkup, ReplyKeyboardMarkup]] = None,
     ) -> Message:
         """Send a phone contact.
 
@@ -968,11 +943,11 @@ class Client:
         return Message(**pythonize(response["result"]), client=self)
 
     async def send_dice(
-        self,
-        chat_id: Union[int, str],
-        emoji: Optional[str] = None,
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[Union[InlineKeyboardMarkup, ReplyKeyboardMarkup]] = None,
+            self,
+            chat_id: Union[int, str],
+            emoji: Optional[str] = None,
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[Union[InlineKeyboardMarkup, ReplyKeyboardMarkup]] = None,
     ) -> Message:
         """Send an animated emoji with a random value.
 
@@ -997,11 +972,11 @@ class Client:
         return Message(**pythonize(response["result"]), client=self)
 
     async def send_sticker(
-        self,
-        chat_id: Union[int, str],
-        sticker: Union[InputFile, Sticker, str],
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[Union[InlineKeyboardMarkup, ReplyKeyboardMarkup]] = None,
+            self,
+            chat_id: Union[int, str],
+            sticker: Union[InputFile, Sticker, str],
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[Union[InlineKeyboardMarkup, ReplyKeyboardMarkup]] = None,
     ) -> Message:
         """Send a sticker.
 
@@ -1049,9 +1024,9 @@ class Client:
         return StickerSet(**pythonize(response["result"]))
 
     async def send_chat_action(
-        self,
-        chat_id: Union[int, str],
-        action: ChatAction,
+            self,
+            chat_id: Union[int, str],
+            action: ChatAction,
     ) -> bool:
         """Send a chat action (typing, uploading, etc.).
 
@@ -1069,13 +1044,11 @@ class Client:
         response = await self._make_request("POST", "sendChatAction", data=data)
         return response.get("result", False)
 
-    # ── Info retrieval ───────────────────────────────────────────────
-
     async def get_user_profile_photos(
-        self,
-        user_id: int,
-        offset: Optional[int] = None,
-        limit: Optional[int] = None,
+            self,
+            user_id: int,
+            offset: Optional[int] = None,
+            limit: Optional[int] = None,
     ) -> UserProfilePhotos:
         """Get a user's profile photos.
 
@@ -1108,12 +1081,10 @@ class Client:
         response = await self._make_request("POST", "getFile", data={"file_id": file_id})
         return File(**pythonize(response["result"]))
 
-    # ── Chat management ──────────────────────────────────────────────
-
     async def pin_chat_message(
-        self,
-        chat_id: Union[int, str],
-        message_id: int,
+            self,
+            chat_id: Union[int, str],
+            message_id: int,
     ) -> bool:
         """Pin a message in a chat.
 
@@ -1129,9 +1100,9 @@ class Client:
         return response.get("result", False)
 
     async def unpin_chat_message(
-        self,
-        chat_id: Union[int, str],
-        message_id: Optional[int] = None,
+            self,
+            chat_id: Union[int, str],
+            message_id: Optional[int] = None,
     ) -> bool:
         """Unpin a message in a chat.
 
@@ -1174,15 +1145,13 @@ class Client:
         result["client"] = self
         return ChatFullInfo(**result)
 
-    # ── Callback queries ─────────────────────────────────────────────
-
     async def answer_callback_query(
-        self,
-        callback_query_id: str,
-        text: Optional[str] = None,
-        show_alert: Optional[bool] = None,
-        url: Optional[str] = None,
-        cache_time: Optional[int] = None,
+            self,
+            callback_query_id: str,
+            text: Optional[str] = None,
+            show_alert: Optional[bool] = None,
+            url: Optional[str] = None,
+            cache_time: Optional[int] = None,
     ) -> bool:
         """Answer a callback query.
 
@@ -1209,17 +1178,15 @@ class Client:
         response = await self._make_request("POST", "answerCallbackQuery", data=data)
         return response.get("result", False)
 
-    # ── Message editing ──────────────────────────────────────────────
-
     async def edit_message_text(
-        self,
-        chat_id: Optional[Union[int, str]] = None,
-        message_id: Optional[int] = None,
-        text: Optional[str] = None,
-        parse_mode: Optional[str] = None,
-        entities: Optional[List[MessageEntity]] = None,
-        reply_markup: Optional[InlineKeyboardMarkup] = None,
-        disable_web_page_preview: Optional[bool] = None,
+            self,
+            chat_id: Optional[Union[int, str]] = None,
+            message_id: Optional[int] = None,
+            text: Optional[str] = None,
+            parse_mode: Optional[str] = None,
+            entities: Optional[List[MessageEntity]] = None,
+            reply_markup: Optional[InlineKeyboardMarkup] = None,
+            disable_web_page_preview: Optional[bool] = None,
     ) -> Union[Message, bool]:
         """Edit the text of a message.
 
@@ -1255,13 +1222,13 @@ class Client:
         return response.get("result", True)
 
     async def edit_message_caption(
-        self,
-        chat_id: Optional[Union[int, str]] = None,
-        message_id: Optional[int] = None,
-        caption: Optional[str] = None,
-        parse_mode: Optional[str] = None,
-        caption_entities: Optional[List[MessageEntity]] = None,
-        reply_markup: Optional[InlineKeyboardMarkup] = None,
+            self,
+            chat_id: Optional[Union[int, str]] = None,
+            message_id: Optional[int] = None,
+            caption: Optional[str] = None,
+            parse_mode: Optional[str] = None,
+            caption_entities: Optional[List[MessageEntity]] = None,
+            reply_markup: Optional[InlineKeyboardMarkup] = None,
     ) -> Union[Message, bool]:
         """Edit the caption of a message.
 
@@ -1296,11 +1263,11 @@ class Client:
         return response.get("result", True)
 
     async def edit_message_media(
-        self,
-        media: Union[InputMediaPhoto, InputMediaVideo, InputMediaAudio, InputMediaDocument],
-        chat_id: Optional[Union[int, str]] = None,
-        message_id: Optional[int] = None,
-        reply_markup: Optional[InlineKeyboardMarkup] = None,
+            self,
+            media: Union[InputMediaPhoto, InputMediaVideo, InputMediaAudio, InputMediaDocument],
+            chat_id: Optional[Union[int, str]] = None,
+            message_id: Optional[int] = None,
+            reply_markup: Optional[InlineKeyboardMarkup] = None,
     ) -> Union[Message, bool]:
         """Edit the media content of a message.
 
@@ -1327,10 +1294,10 @@ class Client:
         return response.get("result", True)
 
     async def edit_message_reply_markup(
-        self,
-        chat_id: Optional[Union[int, str]] = None,
-        message_id: Optional[int] = None,
-        reply_markup: Optional[InlineKeyboardMarkup] = None,
+            self,
+            chat_id: Optional[Union[int, str]] = None,
+            message_id: Optional[int] = None,
+            reply_markup: Optional[InlineKeyboardMarkup] = None,
     ) -> Union[Message, bool]:
         """Edit the inline keyboard markup of a message.
 
@@ -1369,13 +1336,11 @@ class Client:
         response = await self._make_request("POST", "deleteMessage", data=data)
         return response.get("result", False)
 
-    # ── Bot commands ─────────────────────────────────────────────────
-
     async def set_my_commands(
-        self,
-        commands: List[BotCommand],
-        scope: Optional[BotCommandScope] = None,
-        language_code: Optional[str] = None,
+            self,
+            commands: List[BotCommand],
+            scope: Optional[BotCommandScope] = None,
+            language_code: Optional[str] = None,
     ) -> bool:
         """Set the bot's command list.
 
@@ -1397,9 +1362,9 @@ class Client:
         return response.get("result", False)
 
     async def delete_my_commands(
-        self,
-        scope: Optional[BotCommandScope] = None,
-        language_code: Optional[str] = None,
+            self,
+            scope: Optional[BotCommandScope] = None,
+            language_code: Optional[str] = None,
     ) -> bool:
         """Delete the bot's command list.
 
@@ -1420,9 +1385,9 @@ class Client:
         return response.get("result", False)
 
     async def get_my_commands(
-        self,
-        scope: Optional[BotCommandScope] = None,
-        language_code: Optional[str] = None,
+            self,
+            scope: Optional[BotCommandScope] = None,
+            language_code: Optional[str] = None,
     ) -> List[BotCommand]:
         """Get the current list of the bot's commands.
 
@@ -1442,13 +1407,11 @@ class Client:
         response = await self._make_request("POST", "getMyCommands", data=data)
         return [BotCommand(**c) for c in response.get("result", [])]
 
-    # ── Update processing ────────────────────────────────────────────
-
     async def wait_for(
-        self,
-        update_type: UpdatesTypes,
-        check: Optional[Callable] = None,
-        timeout: Optional[float] = None,
+            self,
+            update_type: UpdatesTypes,
+            check: Optional[Callable] = None,
+            timeout: Optional[float] = None,
     ):
         """Wait for a specific update matching a condition.
 
@@ -1497,7 +1460,6 @@ class Client:
         if update_id is not None and update_id > self.last_update_id:
             self.last_update_id = update_id
 
-        # Process waiters
         waiters_to_remove = []
         for waiter in self._waiters[:]:
             w_type, check, future = waiter
@@ -1538,7 +1500,6 @@ class Client:
             if waiter in self._waiters:
                 self._waiters.remove(waiter)
 
-        # Process handlers
         for handler in self.handlers:
             handler_type = handler.get("type")
             event = None
@@ -1565,7 +1526,6 @@ class Client:
             if event is None:
                 continue
 
-            # Apply filters
             skip = False
             for f in handler.get("filters", []):
                 if callable(f):
@@ -1605,9 +1565,12 @@ class Client:
             elif handler_type == UpdatesTypes.UPDATE:
                 return Update(
                     update_id=event_data.get("update_id", -1),
-                    message=Message(**pythonize(event_data["message"]), client=self) if event_data.get("message") else None,
-                    edited_message=Message(**pythonize(event_data["edited_message"]), client=self) if event_data.get("edited_message") else None,
-                    callback_query=CallbackQuery(**pythonize(event_data["callback_query"]), client=self) if event_data.get("callback_query") else None,
+                    message=Message(**pythonize(event_data["message"]), client=self) if event_data.get(
+                        "message") else None,
+                    edited_message=Message(**pythonize(event_data["edited_message"]), client=self) if event_data.get(
+                        "edited_message") else None,
+                    callback_query=CallbackQuery(**pythonize(event_data["callback_query"]),
+                                                 client=self) if event_data.get("callback_query") else None,
                     client=self,
                     json=event_data,
                 )
@@ -1617,8 +1580,6 @@ class Client:
             print(f"Error converting event {handler_type}: {e}")
             traceback.print_exc()
             return event_data
-
-    # ── Handler decorators ───────────────────────────────────────────
 
     def on_command(self, command: str, *filters: Any):
         """Register a command handler.
@@ -1633,9 +1594,11 @@ class Client:
             command: Command name (without /).
             *filters: Filter functions to apply.
         """
+
         def decorator(callback: Callable):
             self.add_handler(UpdatesTypes.COMMAND, callback, *filters, command=command)
             return callback
+
         return decorator
 
     def on_message(self, *filters: Any):
@@ -1650,16 +1613,20 @@ class Client:
         Args:
             *filters: Filter functions to apply.
         """
+
         def decorator(callback: Callable):
             self.add_handler(UpdatesTypes.MESSAGE, callback, *filters)
             return callback
+
         return decorator
 
     def on_edited_message(self, *filters: Any):
         """Register an edited message handler."""
+
         def decorator(callback: Callable):
             self.add_handler(UpdatesTypes.MESSAGE_EDITED, callback, *filters)
             return callback
+
         return decorator
 
     def on_callback_query(self, *filters: Any):
@@ -1674,16 +1641,20 @@ class Client:
         Args:
             *filters: Filter functions to apply.
         """
+
         def decorator(callback: Callable):
             self.add_handler(UpdatesTypes.CALLBACK_QUERY, callback, *filters)
             return callback
+
         return decorator
 
     def on_update(self, *filters: Any):
         """Register a handler for all update types."""
+
         def decorator(callback: Callable):
             self.add_handler(UpdatesTypes.UPDATE, callback, *filters)
             return callback
+
         return decorator
 
     def add_handler(self, update_type: UpdatesTypes, callback: Callable, *filters: Any, **kwargs):
@@ -1699,8 +1670,6 @@ class Client:
     def remove_all_handlers(self) -> None:
         """Remove all registered handlers."""
         self.handlers = []
-
-    # ── Lifecycle ────────────────────────────────────────────────────
 
     async def start_polling(self, timeout: int = 30, limit: int = 100) -> None:
         """Start long-polling for updates.
@@ -1744,7 +1713,8 @@ class Client:
         """
         await self.process_update(update_data)
 
-    # ── Context manager ──────────────────────────────────────────────
+    def run(self):
+        asyncio.run(self.start_polling())
 
     async def __aenter__(self):
         """Enter async context manager: fetches bot info."""

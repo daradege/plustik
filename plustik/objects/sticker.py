@@ -26,22 +26,22 @@ class Sticker:
     """
 
     def __init__(
-        self,
-        file_id: str,
-        file_unique_id: str,
-        width: int,
-        height: int,
-        is_animated: bool,
-        is_video: bool,
-        type: Optional[str] = None,
-        thumb: Optional["PhotoSize"] = None,
-        emoji: Optional[str] = None,
-        set_name: Optional[str] = None,
-        premium_animation: Optional[dict] = None,
-        mask_position: Optional[dict] = None,
-        custom_emoji_id: Optional[str] = None,
-        file_size: Optional[int] = None,
-        **kwargs
+            self,
+            file_id: str,
+            file_unique_id: str,
+            width: int,
+            height: int,
+            is_animated: bool,
+            is_video: bool,
+            type: Optional[str] = None,
+            thumb: Optional["PhotoSize"] = None,
+            emoji: Optional[str] = None,
+            set_name: Optional[str] = None,
+            premium_animation: Optional[dict] = None,
+            mask_position: Optional[dict] = None,
+            custom_emoji_id: Optional[str] = None,
+            file_size: Optional[int] = None,
+            **kwargs
     ):
         self.file_id = file_id
         self.file_unique_id = file_unique_id

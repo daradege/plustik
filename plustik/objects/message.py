@@ -1,10 +1,10 @@
 from typing import TYPE_CHECKING, Optional, Union, Dict, Any, List
+
 from .utils import pythonize
 
 if TYPE_CHECKING:
     from ..objects.user import User
     from ..objects.chat import Chat
-    from ..objects.chatmember import ChatMember
     from ..objects.animation import Animation
     from ..objects.audio import Audio
     from ..objects.photosize import PhotoSize
@@ -67,43 +67,43 @@ class Message:
     """
 
     def __init__(
-        self,
-        message_id: Optional[int] = None,
-        from_user: Optional[Dict[str, Any]] = None,
-        date: Optional[int] = None,
-        chat: Optional[Dict[str, Any]] = None,
-        text: Optional[str] = None,
-        forward_from: Optional[Dict[str, Any]] = None,
-        forward_from_chat: Optional[Dict[str, Any]] = None,
-        forward_from_message_id: Optional[int] = None,
-        forward_signature: Optional[str] = None,
-        forward_sender_name: Optional[str] = None,
-        forward_date: Optional[int] = None,
-        reply_to_message: Optional[Dict[str, Any]] = None,
-        via_bot: Optional[Dict[str, Any]] = None,
-        edit_date: Optional[int] = None,
-        has_protected_content: Optional[bool] = None,
-        media_group_id: Optional[str] = None,
-        animation: Optional["Animation"] = None,
-        audio: Optional["Audio"] = None,
-        document: Optional["Document"] = None,
-        photo: Optional[List[Any]] = None,
-        sticker: Optional["Sticker"] = None,
-        video: Optional["Video"] = None,
-        video_note: Optional[Dict[str, Any]] = None,
-        voice: Optional["Voice"] = None,
-        caption: Optional[str] = None,
-        contact: Optional["Contact"] = None,
-        location: Optional["Location"] = None,
-        dice: Optional["Dice"] = None,
-        entities: Optional[List[MessageEntity]] = None,
-        caption_entities: Optional[List[MessageEntity]] = None,
-        reply_markup: Optional["InlineKeyboardMarkup"] = None,
-        new_chat_title: Optional[str] = None,
-        new_chat_photo: Optional[List[Any]] = None,
-        pinned_message: Optional[Dict[str, Any]] = None,
-        client: Optional["Client"] = None,
-        **kwargs
+            self,
+            message_id: Optional[int] = None,
+            from_user: Optional[Dict[str, Any]] = None,
+            date: Optional[int] = None,
+            chat: Optional[Dict[str, Any]] = None,
+            text: Optional[str] = None,
+            forward_from: Optional[Dict[str, Any]] = None,
+            forward_from_chat: Optional[Dict[str, Any]] = None,
+            forward_from_message_id: Optional[int] = None,
+            forward_signature: Optional[str] = None,
+            forward_sender_name: Optional[str] = None,
+            forward_date: Optional[int] = None,
+            reply_to_message: Optional[Dict[str, Any]] = None,
+            via_bot: Optional[Dict[str, Any]] = None,
+            edit_date: Optional[int] = None,
+            has_protected_content: Optional[bool] = None,
+            media_group_id: Optional[str] = None,
+            animation: Optional["Animation"] = None,
+            audio: Optional["Audio"] = None,
+            document: Optional["Document"] = None,
+            photo: Optional[List[Any]] = None,
+            sticker: Optional["Sticker"] = None,
+            video: Optional["Video"] = None,
+            video_note: Optional[Dict[str, Any]] = None,
+            voice: Optional["Voice"] = None,
+            caption: Optional[str] = None,
+            contact: Optional["Contact"] = None,
+            location: Optional["Location"] = None,
+            dice: Optional["Dice"] = None,
+            entities: Optional[List[MessageEntity]] = None,
+            caption_entities: Optional[List[MessageEntity]] = None,
+            reply_markup: Optional["InlineKeyboardMarkup"] = None,
+            new_chat_title: Optional[str] = None,
+            new_chat_photo: Optional[List[Any]] = None,
+            pinned_message: Optional[Dict[str, Any]] = None,
+            client: Optional["Client"] = None,
+            **kwargs
     ):
         self.client: Client = kwargs.get("client", client)
         self.id = message_id
@@ -129,7 +129,6 @@ class Message:
         self.reply_markup = reply_markup
         self.new_chat_title = new_chat_title
 
-        # Parse user
         if isinstance(from_user, dict):
             self.user = User(**from_user, client=self.client)
         elif from_user is not None:
@@ -137,7 +136,6 @@ class Message:
         else:
             self.user = None
 
-        # Parse chat
         if isinstance(chat, dict):
             chat_data = chat.copy()
             chat_data["client"] = self.client
@@ -147,7 +145,6 @@ class Message:
         else:
             self.chat = None
 
-        # Parse forward from
         if isinstance(forward_from, dict):
             self.forward_from = User(**forward_from, client=self.client)
         elif forward_from is not None:
@@ -155,7 +152,6 @@ class Message:
         else:
             self.forward_from = None
 
-        # Parse forward from chat
         if isinstance(forward_from_chat, dict):
             chat_data = forward_from_chat.copy()
             chat_data["client"] = self.client
@@ -165,7 +161,6 @@ class Message:
         else:
             self.forward_from_chat = None
 
-        # Parse via_bot
         if isinstance(via_bot, dict):
             self.via_bot = User(**via_bot, client=self.client)
         elif via_bot is not None:
@@ -173,7 +168,6 @@ class Message:
         else:
             self.via_bot = None
 
-        # Parse reply to message
         if isinstance(reply_to_message, dict):
             reply_to_message["client"] = self.client
             self.reply_to_message = Message(**pythonize(reply_to_message))
@@ -182,21 +176,18 @@ class Message:
         else:
             self.reply_to_message = None
 
-        # Parse video_note
         if isinstance(video_note, dict):
             from .videonote import VideoNote
             self.video_note = VideoNote(**video_note)
         else:
             self.video_note = video_note
 
-        # Parse photo
         if photo:
             from .photosize import PhotoSize
             self.photo = [PhotoSize(**p) if isinstance(p, dict) else p for p in photo]
         else:
             self.photo = None
 
-        # Parse entities
         if entities:
             self.entities = [MessageEntity(**e) if isinstance(e, dict) else e for e in entities]
         else:
@@ -207,14 +198,12 @@ class Message:
         else:
             self.caption_entities = []
 
-        # Parse new_chat_photo
         if new_chat_photo:
             from .photosize import PhotoSize
             self.new_chat_photo = [PhotoSize(**p) if isinstance(p, dict) else p for p in new_chat_photo]
         else:
             self.new_chat_photo = None
 
-        # Parse pinned_message
         if isinstance(pinned_message, dict):
             pinned_message["client"] = self.client
             self.pinned_message = Message(**pythonize(pinned_message))
@@ -222,9 +211,9 @@ class Message:
             self.pinned_message = pinned_message
 
     async def reply(
-        self,
-        text: str,
-        reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup", None] = None,
+            self,
+            text: str,
+            reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup", None] = None,
     ) -> "Message":
         """Reply to this message with text."""
         if self.chat and self.chat.id and self.client:
@@ -237,9 +226,9 @@ class Message:
         raise ValueError("Cannot reply - chat ID or client is not available")
 
     async def edit(
-        self,
-        text: str,
-        reply_markup: Union["InlineKeyboardMarkup", None] = None,
+            self,
+            text: str,
+            reply_markup: Union["InlineKeyboardMarkup", None] = None,
     ) -> "Message":
         """Edit this message's text."""
         if self.chat and self.chat.id and self.id and self.client:
@@ -249,9 +238,9 @@ class Message:
         raise ValueError("Cannot edit - chat ID, message ID or client is not available")
 
     async def edit_caption(
-        self,
-        caption: str,
-        reply_markup: Union["InlineKeyboardMarkup", None] = None,
+            self,
+            caption: str,
+            reply_markup: Union["InlineKeyboardMarkup", None] = None,
     ) -> "Message":
         """Edit this message's caption."""
         if self.chat and self.chat.id and self.id and self.client:
@@ -261,8 +250,8 @@ class Message:
         raise ValueError("Cannot edit caption - chat ID, message ID or client is not available")
 
     async def edit_reply_markup(
-        self,
-        reply_markup: "InlineKeyboardMarkup"
+            self,
+            reply_markup: "InlineKeyboardMarkup"
     ) -> "Message":
         """Edit this message's reply markup."""
         if self.chat and self.chat.id and self.id and self.client:
@@ -290,10 +279,10 @@ class Message:
         raise ValueError("Cannot copy - chat ID, message ID or client is not available")
 
     async def reply_photo(
-        self,
-        photo: str,
-        caption: Optional[str] = None,
-        reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup", None] = None,
+            self,
+            photo: str,
+            caption: Optional[str] = None,
+            reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup", None] = None,
     ) -> "Message":
         """Reply with a photo."""
         if self.chat and self.chat.id and self.client:
@@ -307,10 +296,10 @@ class Message:
         raise ValueError("Cannot reply with photo - chat ID or client is not available")
 
     async def reply_video(
-        self,
-        video: str,
-        caption: Optional[str] = None,
-        reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup", None] = None,
+            self,
+            video: str,
+            caption: Optional[str] = None,
+            reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup", None] = None,
     ) -> "Message":
         """Reply with a video."""
         if self.chat and self.chat.id and self.client:
@@ -324,10 +313,10 @@ class Message:
         raise ValueError("Cannot reply with video - chat ID or client is not available")
 
     async def reply_audio(
-        self,
-        audio: str,
-        caption: Optional[str] = None,
-        reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup", None] = None,
+            self,
+            audio: str,
+            caption: Optional[str] = None,
+            reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup", None] = None,
     ) -> "Message":
         """Reply with an audio file."""
         if self.chat and self.chat.id and self.client:
@@ -341,10 +330,10 @@ class Message:
         raise ValueError("Cannot reply with audio - chat ID or client is not available")
 
     async def reply_document(
-        self,
-        document: str,
-        caption: Optional[str] = None,
-        reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup", None] = None,
+            self,
+            document: str,
+            caption: Optional[str] = None,
+            reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup", None] = None,
     ) -> "Message":
         """Reply with a document."""
         if self.chat and self.chat.id and self.client:
@@ -358,11 +347,11 @@ class Message:
         raise ValueError("Cannot reply with document - chat ID or client is not available")
 
     async def reply_location(
-        self,
-        latitude: float,
-        longitude: float,
-        horizontal_accuracy: Optional[float] = None,
-        reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup", None] = None,
+            self,
+            latitude: float,
+            longitude: float,
+            horizontal_accuracy: Optional[float] = None,
+            reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup", None] = None,
     ) -> "Message":
         """Reply with a location."""
         if self.chat and self.chat.id and self.client:

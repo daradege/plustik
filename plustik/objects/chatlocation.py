@@ -1,6 +1,3 @@
-from typing import Optional
-
-
 class ChatLocation:
     """Represents the location of a chat.
 
@@ -10,10 +7,10 @@ class ChatLocation:
     """
 
     def __init__(
-        self,
-        location: dict,
-        address: str,
-        **kwargs
+            self,
+            location: dict,
+            address: str,
+            **kwargs
     ):
         from .location import Location
         if isinstance(location, dict):

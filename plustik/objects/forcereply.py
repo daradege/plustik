@@ -11,11 +11,11 @@ class ForceReply:
     """
 
     def __init__(
-        self,
-        force_reply: bool = True,
-        selective: Optional[bool] = None,
-        input_field_placeholder: Optional[str] = None,
-        **kwargs
+            self,
+            force_reply: bool = True,
+            selective: Optional[bool] = None,
+            input_field_placeholder: Optional[str] = None,
+            **kwargs
     ):
         self.force_reply = force_reply
         self.selective = selective

@@ -1,5 +1,6 @@
 from typing import Optional
 
+
 class Voice:
     """Represents a voice message.
 
@@ -12,13 +13,13 @@ class Voice:
     """
 
     def __init__(
-        self,
-        file_id: str,
-        file_unique_id: str,
-        duration: int,
-        mime_type: Optional[str] = None,
-        file_size: Optional[int] = None,
-        **kwargs
+            self,
+            file_id: str,
+            file_unique_id: str,
+            duration: int,
+            mime_type: Optional[str] = None,
+            file_size: Optional[int] = None,
+            **kwargs
     ):
         self.file_id = file_id
         self.file_unique_id = file_unique_id

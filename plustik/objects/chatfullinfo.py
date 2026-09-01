@@ -1,4 +1,5 @@
 from typing import TYPE_CHECKING, Optional, Union
+
 from .enums import ChatType
 
 if TYPE_CHECKING:
@@ -37,29 +38,29 @@ class ChatFullInfo:
     """
 
     def __init__(
-        self,
-        id: int,
-        type: Union[str, ChatType],
-        title: Optional[str] = None,
-        username: Optional[str] = None,
-        first_name: Optional[str] = None,
-        last_name: Optional[str] = None,
-        photo: Optional["ChatPhoto"] = None,
-        bio: Optional[str] = None,
-        description: Optional[str] = None,
-        invite_link: Optional[str] = None,
-        pinned_message: Optional[dict] = None,
-        permissions: Optional[dict] = None,
-        slow_mode_delay: Optional[int] = None,
-        message_auto_delete_time: Optional[int] = None,
-        has_protected_content: Optional[bool] = None,
-        sticker_set_name: Optional[str] = None,
-        can_set_sticker_set: Optional[bool] = None,
-        linked_chat_id: Optional[int] = None,
-        location: Optional[dict] = None,
-        all_members_are_administrators: Optional[bool] = None,
-        client: Optional["Client"] = None,
-        **kwargs
+            self,
+            id: int,
+            type: Union[str, ChatType],
+            title: Optional[str] = None,
+            username: Optional[str] = None,
+            first_name: Optional[str] = None,
+            last_name: Optional[str] = None,
+            photo: Optional["ChatPhoto"] = None,
+            bio: Optional[str] = None,
+            description: Optional[str] = None,
+            invite_link: Optional[str] = None,
+            pinned_message: Optional[dict] = None,
+            permissions: Optional[dict] = None,
+            slow_mode_delay: Optional[int] = None,
+            message_auto_delete_time: Optional[int] = None,
+            has_protected_content: Optional[bool] = None,
+            sticker_set_name: Optional[str] = None,
+            can_set_sticker_set: Optional[bool] = None,
+            linked_chat_id: Optional[int] = None,
+            location: Optional[dict] = None,
+            all_members_are_administrators: Optional[bool] = None,
+            client: Optional["Client"] = None,
+            **kwargs
     ):
         self.id = id
         if isinstance(type, str):

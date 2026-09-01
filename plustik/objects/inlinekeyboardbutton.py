@@ -4,6 +4,7 @@ if TYPE_CHECKING:
     from .webappinfo import WebAppInfo
     from .copytextbutton import CopyTextButton
 
+
 class InlineKeyboardButton:
     """Represents a button in an inline keyboard.
 
@@ -16,13 +17,13 @@ class InlineKeyboardButton:
     """
 
     def __init__(
-        self,
-        text: str,
-        url: Optional[str] = None,
-        callback_data: Optional[str] = None,
-        web_app: Optional["WebAppInfo"] = None,
-        copy_text_button: Optional["CopyTextButton"] = None,
-        **kwargs
+            self,
+            text: str,
+            url: Optional[str] = None,
+            callback_data: Optional[str] = None,
+            web_app: Optional["WebAppInfo"] = None,
+            copy_text_button: Optional["CopyTextButton"] = None,
+            **kwargs
     ):
         self.text = text
         self.url = url

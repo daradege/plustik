@@ -41,29 +41,29 @@ class Chat:
     """
 
     def __init__(
-        self,
-        id: int = None,
-        type: Union[str, ChatType] = None,
-        title: Optional[str] = None,
-        username: Optional[str] = None,
-        first_name: Optional[str] = None,
-        last_name: Optional[str] = None,
-        photo: Optional["ChatPhoto"] = None,
-        bio: Optional[str] = None,
-        description: Optional[str] = None,
-        invite_link: Optional[str] = None,
-        pinned_message: Optional[dict] = None,
-        permissions: Optional[dict] = None,
-        slow_mode_delay: Optional[int] = None,
-        message_auto_delete_time: Optional[int] = None,
-        has_protected_content: Optional[bool] = None,
-        sticker_set_name: Optional[str] = None,
-        can_set_sticker_set: Optional[bool] = None,
-        linked_chat_id: Optional[int] = None,
-        location: Optional[dict] = None,
-        all_members_are_administrators: Optional[bool] = None,
-        client: Optional["Client"] = None,
-        **kwargs
+            self,
+            id: int = None,
+            type: Union[str, ChatType] = None,
+            title: Optional[str] = None,
+            username: Optional[str] = None,
+            first_name: Optional[str] = None,
+            last_name: Optional[str] = None,
+            photo: Optional["ChatPhoto"] = None,
+            bio: Optional[str] = None,
+            description: Optional[str] = None,
+            invite_link: Optional[str] = None,
+            pinned_message: Optional[dict] = None,
+            permissions: Optional[dict] = None,
+            slow_mode_delay: Optional[int] = None,
+            message_auto_delete_time: Optional[int] = None,
+            has_protected_content: Optional[bool] = None,
+            sticker_set_name: Optional[str] = None,
+            can_set_sticker_set: Optional[bool] = None,
+            linked_chat_id: Optional[int] = None,
+            location: Optional[dict] = None,
+            all_members_are_administrators: Optional[bool] = None,
+            client: Optional["Client"] = None,
+            **kwargs
     ):
         self.id = id
         if isinstance(type, str):
@@ -131,10 +131,10 @@ class Chat:
         return self.username is not None
 
     async def send_message(
-        self,
-        text: str,
-        reply_to_message_id: int = None,
-        reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup"] = None,
+            self,
+            text: str,
+            reply_to_message_id: int = None,
+            reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup"] = None,
     ) -> "Message":
         """Send a message to the chat."""
         return await self.client.send_message(
@@ -157,11 +157,11 @@ class Chat:
         return await self.client.get_chat_members_count(chat_id=self.id)
 
     async def send_photo(
-        self,
-        photo: str,
-        caption: Optional[str] = None,
-        reply_to_message_id: int = None,
-        reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup"] = None,
+            self,
+            photo: str,
+            caption: Optional[str] = None,
+            reply_to_message_id: int = None,
+            reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup"] = None,
     ) -> "Message":
         """Send a photo to the chat."""
         return await self.client.send_photo(
@@ -173,11 +173,11 @@ class Chat:
         )
 
     async def send_video(
-        self,
-        video: str,
-        caption: Optional[str] = None,
-        reply_to_message_id: int = None,
-        reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup"] = None,
+            self,
+            video: str,
+            caption: Optional[str] = None,
+            reply_to_message_id: int = None,
+            reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup"] = None,
     ) -> "Message":
         """Send a video to the chat."""
         return await self.client.send_video(
@@ -189,11 +189,11 @@ class Chat:
         )
 
     async def send_audio(
-        self,
-        audio: str,
-        caption: Optional[str] = None,
-        reply_to_message_id: int = None,
-        reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup"] = None,
+            self,
+            audio: str,
+            caption: Optional[str] = None,
+            reply_to_message_id: int = None,
+            reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup"] = None,
     ) -> "Message":
         """Send an audio file to the chat."""
         return await self.client.send_audio(
@@ -205,11 +205,11 @@ class Chat:
         )
 
     async def send_document(
-        self,
-        document: str,
-        caption: Optional[str] = None,
-        reply_to_message_id: int = None,
-        reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup"] = None,
+            self,
+            document: str,
+            caption: Optional[str] = None,
+            reply_to_message_id: int = None,
+            reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup"] = None,
     ) -> "Message":
         """Send a document to the chat."""
         return await self.client.send_document(
@@ -221,10 +221,10 @@ class Chat:
         )
 
     async def send_sticker(
-        self,
-        sticker: str,
-        reply_to_message_id: int = None,
-        reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup"] = None,
+            self,
+            sticker: str,
+            reply_to_message_id: int = None,
+            reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup"] = None,
     ) -> "Message":
         """Send a sticker to the chat."""
         return await self.client.send_sticker(
@@ -235,11 +235,11 @@ class Chat:
         )
 
     async def send_voice(
-        self,
-        voice: str,
-        caption: Optional[str] = None,
-        reply_to_message_id: int = None,
-        reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup"] = None,
+            self,
+            voice: str,
+            caption: Optional[str] = None,
+            reply_to_message_id: int = None,
+            reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup"] = None,
     ) -> "Message":
         """Send a voice message to the chat."""
         return await self.client.send_voice(
@@ -251,12 +251,12 @@ class Chat:
         )
 
     async def send_location(
-        self,
-        latitude: float,
-        longitude: float,
-        horizontal_accuracy: Optional[float] = None,
-        reply_to_message_id: int = None,
-        reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup"] = None,
+            self,
+            latitude: float,
+            longitude: float,
+            horizontal_accuracy: Optional[float] = None,
+            reply_to_message_id: int = None,
+            reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup"] = None,
     ) -> "Message":
         """Send a location to the chat."""
         return await self.client.send_location(
@@ -269,13 +269,13 @@ class Chat:
         )
 
     async def send_contact(
-        self,
-        phone_number: str,
-        first_name: str,
-        last_name: Optional[str] = None,
-        vcard: Optional[str] = None,
-        reply_to_message_id: int = None,
-        reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup"] = None,
+            self,
+            phone_number: str,
+            first_name: str,
+            last_name: Optional[str] = None,
+            vcard: Optional[str] = None,
+            reply_to_message_id: int = None,
+            reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup"] = None,
     ) -> "Message":
         """Send a contact to the chat."""
         return await self.client.send_contact(
@@ -289,9 +289,9 @@ class Chat:
         )
 
     async def send_dice(
-        self,
-        emoji: Optional[str] = None,
-        reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup"] = None,
+            self,
+            emoji: Optional[str] = None,
+            reply_markup: Union["ReplyKeyboardMarkup", "InlineKeyboardMarkup"] = None,
     ) -> "Message":
         """Send a dice message to the chat."""
         return await self.client.send_dice(

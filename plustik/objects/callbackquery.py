@@ -1,6 +1,5 @@
 from typing import Optional, Union, TYPE_CHECKING
 
-
 if TYPE_CHECKING:
     from ..client import Client
     from .user import User
@@ -22,15 +21,15 @@ class CallbackQuery:
     """
 
     def __init__(
-        self,
-        id: Optional[str] = None,
-        from_user: Optional[dict] = None,
-        message: Optional[dict] = None,
-        inline_message_id: Optional[str] = None,
-        chat_instance: Optional[str] = None,
-        data: Optional[str] = None,
-        game_short_name: Optional[str] = None,
-        **kwargs
+            self,
+            id: Optional[str] = None,
+            from_user: Optional[dict] = None,
+            message: Optional[dict] = None,
+            inline_message_id: Optional[str] = None,
+            chat_instance: Optional[str] = None,
+            data: Optional[str] = None,
+            game_short_name: Optional[str] = None,
+            **kwargs
     ):
         self.id = id
         self.inline_message_id = inline_message_id
@@ -59,11 +58,11 @@ class CallbackQuery:
             self.chat = None
 
     async def answer(
-        self,
-        text: Optional[str] = None,
-        show_alert: bool = False,
-        url: Optional[str] = None,
-        cache_time: Optional[int] = None
+            self,
+            text: Optional[str] = None,
+            show_alert: bool = False,
+            url: Optional[str] = None,
+            cache_time: Optional[int] = None
     ) -> bool:
         """Answer the callback query."""
         return await self.bot.answer_callback_query(
@@ -71,10 +70,10 @@ class CallbackQuery:
         )
 
     async def reply(
-        self,
-        text: str,
-        reply_to_message_id: Optional[int] = None,
-        reply_markup: Optional[Union["InlineKeyboardMarkup", "ReplyKeyboardMarkup"]] = None
+            self,
+            text: str,
+            reply_to_message_id: Optional[int] = None,
+            reply_markup: Optional[Union["InlineKeyboardMarkup", "ReplyKeyboardMarkup"]] = None
     ) -> "Message":
         """Reply to the user who sent the callback query."""
         return await self.bot.send_message(

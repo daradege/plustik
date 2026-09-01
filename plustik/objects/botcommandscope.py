@@ -1,5 +1,6 @@
 from typing import Union, Optional
 
+
 class BotCommandScope:
     """Base class for bot command scopes."""
 
@@ -13,17 +14,20 @@ class BotCommandScope:
             result["chat_id"] = self.chat_id
         return result
 
+
 class BotCommandScopeDefault(BotCommandScope):
     """Default bot command scope."""
 
     def __init__(self):
         super().__init__("default")
 
+
 class BotCommandScopeAllPrivateChats(BotCommandScope):
     """Scope for all private chats."""
 
     def __init__(self):
         super().__init__("all_private_chats")
+
 
 class BotCommandScopeChat(BotCommandScope):
     """Scope for a specific chat.

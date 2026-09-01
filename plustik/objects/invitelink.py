@@ -3,6 +3,7 @@ from typing import Optional, TYPE_CHECKING
 if TYPE_CHECKING:
     from .user import User
 
+
 class InviteLink:
     """Represents an invite link for a chat.
 
@@ -19,17 +20,17 @@ class InviteLink:
     """
 
     def __init__(
-        self,
-        invite_link: str,
-        creator: dict,
-        creates_join_request: bool,
-        is_primary: bool,
-        is_revoked: bool,
-        name: Optional[str] = None,
-        expire_date: Optional[int] = None,
-        member_limit: Optional[int] = None,
-        pending_join_request_count: Optional[int] = None,
-        **kwargs
+            self,
+            invite_link: str,
+            creator: dict,
+            creates_join_request: bool,
+            is_primary: bool,
+            is_revoked: bool,
+            name: Optional[str] = None,
+            expire_date: Optional[int] = None,
+            member_limit: Optional[int] = None,
+            pending_join_request_count: Optional[int] = None,
+            **kwargs
     ):
         self.invite_link = invite_link
         from .user import User

@@ -1,8 +1,10 @@
 from typing import Union, Optional, TYPE_CHECKING
+
 from .enums import MessageEntityType
 
 if TYPE_CHECKING:
     from .user import User
+
 
 class MessageEntity:
     """Represents a special entity in a message text.
@@ -17,14 +19,14 @@ class MessageEntity:
     """
 
     def __init__(
-        self,
-        type: Union[str, MessageEntityType],
-        offset: int,
-        length: int,
-        url: Optional[str] = None,
-        user: Optional[dict] = None,
-        language: Optional[str] = None,
-        **kwargs
+            self,
+            type: Union[str, MessageEntityType],
+            offset: int,
+            length: int,
+            url: Optional[str] = None,
+            user: Optional[dict] = None,
+            language: Optional[str] = None,
+            **kwargs
     ):
         if isinstance(type, str):
             self.type = MessageEntityType(type)

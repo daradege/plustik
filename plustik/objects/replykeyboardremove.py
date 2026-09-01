@@ -7,10 +7,10 @@ class ReplyKeyboardRemove:
     """
 
     def __init__(
-        self,
-        remove_keyboard: bool = True,
-        selective: bool = None,
-        **kwargs
+            self,
+            remove_keyboard: bool = True,
+            selective: bool = None,
+            **kwargs
     ):
         self.remove_keyboard = remove_keyboard
         self.selective = selective

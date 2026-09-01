@@ -1,5 +1,6 @@
 from typing import Optional
 
+
 class Location:
     """Represents a point on the map.
 
@@ -10,11 +11,11 @@ class Location:
     """
 
     def __init__(
-        self,
-        latitude: float,
-        longitude: float,
-        horizontal_accuracy: Optional[float] = None,
-        **kwargs
+            self,
+            latitude: float,
+            longitude: float,
+            horizontal_accuracy: Optional[float] = None,
+            **kwargs
     ):
         self.latitude = latitude
         self.longitude = longitude

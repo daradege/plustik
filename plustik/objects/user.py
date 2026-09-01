@@ -3,6 +3,7 @@ from typing import Optional, TYPE_CHECKING
 if TYPE_CHECKING:
     from ..client import Client
 
+
 class User:
     """Represents a user or bot in Soroush Plus.
 
@@ -20,17 +21,17 @@ class User:
     """
 
     def __init__(
-        self,
-        id: Optional[int],
-        is_bot: bool,
-        first_name: str,
-        last_name: Optional[str] = None,
-        username: Optional[str] = None,
-        language_code: Optional[str] = None,
-        can_join_groups: Optional[bool] = None,
-        can_read_all_group_messages: Optional[bool] = None,
-        supports_inline_queries: Optional[bool] = None,
-        **kwargs
+            self,
+            id: Optional[int],
+            is_bot: bool,
+            first_name: str,
+            last_name: Optional[str] = None,
+            username: Optional[str] = None,
+            language_code: Optional[str] = None,
+            can_join_groups: Optional[bool] = None,
+            can_read_all_group_messages: Optional[bool] = None,
+            supports_inline_queries: Optional[bool] = None,
+            **kwargs
     ):
         self.id = int(id)
         self.is_bot = is_bot

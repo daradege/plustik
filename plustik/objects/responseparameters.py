@@ -1,5 +1,6 @@
 from typing import Optional
 
+
 class ResponseParameters:
     """Describes why a request was unsuccessful.
 
@@ -8,8 +9,8 @@ class ResponseParameters:
     """
 
     def __init__(
-        self,
-        retry_after: Optional[int] = None,
-        **kwargs
+            self,
+            retry_after: Optional[int] = None,
+            **kwargs
     ):
         self.retry_after = retry_after

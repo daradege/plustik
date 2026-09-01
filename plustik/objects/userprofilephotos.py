@@ -1,5 +1,7 @@
 from typing import List
+
 from .photosize import PhotoSize
+
 
 class UserProfilePhotos:
     """Represents a user's profile photos.
@@ -10,10 +12,10 @@ class UserProfilePhotos:
     """
 
     def __init__(
-        self,
-        total_count: int,
-        photos: List[List[dict]],
-        **kwargs
+            self,
+            total_count: int,
+            photos: List[List[dict]],
+            **kwargs
     ):
         self.total_count = total_count
         self.photos = [[PhotoSize(**p) for p in row] for row in photos]

@@ -2,7 +2,8 @@
 
 ![Plustik Banner](./plustik.svg)
 
-A modern, easy-to-use Python wrapper for the Soroush Plus Bot API that makes building Soroush Plus bots simple and intuitive.
+A modern, easy-to-use Python wrapper for the Soroush Plus Bot API that makes building Soroush Plus bots simple and
+intuitive.
 
 ## Features
 

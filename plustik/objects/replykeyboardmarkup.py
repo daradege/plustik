@@ -1,9 +1,11 @@
 from typing import Optional, Union, TYPE_CHECKING
+
 from .enums import KeyboardTypes
 from ..exceptions.common import PlustikException
 
 if TYPE_CHECKING:
     from .webappinfo import WebAppInfo
+
 
 class ReplyKeyboardMarkup:
     """Represents a custom keyboard with reply options.
@@ -16,12 +18,12 @@ class ReplyKeyboardMarkup:
     """
 
     def __init__(
-        self,
-        *args,
-        resize_keyboard: bool = False,
-        one_time_keyboard: bool = False,
-        input_field_placeholder: Optional[str] = None,
-        remove_keyboard: Optional[bool] = False
+            self,
+            *args,
+            resize_keyboard: bool = False,
+            one_time_keyboard: bool = False,
+            input_field_placeholder: Optional[str] = None,
+            remove_keyboard: Optional[bool] = False
     ):
         args = list(args)
         self.remove_keyboard = remove_keyboard
@@ -48,7 +50,8 @@ class ReplyKeyboardMarkup:
                             self.add_button(item[0], request_contact=True)
                         else:
                             self.add_button(item[0], request_location=True)
-                    elif isinstance(item[1], WebAppInfo) or (isinstance(item[1], str) and item[1].startswith("https://")):
+                    elif isinstance(item[1], WebAppInfo) or (
+                            isinstance(item[1], str) and item[1].startswith("https://")):
                         self.add_button(item[0], web_app=item[1])
                     else:
                         raise PlustikException(f"You cannot have a button with type {item[1]}")
@@ -56,11 +59,11 @@ class ReplyKeyboardMarkup:
                     raise PlustikException("length of your item should not be more than two!")
 
     def add_button(
-        self,
-        text: str,
-        request_contact: bool = None,
-        request_location: bool = None,
-        web_app: Union["WebAppInfo", str] = None,
+            self,
+            text: str,
+            request_contact: bool = None,
+            request_location: bool = None,
+            web_app: Union["WebAppInfo", str] = None,
     ):
         """Add a button to the current row."""
         button = {"text": text}

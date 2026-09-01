@@ -7,10 +7,10 @@ class Dice:
     """
 
     def __init__(
-        self,
-        emoji: str,
-        value: int,
-        **kwargs
+            self,
+            emoji: str,
+            value: int,
+            **kwargs
     ):
         self.emoji = emoji
         self.value = value

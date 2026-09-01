@@ -1,6 +1,8 @@
 from typing import Optional, Union
+
 from .enums import ButtonTypes
 from ..exceptions.common import PlustikException
+
 
 class InlineKeyboardMarkup:
     """Represents an inline keyboard.
@@ -42,13 +44,13 @@ class InlineKeyboardMarkup:
                     raise PlustikException("length of your item should not be more than two!")
 
     def add_button(
-        self,
-        text: str,
-        callback_data: Optional[str] = None,
-        url: Optional[str] = None,
-        web_app: Optional[Union["WebAppInfo", str]] = None,
-        copy_text_button: Optional[Union["CopyTextButton", str]] = None,
-        **kwargs
+            self,
+            text: str,
+            callback_data: Optional[str] = None,
+            url: Optional[str] = None,
+            web_app: Optional[Union["WebAppInfo", str]] = None,
+            copy_text_button: Optional[Union["CopyTextButton", str]] = None,
+            **kwargs
     ) -> "InlineKeyboardMarkup":
         """Add a button to the keyboard."""
         button = {"text": text}

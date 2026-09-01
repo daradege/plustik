@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class UpdatesTypes(Enum):
     """Types of updates that can be received."""
     MESSAGE = "message"
@@ -8,6 +9,7 @@ class UpdatesTypes(Enum):
     COMMAND = "command"
     PHOTO = "photo"
     UPDATE = "update"
+
 
 class ChatAction(Enum):
     """Actions a bot can send to indicate activity."""
@@ -23,12 +25,14 @@ class ChatAction(Enum):
     RECORD_VIDEO_NOTE = "record_video_note"
     UPLOAD_VIDEO_NOTE = "upload_video_note"
 
+
 class ChatType(Enum):
     """Types of chats."""
     PRIVATE = "private"
     GROUP = "group"
     SUPERGROUP = "supergroup"
     CHANNEL = "channel"
+
 
 class ButtonTypes(Enum):
     """Types of inline buttons."""
@@ -37,12 +41,14 @@ class ButtonTypes(Enum):
     URL = "url"
     COPY_TEXT_BUTTON = "copy_text_button"
 
+
 class KeyboardTypes(Enum):
     """Types of keyboard buttons."""
     TEXT = "text"
     REQUEST_CONTACT = "request_contact"
     REQUEST_LOCATION = "request_location"
     WEB_APP = "web_app"
+
 
 class MessageEntityType(Enum):
     """Types of message entities."""

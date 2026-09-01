@@ -1,6 +1,3 @@
-from typing import Optional, List
-
-
 class InputMedia:
     """Base class for all input media types."""
 
@@ -23,15 +20,15 @@ class InputMediaVideo(InputMedia):
     """Represents a video to be sent."""
 
     def __init__(
-        self,
-        media,
-        caption=None,
-        parse_mode=None,
-        caption_entities=None,
-        width=None,
-        height=None,
-        duration=None,
-        supports_streaming=None,
+            self,
+            media,
+            caption=None,
+            parse_mode=None,
+            caption_entities=None,
+            width=None,
+            height=None,
+            duration=None,
+            supports_streaming=None,
     ):
         super().__init__(media, caption, parse_mode, caption_entities)
         self.type = "video"
@@ -45,14 +42,14 @@ class InputMediaAnimation(InputMedia):
     """Represents an animation to be sent."""
 
     def __init__(
-        self,
-        media,
-        caption=None,
-        parse_mode=None,
-        caption_entities=None,
-        width=None,
-        height=None,
-        duration=None,
+            self,
+            media,
+            caption=None,
+            parse_mode=None,
+            caption_entities=None,
+            width=None,
+            height=None,
+            duration=None,
     ):
         super().__init__(media, caption, parse_mode, caption_entities)
         self.type = "animation"
@@ -65,14 +62,14 @@ class InputMediaAudio(InputMedia):
     """Represents an audio file to be sent."""
 
     def __init__(
-        self,
-        media,
-        caption=None,
-        parse_mode=None,
-        caption_entities=None,
-        duration=None,
-        performer=None,
-        title=None,
+            self,
+            media,
+            caption=None,
+            parse_mode=None,
+            caption_entities=None,
+            duration=None,
+            performer=None,
+            title=None,
     ):
         super().__init__(media, caption, parse_mode, caption_entities)
         self.type = "audio"
@@ -85,12 +82,12 @@ class InputMediaDocument(InputMedia):
     """Represents a document to be sent."""
 
     def __init__(
-        self,
-        media,
-        caption=None,
-        parse_mode=None,
-        caption_entities=None,
-        disable_content_type_detection=None,
+            self,
+            media,
+            caption=None,
+            parse_mode=None,
+            caption_entities=None,
+            disable_content_type_detection=None,
     ):
         super().__init__(media, caption, parse_mode, caption_entities)
         self.type = "document"

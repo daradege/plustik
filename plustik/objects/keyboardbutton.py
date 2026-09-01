@@ -3,6 +3,7 @@ from typing import Optional, TYPE_CHECKING
 if TYPE_CHECKING:
     from .webappinfo import WebAppInfo
 
+
 class KeyboardButton:
     """Represents a button in a reply keyboard.
 
@@ -14,12 +15,12 @@ class KeyboardButton:
     """
 
     def __init__(
-        self,
-        text: str,
-        request_contact: bool = False,
-        request_location: bool = False,
-        web_app: Optional["WebAppInfo"] = None,
-        **kwargs
+            self,
+            text: str,
+            request_contact: bool = False,
+            request_location: bool = False,
+            web_app: Optional["WebAppInfo"] = None,
+            **kwargs
     ):
         self.text = text
         self.request_contact = request_contact

@@ -7,10 +7,10 @@ class BotCommand:
     """
 
     def __init__(
-        self,
-        command: str,
-        description: str,
-        **kwargs
+            self,
+            command: str,
+            description: str,
+            **kwargs
     ):
         self.command = command
         self.description = description

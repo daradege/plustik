@@ -3,3 +3,4 @@
 __pycache__/
 plustik/documents.md
 dist
+./tests

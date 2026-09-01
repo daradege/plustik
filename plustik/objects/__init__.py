@@ -1,9 +1,27 @@
 """Objects in Plustik, representing different types of data in Soroush Plus API."""
 
-from .voice import Voice
-from .replykeyboardmarkup import ReplyKeyboardMarkup
-from .replykeyboardremove import ReplyKeyboardRemove
+from .animation import Animation
+from .audio import Audio
+from .botcommand import BotCommand
+from .botcommandscope import BotCommandScope, BotCommandScopeDefault, BotCommandScopeAllPrivateChats, \
+    BotCommandScopeChat
+from .callbackquery import CallbackQuery
+from .chat import Chat
+from .chatfullinfo import ChatFullInfo
+from .chatlocation import ChatLocation
+from .chatmember import ChatMember
+from .chatpermissions import ChatPermissions
+from .chatphoto import ChatPhoto
+from .contact import Contact
+from .copytextbutton import CopyTextButton
+from .dice import Dice
+from .document import Document
+from .enums import UpdatesTypes, ChatAction, ChatType
+from .file import File
 from .forcereply import ForceReply
+from .inlinekeyboardbutton import InlineKeyboardButton
+from .inlinekeyboardmarkup import InlineKeyboardMarkup
+from .inputfile import InputFile
 from .inputmedias import (
     InputMedia,
     InputMediaPhoto,
@@ -12,44 +30,27 @@ from .inputmedias import (
     InputMediaAudio,
     InputMediaDocument,
 )
-from .message import Message
-from .audio import Audio
-from .inlinekeyboardbutton import InlineKeyboardButton
-from .photosize import PhotoSize
-from .chat import Chat
-from .sticker import Sticker
-from .contact import Contact
-from .animation import Animation
 from .invitelink import InviteLink
-from .user import User
-from .chatphoto import ChatPhoto
-from .webappinfo import WebAppInfo
 from .keyboardbutton import KeyboardButton
-from .callbackquery import CallbackQuery
-from .inputfile import InputFile
-from .webappdata import WebAppData
 from .location import Location
-from .document import Document
-from .inlinekeyboardmarkup import InlineKeyboardMarkup
-from .file import File
-from .copytextbutton import CopyTextButton
-from .chatmember import ChatMember
+from .maskposition import MaskPosition
+from .message import Message
+from .messageentity import MessageEntity
+from .messageid import MessageId
+from .photosize import PhotoSize
+from .replykeyboardmarkup import ReplyKeyboardMarkup
+from .replykeyboardremove import ReplyKeyboardRemove
+from .responseparameters import ResponseParameters
+from .sticker import Sticker
+from .stickerset import StickerSet
+from .update import Update
+from .user import User
+from .userprofilephotos import UserProfilePhotos
 from .video import Video
 from .videonote import VideoNote
-from .stickerset import StickerSet
-from .messageid import MessageId
-from .update import Update
-from .enums import UpdatesTypes, ChatAction, ChatType
-from .messageentity import MessageEntity
-from .dice import Dice
-from .chatfullinfo import ChatFullInfo
-from .chatpermissions import ChatPermissions
-from .chatlocation import ChatLocation
-from .maskposition import MaskPosition
-from .userprofilephotos import UserProfilePhotos
-from .botcommand import BotCommand
-from .botcommandscope import BotCommandScope, BotCommandScopeDefault, BotCommandScopeAllPrivateChats, BotCommandScopeChat
-from .responseparameters import ResponseParameters
+from .voice import Voice
+from .webappdata import WebAppData
+from .webappinfo import WebAppInfo
 
 __all__ = [
     "UpdatesTypes",

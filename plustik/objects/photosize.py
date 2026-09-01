@@ -1,5 +1,6 @@
 from typing import Optional
 
+
 class PhotoSize:
     """Represents one size of a photo or a file/sticker thumbnail.
 
@@ -12,13 +13,13 @@ class PhotoSize:
     """
 
     def __init__(
-        self,
-        file_id: str,
-        file_unique_id: str,
-        width: int,
-        height: int,
-        file_size: Optional[int] = None,
-        **kwargs
+            self,
+            file_id: str,
+            file_unique_id: str,
+            width: int,
+            height: int,
+            file_size: Optional[int] = None,
+            **kwargs
     ):
         self.file_id = file_id
         self.file_unique_id = file_unique_id

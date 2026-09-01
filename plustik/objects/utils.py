@@ -1,6 +1,3 @@
-from typing import Any, Callable
-
-
 def pythonize(dictionary: dict) -> dict:
     """Convert API response dictionary keys to Python-compatible names.
 

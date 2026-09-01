@@ -1,6 +1,3 @@
-from typing import Optional
-
-
 class MaskPosition:
     """Describes the position where the mask is placed in a sticker.
 
@@ -12,12 +9,12 @@ class MaskPosition:
     """
 
     def __init__(
-        self,
-        point: str,
-        x_shift: float,
-        y_shift: float,
-        scale: float,
-        **kwargs
+            self,
+            point: str,
+            x_shift: float,
+            y_shift: float,
+            scale: float,
+            **kwargs
     ):
         self.point = point
         self.x_shift = x_shift

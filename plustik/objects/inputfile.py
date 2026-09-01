@@ -1,6 +1,7 @@
 import os
-from typing import Union, Optional
 from io import BufferedReader
+from typing import Union, Optional
+
 
 class InputFile:
     """Represents a file to be uploaded.
@@ -22,18 +23,18 @@ class InputFile:
         if isinstance(file_input, str):
             if not os.path.exists(file_input):
                 raise FileNotFoundError(f"File not found: {file_input}")
-            
+
             self._file_handle = open(file_input, "rb")
             self._should_close = True
             file_content = self._file_handle.read()
             if not file_name:
                 file_name = os.path.basename(file_input)
-                
+
         elif isinstance(file_input, BufferedReader):
             current_pos = file_input.tell()
             file_content = file_input.read()
-            file_input.seek(current_pos) 
-            
+            file_input.seek(current_pos)
+
             if not file_name and hasattr(file_input, 'name'):
                 file_name = os.path.basename(file_input.name)
         else:
