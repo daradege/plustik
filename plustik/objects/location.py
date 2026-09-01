@@ -1,21 +1,21 @@
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from plustik.client import Client
-
+from typing import Optional
 
 class Location:
-    def __init__(self,
-                 latitude: float,
-                 longitude: float,
-                 client: Client,
-                 *args,
-                 **kwargs
-                 ):
+    """Represents a point on the map.
+
+    Attributes:
+        latitude (float): Latitude as defined by sender
+        longitude (float): Longitude as defined by sender
+        horizontal_accuracy (Optional[float]): The radius of uncertainty for the location
+    """
+
+    def __init__(
+        self,
+        latitude: float,
+        longitude: float,
+        horizontal_accuracy: Optional[float] = None,
+        **kwargs
+    ):
         self.latitude = latitude
         self.longitude = longitude
-        self.client = client
-        self.args = args
-        self.kwargs = kwargs
+        self.horizontal_accuracy = horizontal_accuracy

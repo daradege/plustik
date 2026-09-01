@@ -1,25 +1,22 @@
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from plustik.client import Client
-
-
 class ChatPhoto:
-    def __init__(self,
-                 small_file_id: str,
-                 small_file_unique_id: str,
-                 big_file_id: str,
-                 big_file_unique_id: str,
-                 client: Client,
-                 *args,
-                 **kwargs
-                 ):
+    """Represents a chat photo.
+
+    Attributes:
+        small_file_id (str): File identifier of small (160x160) chat photo
+        small_file_unique_id (str): Unique identifier of small chat photo
+        big_file_id (str): File identifier of big (640x640) chat photo
+        big_file_unique_id (str): Unique identifier of big chat photo
+    """
+
+    def __init__(
+        self,
+        small_file_id: str,
+        small_file_unique_id: str,
+        big_file_id: str,
+        big_file_unique_id: str,
+        **kwargs
+    ):
         self.small_file_id = small_file_id
         self.small_file_unique_id = small_file_unique_id
         self.big_file_id = big_file_id
         self.big_file_unique_id = big_file_unique_id
-        self.client = client
-        self.args = args
-        self.kwargs = kwargs

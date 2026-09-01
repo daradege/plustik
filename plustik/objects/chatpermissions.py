@@ -1,31 +1,44 @@
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from plustik.client import Client
+from typing import Optional
 
 
 class ChatPermissions:
-    def __init__(self,
-                 can_send_messages: bool | None = None,
-                 can_send_audios: bool | None = None,
-                 can_send_documents: bool | None = None,
-                 can_send_photos: bool | None = None,
-                 can_send_videos: bool | None = None,
-                 can_send_video_notes: bool | None = None,
-                 can_send_voice_notes: bool | None = None,
-                 can_send_polls: bool | None = None,
-                 can_send_other_messages: bool | None = None,
-                 can_add_web_page_previews: bool | None = None,
-                 can_change_info: bool | None = None,
-                 can_invite_users: bool | None = None,
-                 can_pin_messages: bool | None = None,
-                 can_manage_topics: bool | None = None,
-                 client: Client | None = None,
-                 *args,
-                 **kwargs
-                 ):
+    """Represents the default permissions of all members in a chat.
+
+    Attributes:
+        can_send_messages (Optional[bool]): True if the user is allowed to send text messages
+        can_send_audios (Optional[bool]): True if the user is allowed to send audios
+        can_send_documents (Optional[bool]): True if the user is allowed to send documents
+        can_send_photos (Optional[bool]): True if the user is allowed to send photos
+        can_send_videos (Optional[bool]): True if the user is allowed to send videos
+        can_send_video_notes (Optional[bool]): True if the user is allowed to send video notes
+        can_send_voice_notes (Optional[bool]): True if the user is allowed to send voice notes
+        can_send_polls (Optional[bool]): True if the user is allowed to send polls
+        can_send_other_messages (Optional[bool]): True if the user is allowed to send animations, games, stickers, and inline bots
+        can_add_web_page_previews (Optional[bool]): True if the user is allowed to add web page previews to their messages
+        can_change_info (Optional[bool]): True if the user is allowed to change chat information
+        can_invite_users (Optional[bool]): True if the user is allowed to invite new users to the chat
+        can_pin_messages (Optional[bool]): True if the user is allowed to pin messages
+        can_manage_topics (Optional[bool]): True if the user is allowed to manage topics
+    """
+
+    def __init__(
+        self,
+        can_send_messages: Optional[bool] = None,
+        can_send_audios: Optional[bool] = None,
+        can_send_documents: Optional[bool] = None,
+        can_send_photos: Optional[bool] = None,
+        can_send_videos: Optional[bool] = None,
+        can_send_video_notes: Optional[bool] = None,
+        can_send_voice_notes: Optional[bool] = None,
+        can_send_polls: Optional[bool] = None,
+        can_send_other_messages: Optional[bool] = None,
+        can_add_web_page_previews: Optional[bool] = None,
+        can_change_info: Optional[bool] = None,
+        can_invite_users: Optional[bool] = None,
+        can_pin_messages: Optional[bool] = None,
+        can_manage_topics: Optional[bool] = None,
+        **kwargs
+    ):
         self.can_send_messages = can_send_messages
         self.can_send_audios = can_send_audios
         self.can_send_documents = can_send_documents
@@ -40,6 +53,3 @@ class ChatPermissions:
         self.can_invite_users = can_invite_users
         self.can_pin_messages = can_pin_messages
         self.can_manage_topics = can_manage_topics
-        self.client = client
-        self.args = args
-        self.kwargs = kwargs

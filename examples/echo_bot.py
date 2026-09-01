@@ -1,10 +1,10 @@
-import plustik
-
-bot = plustik.Client("69661788:lAhqXlSddLf-ZO3n0TfthdyAWf4QkXzpd04")
-
-async def main():
-    me = await bot.get_me()
-    print(me.first_name)
-
 import asyncio
-asyncio.run(main())
+from plustik import Client, Message
+
+bot = Client("YOUR_BOT_TOKEN")
+
+@bot.on_message()
+async def message_handler(message: Message):
+    await message.reply(message.text)
+
+asyncio.run(bot.start_polling())

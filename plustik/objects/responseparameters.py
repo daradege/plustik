@@ -1,19 +1,15 @@
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from plustik.client import Client
-
+from typing import Optional
 
 class ResponseParameters:
-    def __init__(self,
-                 retry_after: int | None = None,
-                 client: Client | None = None,
-                 *args,
-                 **kwargs
-                 ):
+    """Describes why a request was unsuccessful.
+
+    Attributes:
+        retry_after (Optional[int]): Number of seconds to wait before retrying
+    """
+
+    def __init__(
+        self,
+        retry_after: Optional[int] = None,
+        **kwargs
+    ):
         self.retry_after = retry_after
-        self.client = client
-        self.args = args
-        self.kwargs = kwargs

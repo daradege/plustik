@@ -1,10 +1,10 @@
 [project]
 name = "plustik"
-version = "0.0.1"
+version = "0.1.0"
 authors = [
     { name = "Ali Safamanesh", email = "daradege@proton.me" },
 ]
-description = "A Python wrapper for SoroushPlus messenger bot API"
+description = "A Python wrapper for the Soroush Plus Bot API"
 readme = "README.md"
 requires-python = ">=3.9"
 classifiers = [
@@ -13,11 +13,12 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 license = { file = "LICENSE" }
-dependencies = ["httpx"]
+dependencies = ["aiohttp"]
+
 [project.urls]
-github = "https://github.com/daradege/plustik/"
-website = "https://plustik.vercel.app/"
-documentation = "https://plustik.vercel.app/docs/"
+github = "https://github.com/daradege/plustik"
+website = "https://plustik.vercel.app"
+documentation = "https://docs.plustik.vercel.app"
 
 [build-system]
 requires = ["hatchling"]

@@ -1,27 +1,28 @@
-from __future__ import annotations
-
-from typing import TYPE_CHECKING, List
+from typing import List, Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from plustik.client import Client
-    from plustik.objects.photosize import PhotoSize
-    from plustik.objects.sticker import Sticker
-
+    from .sticker import Sticker
+    from .photosize import PhotoSize
 
 class StickerSet:
-    def __init__(self,
-                 name: str,
-                 title: str,
-                 stickers: List[Sticker] | None = None,
-                 thumb: "PhotoSize" | None = None,
-                 client: Client | None = None,
-                 *args,
-                 **kwargs
-                 ):
+    """Represents a sticker set.
+
+    Attributes:
+        name (str): Sticker set name
+        title (str): Sticker set title
+        stickers (List[Sticker]): List of all stickers in the set
+        thumb (Optional[PhotoSize]): Sticker set thumbnail
+    """
+
+    def __init__(
+        self,
+        name: str,
+        title: str,
+        stickers: List["Sticker"],
+        thumb: Optional["PhotoSize"] = None,
+        **kwargs
+    ):
         self.name = name
         self.title = title
         self.stickers = stickers
         self.thumb = thumb
-        self.client = client
-        self.args = args
-        self.kwargs = kwargs

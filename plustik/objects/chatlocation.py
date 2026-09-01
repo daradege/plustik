@@ -1,22 +1,23 @@
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from plustik.client import Client
-    from plustik.objects.location import Location
+from typing import Optional
 
 
 class ChatLocation:
-    def __init__(self,
-                 location: Location,
-                 address: str | None = None,
-                 client: Client | None = None,
-                 *args,
-                 **kwargs
-                 ):
-        self.location = location
+    """Represents the location of a chat.
+
+    Attributes:
+        location (Location): The location of the chat
+        address (str): The address of the chat
+    """
+
+    def __init__(
+        self,
+        location: dict,
+        address: str,
+        **kwargs
+    ):
+        from .location import Location
+        if isinstance(location, dict):
+            self.location = Location(**location)
+        else:
+            self.location = location
         self.address = address
-        self.client = client
-        self.args = args
-        self.kwargs = kwargs

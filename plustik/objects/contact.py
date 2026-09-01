@@ -1,27 +1,27 @@
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from plustik.client import Client
-
+from typing import Optional
 
 class Contact:
-    def __init__(self,
-                 phone_number: str,
-                 first_name: str,
-                 last_name: str | None = None,
-                 user_id: int | None = None,
-                 vcard: str | None = None,
-                 client: Client | None = None,
-                 *args,
-                 **kwargs
-                 ):
+    """Represents a phone contact.
+
+    Attributes:
+        phone_number (str): Contact's phone number
+        first_name (str): Contact's first name
+        last_name (Optional[str]): Contact's last name
+        user_id (Optional[int]): Contact's user ID
+        vcard (Optional[str]): Additional data as a vCard
+    """
+
+    def __init__(
+        self,
+        phone_number: str,
+        first_name: str,
+        last_name: Optional[str] = None,
+        user_id: Optional[int] = None,
+        vcard: Optional[str] = None,
+        **kwargs
+    ):
         self.phone_number = phone_number
         self.first_name = first_name
         self.last_name = last_name
         self.user_id = user_id
         self.vcard = vcard
-        self.client = client
-        self.args = args
-        self.kwargs = kwargs
