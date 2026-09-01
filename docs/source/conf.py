@@ -83,8 +83,8 @@ html_css_files = [
     'css/custom.css',
 ]
 
-html_logo = '../../plustik.svg'
-html_favicon = '../../plustik.svg'
+html_logo = '../../plustik-logo.svg'
+html_favicon = '../../plustik-logo.svg'
 
 autodoc_typehints = 'description'
 autodoc_member_order = 'bysource'
