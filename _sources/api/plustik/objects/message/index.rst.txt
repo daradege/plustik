@@ -1,0 +1,458 @@
+plustik.objects.message
+=======================
+
+.. py:module:: plustik.objects.message
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.message.Message
+
+
+Module Contents
+---------------
+
+.. py:class:: Message(message_id = None, from_user = None, date = None, chat = None, text = None, forward_from = None, forward_from_chat = None, forward_from_message_id = None, forward_signature = None, forward_sender_name = None, forward_date = None, reply_to_message = None, via_bot = None, edit_date = None, has_protected_content = None, media_group_id = None, animation = None, audio = None, document = None, photo = None, sticker = None, video = None, video_note = None, voice = None, caption = None, contact = None, location = None, dice = None, entities = None, caption_entities = None, reply_markup = None, new_chat_title = None, new_chat_photo = None, pinned_message = None, client = None, **kwargs)
+
+   Represents a message in Soroush Plus.
+
+   .. attribute:: id
+
+      Unique message identifier
+
+      :type: int
+
+   .. attribute:: user
+
+      Sender of the message
+
+      :type: User
+
+   .. attribute:: date
+
+      Date the message was sent in Unix time
+
+      :type: int
+
+   .. attribute:: chat
+
+      Conversation the message belongs to
+
+      :type: Chat
+
+   .. attribute:: text
+
+      Text content of the message
+
+      :type: Optional[str]
+
+   .. attribute:: forward_from
+
+      Original sender for forwarded messages
+
+      :type: Optional[User]
+
+   .. attribute:: forward_from_chat
+
+      Original chat for forwarded messages
+
+      :type: Optional[Chat]
+
+   .. attribute:: forward_from_message_id
+
+      Original message ID for forwarded messages
+
+      :type: Optional[int]
+
+   .. attribute:: forward_signature
+
+      Signature of the forwarded message sender
+
+      :type: Optional[str]
+
+   .. attribute:: forward_sender_name
+
+      Sender name for forwarded messages from users who disallow adding a link
+
+      :type: Optional[str]
+
+   .. attribute:: forward_date
+
+      Date when message was forwarded
+
+      :type: Optional[int]
+
+   .. attribute:: reply_to_message
+
+      Original message this is a reply to
+
+      :type: Optional[Message]
+
+   .. attribute:: via_bot
+
+      Bot that sent the message via inline mode
+
+      :type: Optional[User]
+
+   .. attribute:: edit_date
+
+      Date when message was last edited
+
+      :type: Optional[int]
+
+   .. attribute:: has_protected_content
+
+      True if the message can't be forwarded
+
+      :type: Optional[bool]
+
+   .. attribute:: media_group_id
+
+      Media group ID
+
+      :type: Optional[str]
+
+   .. attribute:: animation
+
+      Message is an animation
+
+      :type: Optional[Animation]
+
+   .. attribute:: audio
+
+      Message is an audio file
+
+      :type: Optional[Audio]
+
+   .. attribute:: document
+
+      Message is a general file
+
+      :type: Optional[Document]
+
+   .. attribute:: photo
+
+      Message is a photo
+
+      :type: Optional[list[PhotoSize]]
+
+   .. attribute:: sticker
+
+      Message is a sticker
+
+      :type: Optional[Sticker]
+
+   .. attribute:: video
+
+      Message is a video
+
+      :type: Optional[Video]
+
+   .. attribute:: video_note
+
+      Message is a video note
+
+      :type: Optional[VideoNote]
+
+   .. attribute:: voice
+
+      Message is a voice message
+
+      :type: Optional[Voice]
+
+   .. attribute:: caption
+
+      Caption for media messages
+
+      :type: Optional[str]
+
+   .. attribute:: caption_entities
+
+      Special entities in the caption
+
+      :type: Optional[list[MessageEntity]]
+
+   .. attribute:: contact
+
+      Message is a shared contact
+
+      :type: Optional[Contact]
+
+   .. attribute:: dice
+
+      Message is a dice
+
+      :type: Optional[Dice]
+
+   .. attribute:: location
+
+      Message is a shared location
+
+      :type: Optional[Location]
+
+   .. attribute:: new_chat_title
+
+      New chat title
+
+      :type: Optional[str]
+
+   .. attribute:: new_chat_photo
+
+      New chat photo
+
+      :type: Optional[list[PhotoSize]]
+
+   .. attribute:: pinned_message
+
+      Message is a pinned message
+
+      :type: Optional[Message]
+
+   .. attribute:: reply_markup
+
+      Inline keyboard attached to the message
+
+      :type: Optional[InlineKeyboardMarkup]
+
+   .. attribute:: entities
+
+      Special entities in the message
+
+      :type: Optional[list[MessageEntity]]
+
+   .. attribute:: client
+
+      Client instance associated with this message
+
+      :type: Client
+
+
+   .. py:attribute:: client
+      :type:  plustik.client.Client
+
+
+   .. py:attribute:: id
+      :value: None
+
+
+
+   .. py:attribute:: date
+      :value: None
+
+
+
+   .. py:attribute:: text
+      :value: None
+
+
+
+   .. py:attribute:: caption
+      :value: None
+
+
+
+   .. py:attribute:: forward_from_message_id
+      :value: None
+
+
+
+   .. py:attribute:: forward_signature
+      :value: None
+
+
+
+   .. py:attribute:: forward_sender_name
+      :value: None
+
+
+
+   .. py:attribute:: forward_date
+      :value: None
+
+
+
+   .. py:attribute:: edit_date
+      :value: None
+
+
+
+   .. py:attribute:: has_protected_content
+      :value: None
+
+
+
+   .. py:attribute:: media_group_id
+      :value: None
+
+
+
+   .. py:attribute:: animation
+      :value: None
+
+
+
+   .. py:attribute:: audio
+      :value: None
+
+
+
+   .. py:attribute:: document
+      :value: None
+
+
+
+   .. py:attribute:: sticker
+      :value: None
+
+
+
+   .. py:attribute:: video
+      :value: None
+
+
+
+   .. py:attribute:: voice
+      :value: None
+
+
+
+   .. py:attribute:: contact
+      :value: None
+
+
+
+   .. py:attribute:: location
+      :value: None
+
+
+
+   .. py:attribute:: dice
+      :value: None
+
+
+
+   .. py:attribute:: reply_markup
+      :value: None
+
+
+
+   .. py:attribute:: new_chat_title
+      :value: None
+
+
+
+   .. py:method:: reply(text, reply_markup = None)
+      :async:
+
+
+      Reply to this message with text.
+
+
+
+   .. py:method:: edit(text, reply_markup = None)
+      :async:
+
+
+      Edit this message's text.
+
+
+
+   .. py:method:: edit_caption(caption, reply_markup = None)
+      :async:
+
+
+      Edit this message's caption.
+
+
+
+   .. py:method:: edit_reply_markup(reply_markup)
+      :async:
+
+
+      Edit this message's reply markup.
+
+
+
+   .. py:method:: delete()
+      :async:
+
+
+      Delete this message.
+
+
+
+   .. py:method:: forward(chat_id)
+      :async:
+
+
+      Forward this message to another chat.
+
+
+
+   .. py:method:: copy(chat_id)
+      :async:
+
+
+      Copy this message to another chat.
+
+
+
+   .. py:method:: reply_photo(photo, caption = None, reply_markup = None)
+      :async:
+
+
+      Reply with a photo.
+
+
+
+   .. py:method:: reply_video(video, caption = None, reply_markup = None)
+      :async:
+
+
+      Reply with a video.
+
+
+
+   .. py:method:: reply_audio(audio, caption = None, reply_markup = None)
+      :async:
+
+
+      Reply with an audio file.
+
+
+
+   .. py:method:: reply_document(document, caption = None, reply_markup = None)
+      :async:
+
+
+      Reply with a document.
+
+
+
+   .. py:method:: reply_location(latitude, longitude, horizontal_accuracy = None, reply_markup = None)
+      :async:
+
+
+      Reply with a location.
+
+
+
+   .. py:method:: pin()
+      :async:
+
+
+      Pin this message.
+
+
+
+   .. py:method:: unpin()
+      :async:
+
+
+      Unpin this message.
+
+
+

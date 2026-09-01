@@ -1,0 +1,118 @@
+plustik.objects.invitelink
+==========================
+
+.. py:module:: plustik.objects.invitelink
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.invitelink.InviteLink
+
+
+Module Contents
+---------------
+
+.. py:class:: InviteLink(invite_link, creator, creates_join_request, is_primary, is_revoked, name = None, expire_date = None, member_limit = None, pending_join_request_count = None, **kwargs)
+
+   Represents an invite link for a chat.
+
+   .. attribute:: invite_link
+
+      The invite link
+
+      :type: str
+
+   .. attribute:: creator
+
+      Creator of the link
+
+      :type: User
+
+   .. attribute:: creates_join_request
+
+      True if joining requires approval
+
+      :type: bool
+
+   .. attribute:: is_primary
+
+      True if this is the primary invite link
+
+      :type: bool
+
+   .. attribute:: is_revoked
+
+      True if the link is revoked
+
+      :type: bool
+
+   .. attribute:: name
+
+      Name of the invite link
+
+      :type: Optional[str]
+
+   .. attribute:: expire_date
+
+      Date when the link will expire
+
+      :type: Optional[int]
+
+   .. attribute:: member_limit
+
+      Maximum number of members
+
+      :type: Optional[int]
+
+   .. attribute:: pending_join_request_count
+
+      Number of pending join requests
+
+      :type: Optional[int]
+
+
+   .. py:attribute:: invite_link
+
+
+   .. py:attribute:: creator
+
+
+   .. py:attribute:: creates_join_request
+
+
+   .. py:attribute:: is_primary
+
+
+   .. py:attribute:: is_revoked
+
+
+   .. py:attribute:: name
+      :value: None
+
+
+
+   .. py:attribute:: expire_date
+      :value: None
+
+
+
+   .. py:attribute:: member_limit
+      :value: None
+
+
+
+   .. py:attribute:: pending_join_request_count
+      :value: None
+
+
+
+   .. py:property:: url
+      :type: str
+
+
+      Get the full URL for the invite link.
+
+

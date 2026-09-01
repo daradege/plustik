@@ -1,0 +1,94 @@
+plustik.objects.replykeyboardmarkup
+===================================
+
+.. py:module:: plustik.objects.replykeyboardmarkup
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.replykeyboardmarkup.ReplyKeyboardMarkup
+
+
+Module Contents
+---------------
+
+.. py:class:: ReplyKeyboardMarkup(*args, resize_keyboard = False, one_time_keyboard = False, input_field_placeholder = None, remove_keyboard = False)
+
+   Represents a custom keyboard with reply options.
+
+   .. attribute:: keyboard
+
+      List of keyboard rows
+
+      :type: list
+
+   .. attribute:: resize_keyboard
+
+      Request clients to resize the keyboard
+
+      :type: bool
+
+   .. attribute:: one_time_keyboard
+
+      Request clients to hide the keyboard after use
+
+      :type: bool
+
+   .. attribute:: input_field_placeholder
+
+      Placeholder text when keyboard is active
+
+      :type: Optional[str]
+
+
+   .. py:attribute:: remove_keyboard
+      :value: False
+
+
+
+   .. py:attribute:: resize_keyboard
+      :value: False
+
+
+
+   .. py:attribute:: one_time_keyboard
+      :value: False
+
+
+
+   .. py:attribute:: input_field_placeholder
+      :value: None
+
+
+
+   .. py:attribute:: keyboard
+      :value: []
+
+
+
+   .. py:method:: add_button(text, request_contact = None, request_location = None, web_app = None)
+
+      Add a button to the current row.
+
+
+
+   .. py:method:: add_row()
+
+      Add a new row for buttons.
+
+
+
+   .. py:method:: to_dict()
+
+      Convert to a dictionary.
+
+
+
+   .. py:property:: json
+      :type: dict
+
+
+

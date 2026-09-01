@@ -1,0 +1,64 @@
+plustik.objects
+===============
+
+.. py:module:: plustik.objects
+
+.. autoapi-nested-parse::
+
+   Objects in Plustik, representing different types of data in Soroush Plus API.
+
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /api/plustik/objects/animation/index
+   /api/plustik/objects/audio/index
+   /api/plustik/objects/botcommand/index
+   /api/plustik/objects/botcommandscope/index
+   /api/plustik/objects/callbackquery/index
+   /api/plustik/objects/chat/index
+   /api/plustik/objects/chatfullinfo/index
+   /api/plustik/objects/chatlocation/index
+   /api/plustik/objects/chatmember/index
+   /api/plustik/objects/chatpermissions/index
+   /api/plustik/objects/chatphoto/index
+   /api/plustik/objects/contact/index
+   /api/plustik/objects/copytextbutton/index
+   /api/plustik/objects/dice/index
+   /api/plustik/objects/document/index
+   /api/plustik/objects/enums/index
+   /api/plustik/objects/file/index
+   /api/plustik/objects/forcereply/index
+   /api/plustik/objects/inlinekeyboardbutton/index
+   /api/plustik/objects/inlinekeyboardmarkup/index
+   /api/plustik/objects/inputfile/index
+   /api/plustik/objects/inputmedias/index
+   /api/plustik/objects/invitelink/index
+   /api/plustik/objects/keyboardbutton/index
+   /api/plustik/objects/location/index
+   /api/plustik/objects/maskposition/index
+   /api/plustik/objects/message/index
+   /api/plustik/objects/messageentity/index
+   /api/plustik/objects/messageid/index
+   /api/plustik/objects/photosize/index
+   /api/plustik/objects/replykeyboardmarkup/index
+   /api/plustik/objects/replykeyboardremove/index
+   /api/plustik/objects/responseparameters/index
+   /api/plustik/objects/sticker/index
+   /api/plustik/objects/stickerset/index
+   /api/plustik/objects/types/index
+   /api/plustik/objects/update/index
+   /api/plustik/objects/user/index
+   /api/plustik/objects/userprofilephotos/index
+   /api/plustik/objects/utils/index
+   /api/plustik/objects/video/index
+   /api/plustik/objects/videonote/index
+   /api/plustik/objects/voice/index
+   /api/plustik/objects/webappdata/index
+   /api/plustik/objects/webappinfo/index
+
+

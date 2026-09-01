@@ -1,0 +1,113 @@
+plustik.objects.callbackquery
+=============================
+
+.. py:module:: plustik.objects.callbackquery
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.callbackquery.CallbackQuery
+
+
+Module Contents
+---------------
+
+.. py:class:: CallbackQuery(id = None, from_user = None, message = None, inline_message_id = None, chat_instance = None, data = None, game_short_name = None, **kwargs)
+
+   Represents a callback query from an inline keyboard button.
+
+   .. attribute:: id
+
+      Unique identifier for this query
+
+      :type: str
+
+   .. attribute:: user
+
+      Sender of the query
+
+      :type: User
+
+   .. attribute:: message
+
+      Message with the callback button
+
+      :type: Optional[Message]
+
+   .. attribute:: inline_message_id
+
+      Identifier of the message sent via the bot in inline mode
+
+      :type: Optional[str]
+
+   .. attribute:: chat_instance
+
+      Chat instance identifier
+
+      :type: Optional[str]
+
+   .. attribute:: data
+
+      Data associated with the callback button
+
+      :type: Optional[str]
+
+   .. attribute:: game_short_name
+
+      Short name of a Game to be returned
+
+      :type: Optional[str]
+
+   .. attribute:: bot
+
+      The client instance
+
+      :type: Client
+
+
+   .. py:attribute:: id
+      :value: None
+
+
+
+   .. py:attribute:: inline_message_id
+      :value: None
+
+
+
+   .. py:attribute:: chat_instance
+      :value: None
+
+
+
+   .. py:attribute:: data
+
+
+   .. py:attribute:: game_short_name
+      :value: None
+
+
+
+   .. py:attribute:: bot
+      :type:  plustik.client.Client
+
+
+   .. py:method:: answer(text = None, show_alert = False, url = None, cache_time = None)
+      :async:
+
+
+      Answer the callback query.
+
+
+
+   .. py:method:: reply(text, reply_to_message_id = None, reply_markup = None)
+      :async:
+
+
+      Reply to the user who sent the callback query.
+
+
+

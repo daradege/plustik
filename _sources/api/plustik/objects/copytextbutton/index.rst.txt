@@ -1,0 +1,31 @@
+plustik.objects.copytextbutton
+==============================
+
+.. py:module:: plustik.objects.copytextbutton
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.copytextbutton.CopyTextButton
+
+
+Module Contents
+---------------
+
+.. py:class:: CopyTextButton(text, **kwargs)
+
+   Represents a copy text button.
+
+   .. attribute:: text
+
+      Text to copy
+
+      :type: str
+
+
+   .. py:attribute:: text
+
+

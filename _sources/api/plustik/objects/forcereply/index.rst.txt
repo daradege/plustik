@@ -1,0 +1,58 @@
+plustik.objects.forcereply
+==========================
+
+.. py:module:: plustik.objects.forcereply
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.forcereply.ForceReply
+
+
+Module Contents
+---------------
+
+.. py:class:: ForceReply(force_reply = True, selective = None, input_field_placeholder = None, **kwargs)
+
+   Upon receiving a message with this object, clients display a reply interface.
+
+   .. attribute:: force_reply
+
+      Shows reply interface to the user
+
+      :type: bool
+
+   .. attribute:: selective
+
+      Force reply only for specific users
+
+      :type: Optional[bool]
+
+   .. attribute:: input_field_placeholder
+
+      Placeholder text in the input field
+
+      :type: Optional[str]
+
+
+   .. py:attribute:: force_reply
+      :value: True
+
+
+
+   .. py:attribute:: selective
+      :value: None
+
+
+
+   .. py:attribute:: input_field_placeholder
+      :value: None
+
+
+
+   .. py:method:: to_dict()
+
+

@@ -1,0 +1,58 @@
+plustik.objects.chatphoto
+=========================
+
+.. py:module:: plustik.objects.chatphoto
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.chatphoto.ChatPhoto
+
+
+Module Contents
+---------------
+
+.. py:class:: ChatPhoto(small_file_id, small_file_unique_id, big_file_id, big_file_unique_id, **kwargs)
+
+   Represents a chat photo.
+
+   .. attribute:: small_file_id
+
+      File identifier of small (160x160) chat photo
+
+      :type: str
+
+   .. attribute:: small_file_unique_id
+
+      Unique identifier of small chat photo
+
+      :type: str
+
+   .. attribute:: big_file_id
+
+      File identifier of big (640x640) chat photo
+
+      :type: str
+
+   .. attribute:: big_file_unique_id
+
+      Unique identifier of big chat photo
+
+      :type: str
+
+
+   .. py:attribute:: small_file_id
+
+
+   .. py:attribute:: small_file_unique_id
+
+
+   .. py:attribute:: big_file_id
+
+
+   .. py:attribute:: big_file_unique_id
+
+

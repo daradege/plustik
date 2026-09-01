@@ -1,0 +1,176 @@
+plustik.filters
+===============
+
+.. py:module:: plustik.filters
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.filters.Filter
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   plustik.filters.equals
+   plustik.filters.startswith
+   plustik.filters.regex
+   plustik.filters.from_users
+   plustik.filters.text
+   plustik.filters.photo
+   plustik.filters.video
+   plustik.filters.audio
+   plustik.filters.voice
+   plustik.filters.document
+   plustik.filters.contact
+   plustik.filters.location
+   plustik.filters.animation
+   plustik.filters.dice
+   plustik.filters.sticker
+   plustik.filters.private
+   plustik.filters.group
+   plustik.filters.channel
+   plustik.filters.reply
+   plustik.filters.forwarded
+   plustik.filters.digit
+   plustik.filters.func
+
+
+Package Contents
+----------------
+
+.. py:class:: Filter(check_func, inv = False)
+
+   Base class for filters.
+
+
+   .. py:attribute:: state
+
+
+   .. py:attribute:: lst
+
+
+   .. py:method:: __invert__()
+
+
+   .. py:method:: __and__(other)
+
+
+   .. py:method:: __call__(event, client=None, *args)
+
+
+.. py:function:: equals(expected_text)
+
+   Check if the event text or caption or callbackQuery data is equal to the expected text.
+
+
+.. py:function:: startswith(expected_text)
+
+   Check if the event text or caption or callbackQuery data starts with the expected text.
+
+
+.. py:function:: regex(pattern)
+
+   Check if the event text or caption matches the given regex pattern.
+
+
+.. py:function:: from_users(allowed_users)
+
+   Check if the event sender is in the allowed users list.
+
+
+.. py:function:: text()
+
+   Check if the event has text.
+
+
+.. py:function:: photo()
+
+   Check if the event has a photo.
+
+
+.. py:function:: video()
+
+   Check if the event has a video.
+
+
+.. py:function:: audio()
+
+   Check if the event has an audio.
+
+
+.. py:function:: voice()
+
+   Check if the event has a voice message.
+
+
+.. py:function:: document()
+
+   Check if the event has a document.
+
+
+.. py:function:: contact()
+
+   Check if the event has a contact.
+
+
+.. py:function:: location()
+
+   Check if the event has a location.
+
+
+.. py:function:: animation()
+
+   Check if the event has an animation.
+
+
+.. py:function:: dice()
+
+   Check if the event has a dice.
+
+
+.. py:function:: sticker()
+
+   Check if the event has a sticker.
+
+
+.. py:function:: private()
+
+   Check if the event is in a private chat.
+
+
+.. py:function:: group()
+
+   Check if the event is in a group chat.
+
+
+.. py:function:: channel()
+
+   Check if the event is in a channel.
+
+
+.. py:function:: reply()
+
+   Check if the event is a reply to a message.
+
+
+.. py:function:: forwarded()
+
+   Check if the event is a forwarded message.
+
+
+.. py:function:: digit()
+
+   Check if the event text or data is numeric.
+
+
+.. py:function:: func(function)
+
+   Create a filter from a custom function.
+
+

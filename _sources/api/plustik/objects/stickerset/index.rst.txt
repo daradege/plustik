@@ -1,0 +1,60 @@
+plustik.objects.stickerset
+==========================
+
+.. py:module:: plustik.objects.stickerset
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.stickerset.StickerSet
+
+
+Module Contents
+---------------
+
+.. py:class:: StickerSet(name, title, stickers, thumb = None, **kwargs)
+
+   Represents a sticker set.
+
+   .. attribute:: name
+
+      Sticker set name
+
+      :type: str
+
+   .. attribute:: title
+
+      Sticker set title
+
+      :type: str
+
+   .. attribute:: stickers
+
+      List of all stickers in the set
+
+      :type: List[Sticker]
+
+   .. attribute:: thumb
+
+      Sticker set thumbnail
+
+      :type: Optional[PhotoSize]
+
+
+   .. py:attribute:: name
+
+
+   .. py:attribute:: title
+
+
+   .. py:attribute:: stickers
+
+
+   .. py:attribute:: thumb
+      :value: None
+
+
+

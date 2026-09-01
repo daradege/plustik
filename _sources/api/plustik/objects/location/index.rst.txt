@@ -1,0 +1,51 @@
+plustik.objects.location
+========================
+
+.. py:module:: plustik.objects.location
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.location.Location
+
+
+Module Contents
+---------------
+
+.. py:class:: Location(latitude, longitude, horizontal_accuracy = None, **kwargs)
+
+   Represents a point on the map.
+
+   .. attribute:: latitude
+
+      Latitude as defined by sender
+
+      :type: float
+
+   .. attribute:: longitude
+
+      Longitude as defined by sender
+
+      :type: float
+
+   .. attribute:: horizontal_accuracy
+
+      The radius of uncertainty for the location
+
+      :type: Optional[float]
+
+
+   .. py:attribute:: latitude
+
+
+   .. py:attribute:: longitude
+
+
+   .. py:attribute:: horizontal_accuracy
+      :value: None
+
+
+

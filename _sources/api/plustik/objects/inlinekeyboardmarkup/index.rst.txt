@@ -1,0 +1,54 @@
+plustik.objects.inlinekeyboardmarkup
+====================================
+
+.. py:module:: plustik.objects.inlinekeyboardmarkup
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.inlinekeyboardmarkup.InlineKeyboardMarkup
+
+
+Module Contents
+---------------
+
+.. py:class:: InlineKeyboardMarkup(*args)
+
+   Represents an inline keyboard.
+
+   .. attribute:: inline_keyboard
+
+      List of keyboard rows
+
+      :type: list
+
+
+   .. py:attribute:: inline_keyboard
+      :type:  list[list[dict]]
+      :value: []
+
+
+
+   .. py:method:: add_button(text, callback_data = None, url = None, web_app = None, copy_text_button = None, **kwargs)
+
+      Add a button to the keyboard.
+
+
+
+   .. py:method:: add_row()
+
+      Add a new row to the keyboard.
+
+
+
+   .. py:method:: to_dict()
+
+
+   .. py:property:: json
+      :type: dict
+
+
+

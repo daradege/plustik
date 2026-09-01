@@ -1,0 +1,316 @@
+plustik.objects.chatmember
+==========================
+
+.. py:module:: plustik.objects.chatmember
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.chatmember.ChatMember
+
+
+Module Contents
+---------------
+
+.. py:class:: ChatMember(user = None, status = None, custom_title = None, is_anonymous = None, can_be_edited = None, can_manage_chat = None, can_delete_messages = None, can_edit_messages = None, can_post_messages = None, can_restrict_members = None, can_promote_members = None, can_change_info = None, can_invite_users = None, can_pin_messages = None, until_date = None, can_send_messages = None, can_send_audios = None, can_send_documents = None, can_send_photos = None, can_send_videos = None, can_send_voice_notes = None, can_send_polls = None, chat = None, client = None, **kwargs)
+
+   Represents a chat member.
+
+   .. attribute:: user
+
+      Information about the user
+
+      :type: User
+
+   .. attribute:: status
+
+      Member's status in the chat
+
+      :type: str
+
+   .. attribute:: custom_title
+
+      Custom title for administrators
+
+      :type: Optional[str]
+
+   .. attribute:: is_anonymous
+
+      True if the user is anonymous
+
+      :type: Optional[bool]
+
+   .. attribute:: can_be_edited
+
+      True if the user can be edited
+
+      :type: Optional[bool]
+
+   .. attribute:: can_manage_chat
+
+      True if the user can manage the chat
+
+      :type: Optional[bool]
+
+   .. attribute:: can_delete_messages
+
+      True if the user can delete messages
+
+      :type: Optional[bool]
+
+   .. attribute:: can_edit_messages
+
+      True if the user can edit messages
+
+      :type: Optional[bool]
+
+   .. attribute:: can_post_messages
+
+      True if the user can post messages
+
+      :type: Optional[bool]
+
+   .. attribute:: can_restrict_members
+
+      True if the user can restrict members
+
+      :type: Optional[bool]
+
+   .. attribute:: can_promote_members
+
+      True if the user can promote members
+
+      :type: Optional[bool]
+
+   .. attribute:: can_change_info
+
+      True if the user can change chat info
+
+      :type: Optional[bool]
+
+   .. attribute:: can_invite_users
+
+      True if the user can invite users
+
+      :type: Optional[bool]
+
+   .. attribute:: can_pin_messages
+
+      True if the user can pin messages
+
+      :type: Optional[bool]
+
+   .. attribute:: until_date
+
+      Date when restrictions will be lifted
+
+      :type: Optional[int]
+
+   .. attribute:: can_send_messages
+
+      True if the user can send messages
+
+      :type: Optional[bool]
+
+   .. attribute:: can_send_audios
+
+      True if the user can send audios
+
+      :type: Optional[bool]
+
+   .. attribute:: can_send_documents
+
+      True if the user can send documents
+
+      :type: Optional[bool]
+
+   .. attribute:: can_send_photos
+
+      True if the user can send photos
+
+      :type: Optional[bool]
+
+   .. attribute:: can_send_videos
+
+      True if the user can send videos
+
+      :type: Optional[bool]
+
+   .. attribute:: can_send_voice_notes
+
+      True if the user can send voice notes
+
+      :type: Optional[bool]
+
+   .. attribute:: can_send_polls
+
+      True if the user can send polls
+
+      :type: Optional[bool]
+
+   .. attribute:: chat
+
+      The chat this member belongs to
+
+      :type: Chat
+
+   .. attribute:: client
+
+      The client instance
+
+      :type: Client
+
+
+   .. py:attribute:: status
+      :value: None
+
+
+
+   .. py:attribute:: custom_title
+      :value: None
+
+
+
+   .. py:attribute:: is_anonymous
+      :value: None
+
+
+
+   .. py:attribute:: can_be_edited
+      :value: None
+
+
+
+   .. py:attribute:: can_manage_chat
+      :value: None
+
+
+
+   .. py:attribute:: can_delete_messages
+      :value: None
+
+
+
+   .. py:attribute:: can_edit_messages
+      :value: None
+
+
+
+   .. py:attribute:: can_post_messages
+      :value: None
+
+
+
+   .. py:attribute:: can_restrict_members
+      :value: None
+
+
+
+   .. py:attribute:: can_promote_members
+      :value: None
+
+
+
+   .. py:attribute:: can_change_info
+      :value: None
+
+
+
+   .. py:attribute:: can_invite_users
+      :value: None
+
+
+
+   .. py:attribute:: can_pin_messages
+      :value: None
+
+
+
+   .. py:attribute:: until_date
+      :value: None
+
+
+
+   .. py:attribute:: can_send_messages
+      :value: None
+
+
+
+   .. py:attribute:: can_send_audios
+      :value: None
+
+
+
+   .. py:attribute:: can_send_documents
+      :value: None
+
+
+
+   .. py:attribute:: can_send_photos
+      :value: None
+
+
+
+   .. py:attribute:: can_send_videos
+      :value: None
+
+
+
+   .. py:attribute:: can_send_voice_notes
+      :value: None
+
+
+
+   .. py:attribute:: can_send_polls
+      :value: None
+
+
+
+   .. py:attribute:: chat
+      :value: None
+
+
+
+   .. py:attribute:: client
+      :value: None
+
+
+
+   .. py:property:: is_admin
+      :type: bool
+
+
+      Check if this member is an administrator.
+
+
+   .. py:property:: is_member
+      :type: bool
+
+
+      Check if this member is a regular member.
+
+
+   .. py:property:: is_restricted
+      :type: bool
+
+
+      Check if this member is restricted.
+
+
+   .. py:property:: is_left
+      :type: bool
+
+
+      Check if this member left the chat.
+
+
+   .. py:property:: is_kicked
+      :type: bool
+
+
+      Check if this member was kicked.
+
+

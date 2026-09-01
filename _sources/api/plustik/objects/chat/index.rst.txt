@@ -1,0 +1,409 @@
+plustik.objects.chat
+====================
+
+.. py:module:: plustik.objects.chat
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.chat.Chat
+
+
+Module Contents
+---------------
+
+.. py:class:: Chat(id = None, type = None, title = None, username = None, first_name = None, last_name = None, photo = None, bio = None, description = None, invite_link = None, pinned_message = None, permissions = None, slow_mode_delay = None, message_auto_delete_time = None, has_protected_content = None, sticker_set_name = None, can_set_sticker_set = None, linked_chat_id = None, location = None, all_members_are_administrators = None, client = None, **kwargs)
+
+   Represents a chat in Soroush Plus.
+
+   .. attribute:: id
+
+      Unique identifier for this chat
+
+      :type: int
+
+   .. attribute:: type
+
+      Type of chat
+
+      :type: ChatType
+
+   .. attribute:: title
+
+      Title for groups and channels
+
+      :type: Optional[str]
+
+   .. attribute:: username
+
+      Username for private chats and channels
+
+      :type: Optional[str]
+
+   .. attribute:: first_name
+
+      First name of the other party in a private chat
+
+      :type: Optional[str]
+
+   .. attribute:: last_name
+
+      Last name of the other party in a private chat
+
+      :type: Optional[str]
+
+   .. attribute:: photo
+
+      Chat photo
+
+      :type: Optional[ChatPhoto]
+
+   .. attribute:: bio
+
+      Bio of the other party in a private chat
+
+      :type: Optional[str]
+
+   .. attribute:: description
+
+      Description for groups, supergroups, and channels
+
+      :type: Optional[str]
+
+   .. attribute:: invite_link
+
+      Primary invite link for groups, supergroups, and channels
+
+      :type: Optional[str]
+
+   .. attribute:: pinned_message
+
+      The most recent pinned message
+
+      :type: Optional[Message]
+
+   .. attribute:: permissions
+
+      Default permissions of all members
+
+      :type: Optional[ChatPermissions]
+
+   .. attribute:: slow_mode_delay
+
+      Minimum delay between messages in supergroups
+
+      :type: Optional[int]
+
+   .. attribute:: message_auto_delete_time
+
+      Auto-delete time for messages
+
+      :type: Optional[int]
+
+   .. attribute:: has_protected_content
+
+      True if chat content can't be forwarded
+
+      :type: Optional[bool]
+
+   .. attribute:: sticker_set_name
+
+      Name of the sticker set for supergroups
+
+      :type: Optional[str]
+
+   .. attribute:: can_set_sticker_set
+
+      True if the bot can change the sticker set
+
+      :type: Optional[bool]
+
+   .. attribute:: linked_chat_id
+
+      Unique identifier for the linked chat
+
+      :type: Optional[int]
+
+   .. attribute:: location
+
+      For supergroups, the linked location
+
+      :type: Optional[ChatLocation]
+
+   .. attribute:: all_members_are_administrators
+
+      True if all members are admins (old groups)
+
+      :type: Optional[bool]
+
+   .. attribute:: client
+
+      Client instance
+
+      :type: Client
+
+
+   .. py:attribute:: id
+      :value: None
+
+
+
+   .. py:attribute:: title
+      :value: None
+
+
+
+   .. py:attribute:: username
+      :value: None
+
+
+
+   .. py:attribute:: first_name
+      :value: None
+
+
+
+   .. py:attribute:: last_name
+      :value: None
+
+
+
+   .. py:attribute:: bio
+      :value: None
+
+
+
+   .. py:attribute:: description
+      :value: None
+
+
+
+   .. py:attribute:: invite_link
+      :value: None
+
+
+
+   .. py:attribute:: slow_mode_delay
+      :value: None
+
+
+
+   .. py:attribute:: message_auto_delete_time
+      :value: None
+
+
+
+   .. py:attribute:: has_protected_content
+      :value: None
+
+
+
+   .. py:attribute:: sticker_set_name
+      :value: None
+
+
+
+   .. py:attribute:: can_set_sticker_set
+      :value: None
+
+
+
+   .. py:attribute:: linked_chat_id
+      :value: None
+
+
+
+   .. py:attribute:: all_members_are_administrators
+      :value: None
+
+
+
+   .. py:attribute:: client
+      :type:  plustik.client.Client
+      :value: None
+
+
+
+   .. py:property:: private
+      :type: bool
+
+
+      Check if this is a private chat.
+
+
+   .. py:property:: group
+      :type: bool
+
+
+      Check if this is a group chat.
+
+
+   .. py:property:: channel
+      :type: bool
+
+
+      Check if this is a channel.
+
+
+   .. py:property:: has_username
+      :type: bool
+
+
+      Check if the chat has a username.
+
+
+   .. py:method:: send_message(text, reply_to_message_id = None, reply_markup = None)
+      :async:
+
+
+      Send a message to the chat.
+
+
+
+   .. py:method:: get_chat_member(user_id)
+      :async:
+
+
+      Get information about a member of the chat.
+
+
+
+   .. py:method:: get_administrators()
+      :async:
+
+
+      Get a list of administrators in the chat.
+
+
+
+   .. py:method:: get_chat_members_count()
+      :async:
+
+
+      Get the number of members in the chat.
+
+
+
+   .. py:method:: send_photo(photo, caption = None, reply_to_message_id = None, reply_markup = None)
+      :async:
+
+
+      Send a photo to the chat.
+
+
+
+   .. py:method:: send_video(video, caption = None, reply_to_message_id = None, reply_markup = None)
+      :async:
+
+
+      Send a video to the chat.
+
+
+
+   .. py:method:: send_audio(audio, caption = None, reply_to_message_id = None, reply_markup = None)
+      :async:
+
+
+      Send an audio file to the chat.
+
+
+
+   .. py:method:: send_document(document, caption = None, reply_to_message_id = None, reply_markup = None)
+      :async:
+
+
+      Send a document to the chat.
+
+
+
+   .. py:method:: send_sticker(sticker, reply_to_message_id = None, reply_markup = None)
+      :async:
+
+
+      Send a sticker to the chat.
+
+
+
+   .. py:method:: send_voice(voice, caption = None, reply_to_message_id = None, reply_markup = None)
+      :async:
+
+
+      Send a voice message to the chat.
+
+
+
+   .. py:method:: send_location(latitude, longitude, horizontal_accuracy = None, reply_to_message_id = None, reply_markup = None)
+      :async:
+
+
+      Send a location to the chat.
+
+
+
+   .. py:method:: send_contact(phone_number, first_name, last_name = None, vcard = None, reply_to_message_id = None, reply_markup = None)
+      :async:
+
+
+      Send a contact to the chat.
+
+
+
+   .. py:method:: send_dice(emoji = None, reply_markup = None)
+      :async:
+
+
+      Send a dice message to the chat.
+
+
+
+   .. py:method:: pin_message(message_id)
+      :async:
+
+
+      Pin a message in the chat.
+
+
+
+   .. py:method:: unpin_message(message_id)
+      :async:
+
+
+      Unpin a message in the chat.
+
+
+
+   .. py:method:: unpin_all_messages()
+      :async:
+
+
+      Unpin all messages in the chat.
+
+
+
+   .. py:method:: leave()
+      :async:
+
+
+      Leave the chat.
+
+
+
+   .. py:method:: delete_message(message_id)
+      :async:
+
+
+      Delete a message in the chat.
+
+
+
+   .. py:method:: send_action(action)
+      :async:
+
+
+      Send an action to the chat.
+
+
+

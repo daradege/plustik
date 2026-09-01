@@ -1,0 +1,139 @@
+plustik.objects.user
+====================
+
+.. py:module:: plustik.objects.user
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.user.User
+
+
+Module Contents
+---------------
+
+.. py:class:: User(id, is_bot, first_name, last_name = None, username = None, language_code = None, can_join_groups = None, can_read_all_group_messages = None, supports_inline_queries = None, **kwargs)
+
+   Represents a user or bot in Soroush Plus.
+
+   .. attribute:: id
+
+      Unique identifier for this user or bot
+
+      :type: int
+
+   .. attribute:: is_bot
+
+      True if this user is a bot
+
+      :type: bool
+
+   .. attribute:: first_name
+
+      User's or bot's first name
+
+      :type: str
+
+   .. attribute:: last_name
+
+      User's or bot's last name
+
+      :type: Optional[str]
+
+   .. attribute:: username
+
+      User's or bot's username
+
+      :type: Optional[str]
+
+   .. attribute:: language_code
+
+      IETF language tag of the user's language
+
+      :type: Optional[str]
+
+   .. attribute:: can_join_groups
+
+      True if the bot can be invited to groups
+
+      :type: Optional[bool]
+
+   .. attribute:: can_read_all_group_messages
+
+      True if privacy mode is disabled
+
+      :type: Optional[bool]
+
+   .. attribute:: supports_inline_queries
+
+      True if the bot supports inline queries
+
+      :type: Optional[bool]
+
+   .. attribute:: client
+
+      The client instance
+
+      :type: Client
+
+
+   .. py:attribute:: id
+
+
+   .. py:attribute:: is_bot
+
+
+   .. py:attribute:: first_name
+
+
+   .. py:attribute:: last_name
+      :value: None
+
+
+
+   .. py:attribute:: username
+      :value: None
+
+
+
+   .. py:attribute:: client
+      :type:  plustik.client.Client
+
+
+   .. py:attribute:: language_code
+      :value: None
+
+
+
+   .. py:attribute:: can_join_groups
+      :value: None
+
+
+
+   .. py:attribute:: can_read_all_group_messages
+      :value: None
+
+
+
+   .. py:attribute:: supports_inline_queries
+      :value: None
+
+
+
+   .. py:property:: full_name
+      :type: str
+
+
+      Get the full name of the user.
+
+
+   .. py:property:: mention
+      :type: str
+
+
+      Get a mention string for this user.
+
+

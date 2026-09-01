@@ -1,0 +1,58 @@
+plustik.objects.update
+======================
+
+.. py:module:: plustik.objects.update
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.update.Update
+
+
+Module Contents
+---------------
+
+.. py:class:: Update(update_id, message = None, edited_message = None, callback_query = None, client=None, **kwargs)
+
+   Represents an incoming update.
+
+   .. attribute:: update_id
+
+      Unique identifier for this update
+
+      :type: int
+
+   .. attribute:: message
+
+      New incoming message
+
+      :type: Optional[Message]
+
+   .. attribute:: edited_message
+
+      New version of an edited message
+
+      :type: Optional[Message]
+
+   .. attribute:: callback_query
+
+      New incoming callback query
+
+      :type: Optional[CallbackQuery]
+
+   .. attribute:: json
+
+      Raw JSON data
+
+      :type: dict
+
+
+   .. py:attribute:: update_id
+
+
+   .. py:attribute:: json
+
+

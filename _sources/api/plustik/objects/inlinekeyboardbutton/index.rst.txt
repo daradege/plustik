@@ -1,0 +1,75 @@
+plustik.objects.inlinekeyboardbutton
+====================================
+
+.. py:module:: plustik.objects.inlinekeyboardbutton
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.inlinekeyboardbutton.InlineKeyboardButton
+
+
+Module Contents
+---------------
+
+.. py:class:: InlineKeyboardButton(text, url = None, callback_data = None, web_app = None, copy_text_button = None, **kwargs)
+
+   Represents a button in an inline keyboard.
+
+   .. attribute:: text
+
+      Button text
+
+      :type: str
+
+   .. attribute:: url
+
+      URL to open when pressed
+
+      :type: Optional[str]
+
+   .. attribute:: callback_data
+
+      Data to send in a callback query
+
+      :type: Optional[str]
+
+   .. attribute:: web_app
+
+      Web app to open when pressed
+
+      :type: Optional[WebAppInfo]
+
+   .. attribute:: copy_text_button
+
+      Text to copy when pressed
+
+      :type: Optional[CopyTextButton]
+
+
+   .. py:attribute:: text
+
+
+   .. py:attribute:: url
+      :value: None
+
+
+
+   .. py:attribute:: callback_data
+      :value: None
+
+
+
+   .. py:attribute:: web_app
+      :value: None
+
+
+
+   .. py:attribute:: copy_text_button
+      :value: None
+
+
+

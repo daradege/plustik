@@ -1,0 +1,63 @@
+plustik.objects.botcommandscope
+===============================
+
+.. py:module:: plustik.objects.botcommandscope
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.botcommandscope.BotCommandScope
+   plustik.objects.botcommandscope.BotCommandScopeDefault
+   plustik.objects.botcommandscope.BotCommandScopeAllPrivateChats
+   plustik.objects.botcommandscope.BotCommandScopeChat
+
+
+Module Contents
+---------------
+
+.. py:class:: BotCommandScope(type, chat_id = None)
+
+   Base class for bot command scopes.
+
+
+   .. py:attribute:: type
+
+
+   .. py:attribute:: chat_id
+      :value: None
+
+
+
+   .. py:method:: to_dict()
+
+
+.. py:class:: BotCommandScopeDefault
+
+   Bases: :py:obj:`BotCommandScope`
+
+
+   Default bot command scope.
+
+
+.. py:class:: BotCommandScopeAllPrivateChats
+
+   Bases: :py:obj:`BotCommandScope`
+
+
+   Scope for all private chats.
+
+
+.. py:class:: BotCommandScopeChat(chat_id)
+
+   Bases: :py:obj:`BotCommandScope`
+
+
+   Scope for a specific chat.
+
+   :param chat_id: Unique identifier for the target chat or username
+   :type chat_id: int or str
+
+

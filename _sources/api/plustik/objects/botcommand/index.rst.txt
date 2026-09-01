@@ -1,0 +1,43 @@
+plustik.objects.botcommand
+==========================
+
+.. py:module:: plustik.objects.botcommand
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.botcommand.BotCommand
+
+
+Module Contents
+---------------
+
+.. py:class:: BotCommand(command, description, **kwargs)
+
+   Represents a bot command.
+
+   .. attribute:: command
+
+      Text of the command
+
+      :type: str
+
+   .. attribute:: description
+
+      Description of the command
+
+      :type: str
+
+
+   .. py:attribute:: command
+
+
+   .. py:attribute:: description
+
+
+   .. py:method:: to_dict()
+
+

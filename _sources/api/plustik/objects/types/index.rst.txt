@@ -1,0 +1,57 @@
+plustik.objects.types
+=====================
+
+.. py:module:: plustik.objects.types
+
+.. autoapi-nested-parse::
+
+   Type aliases used across plustik.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   plustik.objects.types.JSONValue
+   plustik.objects.types.JSONSerializable
+   plustik.objects.types.UpdateType
+   plustik.objects.types.ParseMode
+   plustik.objects.types.ChatMemberStatus
+   plustik.objects.types.ReplyMarkup
+   plustik.objects.types.InputFileType
+   plustik.objects.types.CallbackResult
+   plustik.objects.types.MessageIdType
+   plustik.objects.types.BotCommandScopeType
+   plustik.objects.types.FilterCheckCallable
+   plustik.objects.types.UpdateHandlerCallback
+
+
+Module Contents
+---------------
+
+.. py:data:: JSONValue
+
+.. py:data:: JSONSerializable
+
+.. py:data:: UpdateType
+
+.. py:data:: ParseMode
+
+.. py:data:: ChatMemberStatus
+
+.. py:data:: ReplyMarkup
+
+.. py:data:: InputFileType
+
+.. py:data:: CallbackResult
+
+.. py:data:: MessageIdType
+
+.. py:data:: BotCommandScopeType
+
+.. py:data:: FilterCheckCallable
+
+.. py:data:: UpdateHandlerCallback
+

@@ -1,0 +1,26 @@
+plustik
+=======
+
+.. py:module:: plustik
+
+.. autoapi-nested-parse::
+
+   Plustik - A modern Python wrapper for the Soroush Plus Bot API.
+
+   >>> from plustik import Client
+   >>> bot = Client("YOUR_TOKEN")
+
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /api/plustik/client/index
+   /api/plustik/exceptions/index
+   /api/plustik/filters/index
+   /api/plustik/objects/index
+
+

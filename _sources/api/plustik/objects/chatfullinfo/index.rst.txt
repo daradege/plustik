@@ -1,0 +1,255 @@
+plustik.objects.chatfullinfo
+============================
+
+.. py:module:: plustik.objects.chatfullinfo
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.chatfullinfo.ChatFullInfo
+
+
+Module Contents
+---------------
+
+.. py:class:: ChatFullInfo(id, type, title = None, username = None, first_name = None, last_name = None, photo = None, bio = None, description = None, invite_link = None, pinned_message = None, permissions = None, slow_mode_delay = None, message_auto_delete_time = None, has_protected_content = None, sticker_set_name = None, can_set_sticker_set = None, linked_chat_id = None, location = None, all_members_are_administrators = None, client = None, **kwargs)
+
+   Represents full information about a chat.
+
+   .. attribute:: id
+
+      Unique identifier for this chat
+
+      :type: int
+
+   .. attribute:: type
+
+      Type of chat
+
+      :type: ChatType
+
+   .. attribute:: title
+
+      Title for groups and channels
+
+      :type: Optional[str]
+
+   .. attribute:: username
+
+      Username for private chats and channels
+
+      :type: Optional[str]
+
+   .. attribute:: first_name
+
+      First name of the other party in a private chat
+
+      :type: Optional[str]
+
+   .. attribute:: last_name
+
+      Last name of the other party in a private chat
+
+      :type: Optional[str]
+
+   .. attribute:: photo
+
+      Chat photo
+
+      :type: Optional[ChatPhoto]
+
+   .. attribute:: bio
+
+      Bio of the other party in a private chat
+
+      :type: Optional[str]
+
+   .. attribute:: description
+
+      Description for groups, supergroups, and channels
+
+      :type: Optional[str]
+
+   .. attribute:: invite_link
+
+      Primary invite link for groups, supergroups, and channels
+
+      :type: Optional[str]
+
+   .. attribute:: pinned_message
+
+      The most recent pinned message
+
+      :type: Optional[Message]
+
+   .. attribute:: permissions
+
+      Default permissions of all members
+
+      :type: Optional[ChatPermissions]
+
+   .. attribute:: slow_mode_delay
+
+      Minimum delay between messages in supergroups
+
+      :type: Optional[int]
+
+   .. attribute:: message_auto_delete_time
+
+      Auto-delete time for messages
+
+      :type: Optional[int]
+
+   .. attribute:: has_protected_content
+
+      True if chat content can't be forwarded
+
+      :type: Optional[bool]
+
+   .. attribute:: sticker_set_name
+
+      Name of the sticker set for supergroups
+
+      :type: Optional[str]
+
+   .. attribute:: can_set_sticker_set
+
+      True if the bot can change the sticker set
+
+      :type: Optional[bool]
+
+   .. attribute:: linked_chat_id
+
+      Unique identifier for the linked chat
+
+      :type: Optional[int]
+
+   .. attribute:: location
+
+      For supergroups, the linked location
+
+      :type: Optional[ChatLocation]
+
+   .. attribute:: all_members_are_administrators
+
+      True if all members are admins (old groups)
+
+      :type: Optional[bool]
+
+   .. attribute:: client
+
+      Client instance
+
+      :type: Client
+
+
+   .. py:attribute:: id
+
+
+   .. py:attribute:: title
+      :value: None
+
+
+
+   .. py:attribute:: username
+      :value: None
+
+
+
+   .. py:attribute:: first_name
+      :value: None
+
+
+
+   .. py:attribute:: last_name
+      :value: None
+
+
+
+   .. py:attribute:: bio
+      :value: None
+
+
+
+   .. py:attribute:: description
+      :value: None
+
+
+
+   .. py:attribute:: invite_link
+      :value: None
+
+
+
+   .. py:attribute:: slow_mode_delay
+      :value: None
+
+
+
+   .. py:attribute:: message_auto_delete_time
+      :value: None
+
+
+
+   .. py:attribute:: has_protected_content
+      :value: None
+
+
+
+   .. py:attribute:: sticker_set_name
+      :value: None
+
+
+
+   .. py:attribute:: can_set_sticker_set
+      :value: None
+
+
+
+   .. py:attribute:: linked_chat_id
+      :value: None
+
+
+
+   .. py:attribute:: all_members_are_administrators
+      :value: None
+
+
+
+   .. py:attribute:: client
+      :type:  plustik.client.Client
+      :value: None
+
+
+
+   .. py:property:: full_name
+      :type: str
+
+
+      Get the full name of the chat's user.
+
+
+   .. py:property:: is_private
+      :type: bool
+
+
+      Check if this is a private chat.
+
+
+   .. py:property:: is_group
+      :type: bool
+
+
+      Check if this is a group chat.
+
+
+   .. py:property:: is_channel
+      :type: bool
+
+
+      Check if this is a channel.
+
+

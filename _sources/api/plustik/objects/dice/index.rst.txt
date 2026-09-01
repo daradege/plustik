@@ -1,0 +1,40 @@
+plustik.objects.dice
+====================
+
+.. py:module:: plustik.objects.dice
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.dice.Dice
+
+
+Module Contents
+---------------
+
+.. py:class:: Dice(emoji, value, **kwargs)
+
+   Represents an animated emoji that displays a random value.
+
+   .. attribute:: emoji
+
+      Emoji on which the dice throw animation is based
+
+      :type: str
+
+   .. attribute:: value
+
+      Value of the dice
+
+      :type: int
+
+
+   .. py:attribute:: emoji
+
+
+   .. py:attribute:: value
+
+

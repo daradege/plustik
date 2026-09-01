@@ -1,0 +1,315 @@
+plustik.objects.enums
+=====================
+
+.. py:module:: plustik.objects.enums
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.enums.UpdatesTypes
+   plustik.objects.enums.ChatAction
+   plustik.objects.enums.ChatType
+   plustik.objects.enums.ButtonTypes
+   plustik.objects.enums.KeyboardTypes
+   plustik.objects.enums.MessageEntityType
+
+
+Module Contents
+---------------
+
+.. py:class:: UpdatesTypes(*args, **kwds)
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Types of updates that can be received.
+
+
+   .. py:attribute:: MESSAGE
+      :value: 'message'
+
+
+
+   .. py:attribute:: MESSAGE_EDITED
+      :value: 'message_edited'
+
+
+
+   .. py:attribute:: CALLBACK_QUERY
+      :value: 'callback_query'
+
+
+
+   .. py:attribute:: COMMAND
+      :value: 'command'
+
+
+
+   .. py:attribute:: PHOTO
+      :value: 'photo'
+
+
+
+   .. py:attribute:: UPDATE
+      :value: 'update'
+
+
+
+.. py:class:: ChatAction(*args, **kwds)
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Actions a bot can send to indicate activity.
+
+
+   .. py:attribute:: TYPING
+      :value: 'typing'
+
+
+
+   .. py:attribute:: UPLOAD_PHOTO
+      :value: 'upload_photo'
+
+
+
+   .. py:attribute:: RECORD_VIDEO
+      :value: 'record_video'
+
+
+
+   .. py:attribute:: UPLOAD_VIDEO
+      :value: 'upload_video'
+
+
+
+   .. py:attribute:: RECORD_VOICE
+      :value: 'record_voice'
+
+
+
+   .. py:attribute:: UPLOAD_VOICE
+      :value: 'upload_voice'
+
+
+
+   .. py:attribute:: UPLOAD_DOCUMENT
+      :value: 'upload_document'
+
+
+
+   .. py:attribute:: CHOOSE_STICKER
+      :value: 'choose_sticker'
+
+
+
+   .. py:attribute:: FIND_LOCATION
+      :value: 'find_location'
+
+
+
+   .. py:attribute:: RECORD_VIDEO_NOTE
+      :value: 'record_video_note'
+
+
+
+   .. py:attribute:: UPLOAD_VIDEO_NOTE
+      :value: 'upload_video_note'
+
+
+
+.. py:class:: ChatType(*args, **kwds)
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Types of chats.
+
+
+   .. py:attribute:: PRIVATE
+      :value: 'private'
+
+
+
+   .. py:attribute:: GROUP
+      :value: 'group'
+
+
+
+   .. py:attribute:: SUPERGROUP
+      :value: 'supergroup'
+
+
+
+   .. py:attribute:: CHANNEL
+      :value: 'channel'
+
+
+
+.. py:class:: ButtonTypes(*args, **kwds)
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Types of inline buttons.
+
+
+   .. py:attribute:: CALLBACK
+      :value: 'callback'
+
+
+
+   .. py:attribute:: WEB_APP
+      :value: 'web_app'
+
+
+
+   .. py:attribute:: URL
+      :value: 'url'
+
+
+
+   .. py:attribute:: COPY_TEXT_BUTTON
+      :value: 'copy_text_button'
+
+
+
+.. py:class:: KeyboardTypes(*args, **kwds)
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Types of keyboard buttons.
+
+
+   .. py:attribute:: TEXT
+      :value: 'text'
+
+
+
+   .. py:attribute:: REQUEST_CONTACT
+      :value: 'request_contact'
+
+
+
+   .. py:attribute:: REQUEST_LOCATION
+      :value: 'request_location'
+
+
+
+   .. py:attribute:: WEB_APP
+      :value: 'web_app'
+
+
+
+.. py:class:: MessageEntityType(*args, **kwds)
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Types of message entities.
+
+
+   .. py:attribute:: MENTION
+      :value: 'mention'
+
+
+
+   .. py:attribute:: HASHTAG
+      :value: 'hashtag'
+
+
+
+   .. py:attribute:: CASHTAG
+      :value: 'cashtag'
+
+
+
+   .. py:attribute:: BOT_COMMAND
+      :value: 'bot_command'
+
+
+
+   .. py:attribute:: URL
+      :value: 'url'
+
+
+
+   .. py:attribute:: EMAIL
+      :value: 'email'
+
+
+
+   .. py:attribute:: PHONE_NUMBER
+      :value: 'phone_number'
+
+
+
+   .. py:attribute:: BOLD
+      :value: 'bold'
+
+
+
+   .. py:attribute:: ITALIC
+      :value: 'italic'
+
+
+
+   .. py:attribute:: UNDERLINE
+      :value: 'underline'
+
+
+
+   .. py:attribute:: STRIKETHROUGH
+      :value: 'strikethrough'
+
+
+
+   .. py:attribute:: SPOILER
+      :value: 'spoiler'
+
+
+
+   .. py:attribute:: CODE
+      :value: 'code'
+
+
+
+   .. py:attribute:: PRE
+      :value: 'pre'
+
+
+
+   .. py:attribute:: TEXT_LINK
+      :value: 'text_link'
+
+
+
+   .. py:attribute:: TEXT_MENTION
+      :value: 'text_mention'
+
+
+
+   .. py:attribute:: BLOCKQUOTE
+      :value: 'blockquote'
+
+
+
+   .. py:attribute:: EXPANDABLE_BLOCKQUOTE
+      :value: 'expandable_blockquote'
+
+
+
+   .. py:attribute:: CUSTOM_EMOJI
+      :value: 'custom_emoji'
+
+
+
+   .. py:attribute:: DATE_TIME
+      :value: 'date_time'
+
+
+

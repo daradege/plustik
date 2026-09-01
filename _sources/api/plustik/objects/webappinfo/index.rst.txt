@@ -1,0 +1,34 @@
+plustik.objects.webappinfo
+==========================
+
+.. py:module:: plustik.objects.webappinfo
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.webappinfo.WebAppInfo
+
+
+Module Contents
+---------------
+
+.. py:class:: WebAppInfo(url)
+
+   Represents a Web App.
+
+   .. attribute:: url
+
+      Web App URL
+
+      :type: str
+
+
+   .. py:attribute:: url
+
+
+   .. py:method:: to_dict()
+
+

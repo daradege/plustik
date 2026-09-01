@@ -1,0 +1,819 @@
+plustik.client
+==============
+
+.. py:module:: plustik.client
+
+.. autoapi-nested-parse::
+
+   Async client for the Soroush Plus Bot API.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.client.Client
+
+
+Package Contents
+----------------
+
+.. py:class:: Client(token, base_url = 'https://api.splus.ir/bot')
+
+   Async client for the Soroush Plus Bot API.
+
+   All methods are coroutines and must be awaited.
+
+   Example::
+
+       import asyncio
+       from plustik import Client
+
+       async def main():
+           async with Client("YOUR_TOKEN") as bot:
+               me = await bot.get_me()
+               print(f"Bot: {me.first_name}")
+
+       asyncio.run(main())
+
+   :param token: Bot authentication token.
+   :param base_url: API base URL. Defaults to ``https://api.splus.ir/bot``.
+
+
+   .. py:attribute:: token
+
+
+   .. py:attribute:: base_url
+      :value: 'https://api.splus.ir/bot'
+
+
+
+   .. py:attribute:: requests_base
+
+
+   .. py:attribute:: handlers
+      :type:  list[dict]
+      :value: []
+
+
+
+   .. py:attribute:: running
+      :value: False
+
+
+
+   .. py:attribute:: last_update_id
+      :value: 0
+
+
+
+   .. py:attribute:: me
+      :type:  Optional[plustik.objects.user.User]
+      :value: None
+
+
+
+   .. py:method:: build_api_url(endpoint)
+
+      Build the full API URL for an endpoint.
+
+
+
+   .. py:method:: get_me()
+      :async:
+
+
+      Get basic information about the bot.
+
+      :returns: User object representing the bot.
+
+      :raises InvalidTokenException: If the token is invalid.
+
+
+
+   .. py:method:: log_out()
+      :async:
+
+
+      Log out from the cloud Bot API server.
+
+      :returns: True on success.
+
+
+
+   .. py:method:: close()
+      :async:
+
+
+      Close the bot instance before moving to another server.
+
+      :returns: True on success.
+
+
+
+   .. py:method:: get_updates(offset = None, limit = None, timeout = None, allowed_updates = None)
+      :async:
+
+
+      Get incoming updates using long polling.
+
+      :param offset: Identifier of the first update to be returned.
+      :param limit: Limits the number of updates to be retrieved (1-100).
+      :param timeout: Timeout in seconds for long polling.
+      :param allowed_updates: List of update types to receive.
+
+      :returns: List of Update dictionaries.
+
+
+
+   .. py:method:: set_webhook(url, certificate = None, ip_address = None, max_connections = None, allowed_updates = None, drop_pending_updates = None)
+      :async:
+
+
+      Set a webhook to receive updates via HTTPS POST.
+
+      :param url: HTTPS URL for sending updates.
+      :param certificate: Public key certificate for webhook verification.
+      :param ip_address: Fixed IP address for webhook requests.
+      :param max_connections: Maximum concurrent HTTPS connections (1-100).
+      :param allowed_updates: List of update types to receive.
+      :param drop_pending_updates: Pass True to drop pending updates.
+
+      :returns: True on success.
+
+
+
+   .. py:method:: delete_webhook(drop_pending_updates = None)
+      :async:
+
+
+      Remove the webhook integration.
+
+      :param drop_pending_updates: Pass True to drop pending updates.
+
+      :returns: True on success.
+
+
+
+   .. py:method:: get_webhook_info()
+      :async:
+
+
+      Get current webhook status.
+
+      :returns: Dictionary with webhook information.
+
+
+
+   .. py:method:: send_message(chat_id, text, parse_mode = None, entities = None, reply_to_message_id = None, reply_markup = None, disable_web_page_preview = None, allow_sending_without_reply = None)
+      :async:
+
+
+      Send a text message.
+
+      :param chat_id: Target chat ID or username.
+      :param text: Message text (1-4096 characters).
+      :param parse_mode: Parse mode for entities (``HTML``, ``MarkdownV2``, ``Markdown``).
+      :param entities: List of MessageEntity for special formatting.
+      :param reply_to_message_id: ID of the message to reply to.
+      :param reply_markup: Inline keyboard, reply keyboard, or force reply.
+      :param disable_web_page_preview: Disable link previews.
+      :param allow_sending_without_reply: Send even if reply target is missing.
+
+      :returns: The sent Message object.
+
+
+
+   .. py:method:: forward_message(chat_id, from_chat_id, message_id)
+      :async:
+
+
+      Forward an existing message.
+
+      :param chat_id: Target chat ID.
+      :param from_chat_id: Source chat ID.
+      :param message_id: Message ID in the source chat.
+
+      :returns: The forwarded Message object.
+
+
+
+   .. py:method:: copy_message(chat_id, from_chat_id, message_id, caption = None, parse_mode = None, caption_entities = None, reply_markup = None)
+      :async:
+
+
+      Copy a message without a forward link.
+
+      :param chat_id: Target chat ID.
+      :param from_chat_id: Source chat ID.
+      :param message_id: Message ID in the source chat.
+      :param caption: New caption for the message.
+      :param parse_mode: Parse mode for caption.
+      :param caption_entities: Entities for the caption.
+      :param reply_markup: Additional reply markup.
+
+      :returns: MessageId of the sent message.
+
+
+
+   .. py:method:: send_photo(chat_id, photo, caption = None, parse_mode = None, caption_entities = None, reply_to_message_id = None, reply_markup = None)
+      :async:
+
+
+      Send a photo.
+
+      :param chat_id: Target chat ID.
+      :param photo: Photo as file_id, URL, or InputFile.
+      :param caption: Photo caption (0-1024 characters).
+      :param parse_mode: Parse mode for caption.
+      :param caption_entities: Entities for the caption.
+      :param reply_to_message_id: Message ID to reply to.
+      :param reply_markup: Additional reply markup.
+
+      :returns: The sent Message object.
+
+
+
+   .. py:method:: send_audio(chat_id, audio, caption = None, parse_mode = None, caption_entities = None, duration = None, performer = None, title = None, thumb = None, reply_to_message_id = None, reply_markup = None)
+      :async:
+
+
+      Send an audio file (MP3/M4A).
+
+      :param chat_id: Target chat ID.
+      :param audio: Audio as file_id, URL, or InputFile.
+      :param caption: Audio caption.
+      :param parse_mode: Parse mode for caption.
+      :param caption_entities: Entities for the caption.
+      :param duration: Duration in seconds.
+      :param performer: Performer name.
+      :param title: Track title.
+      :param thumb: Thumbnail image (JPEG, <200kB).
+      :param reply_to_message_id: Message ID to reply to.
+      :param reply_markup: Additional reply markup.
+
+      :returns: The sent Message object.
+
+
+
+   .. py:method:: send_document(chat_id, document, caption = None, parse_mode = None, caption_entities = None, thumb = None, disable_content_type_detection = None, reply_to_message_id = None, reply_markup = None)
+      :async:
+
+
+      Send a general file.
+
+      :param chat_id: Target chat ID.
+      :param document: Document as file_id, URL, or InputFile.
+      :param caption: Document caption.
+      :param parse_mode: Parse mode for caption.
+      :param caption_entities: Entities for the caption.
+      :param thumb: Thumbnail image.
+      :param disable_content_type_detection: Disable server-side content type detection.
+      :param reply_to_message_id: Message ID to reply to.
+      :param reply_markup: Additional reply markup.
+
+      :returns: The sent Message object.
+
+
+
+   .. py:method:: send_video(chat_id, video, caption = None, parse_mode = None, caption_entities = None, duration = None, width = None, height = None, thumb = None, supports_streaming = None, reply_to_message_id = None, reply_markup = None)
+      :async:
+
+
+      Send a video file (MPEG4).
+
+      :param chat_id: Target chat ID.
+      :param video: Video as file_id, URL, or InputFile.
+      :param caption: Video caption.
+      :param parse_mode: Parse mode for caption.
+      :param caption_entities: Entities for the caption.
+      :param duration: Duration in seconds.
+      :param width: Video width.
+      :param height: Video height.
+      :param thumb: Thumbnail image.
+      :param supports_streaming: Whether the video is suitable for streaming.
+      :param reply_to_message_id: Message ID to reply to.
+      :param reply_markup: Additional reply markup.
+
+      :returns: The sent Message object.
+
+
+
+   .. py:method:: send_animation(chat_id, animation, caption = None, parse_mode = None, caption_entities = None, duration = None, width = None, height = None, thumb = None, reply_to_message_id = None, reply_markup = None)
+      :async:
+
+
+      Send an animation (GIF).
+
+      :param chat_id: Target chat ID.
+      :param animation: Animation as file_id, URL, or InputFile.
+      :param caption: Animation caption.
+      :param parse_mode: Parse mode for caption.
+      :param caption_entities: Entities for the caption.
+      :param duration: Duration in seconds.
+      :param width: Animation width.
+      :param height: Animation height.
+      :param thumb: Thumbnail image.
+      :param reply_to_message_id: Message ID to reply to.
+      :param reply_markup: Additional reply markup.
+
+      :returns: The sent Message object.
+
+
+
+   .. py:method:: send_voice(chat_id, voice, caption = None, parse_mode = None, caption_entities = None, duration = None, reply_to_message_id = None, reply_markup = None)
+      :async:
+
+
+      Send a voice message (OGG/MP3/M4A).
+
+      :param chat_id: Target chat ID.
+      :param voice: Voice as file_id, URL, or InputFile.
+      :param caption: Voice caption.
+      :param parse_mode: Parse mode for caption.
+      :param caption_entities: Entities for the caption.
+      :param duration: Duration in seconds.
+      :param reply_to_message_id: Message ID to reply to.
+      :param reply_markup: Additional reply markup.
+
+      :returns: The sent Message object.
+
+
+
+   .. py:method:: send_video_note(chat_id, video_note, duration = None, length = None, thumb = None, reply_to_message_id = None, reply_markup = None)
+      :async:
+
+
+      Send a round video note.
+
+      :param chat_id: Target chat ID.
+      :param video_note: Video note as file_id or InputFile.
+      :param duration: Duration in seconds.
+      :param length: Video diameter in pixels.
+      :param thumb: Thumbnail image.
+      :param reply_to_message_id: Message ID to reply to.
+      :param reply_markup: Additional reply markup.
+
+      :returns: The sent Message object.
+
+
+
+   .. py:method:: send_media_group(chat_id, media, reply_to_message_id = None)
+      :async:
+
+
+      Send a group of photos, videos, documents, or audios as an album.
+
+      :param chat_id: Target chat ID.
+      :param media: List of 2-10 InputMedia objects.
+      :param reply_to_message_id: Message ID to reply to.
+
+      :returns: List of sent Message objects.
+
+
+
+   .. py:method:: send_location(chat_id, latitude, longitude, horizontal_accuracy = None, reply_to_message_id = None, reply_markup = None)
+      :async:
+
+
+      Send a point on the map.
+
+      :param chat_id: Target chat ID.
+      :param latitude: Latitude of the location.
+      :param longitude: Longitude of the location.
+      :param horizontal_accuracy: Uncertainty radius in meters (0-1500).
+      :param reply_to_message_id: Message ID to reply to.
+      :param reply_markup: Additional reply markup.
+
+      :returns: The sent Message object.
+
+
+
+   .. py:method:: send_contact(chat_id, phone_number, first_name, last_name = None, vcard = None, reply_to_message_id = None, reply_markup = None)
+      :async:
+
+
+      Send a phone contact.
+
+      :param chat_id: Target chat ID.
+      :param phone_number: Contact's phone number.
+      :param first_name: Contact's first name.
+      :param last_name: Contact's last name.
+      :param vcard: Additional data in vCard format.
+      :param reply_to_message_id: Message ID to reply to.
+      :param reply_markup: Additional reply markup.
+
+      :returns: The sent Message object.
+
+
+
+   .. py:method:: send_dice(chat_id, emoji = None, reply_to_message_id = None, reply_markup = None)
+      :async:
+
+
+      Send an animated emoji with a random value.
+
+      :param chat_id: Target chat ID.
+      :param emoji: Emoji for the dice animation.
+      :param reply_to_message_id: Message ID to reply to.
+      :param reply_markup: Additional reply markup.
+
+      :returns: The sent Message object.
+
+
+
+   .. py:method:: send_sticker(chat_id, sticker, reply_to_message_id = None, reply_markup = None)
+      :async:
+
+
+      Send a sticker.
+
+      :param chat_id: Target chat ID.
+      :param sticker: Sticker as file_id, URL, InputFile, or Sticker object.
+      :param reply_to_message_id: Message ID to reply to.
+      :param reply_markup: Additional reply markup.
+
+      :returns: The sent Message object.
+
+
+
+   .. py:method:: get_sticker_set(name)
+      :async:
+
+
+      Get information about a sticker set.
+
+      :param name: Name of the sticker set.
+
+      :returns: StickerSet object.
+
+
+
+   .. py:method:: send_chat_action(chat_id, action)
+      :async:
+
+
+      Send a chat action (typing, uploading, etc.).
+
+      :param chat_id: Target chat ID.
+      :param action: The action to indicate.
+
+      :returns: True on success.
+
+
+
+   .. py:method:: get_user_profile_photos(user_id, offset = None, limit = None)
+      :async:
+
+
+      Get a user's profile photos.
+
+      :param user_id: Target user ID.
+      :param offset: Sequential number of the first photo to return.
+      :param limit: Maximum number of photos to return (1-100).
+
+      :returns: UserProfilePhotos object.
+
+
+
+   .. py:method:: get_file(file_id)
+      :async:
+
+
+      Get basic info about a file and prepare it for download.
+
+      :param file_id: File identifier.
+
+      :returns: File object with download path.
+
+
+
+   .. py:method:: pin_chat_message(chat_id, message_id)
+      :async:
+
+
+      Pin a message in a chat.
+
+      :param chat_id: Target chat ID.
+      :param message_id: Message ID to pin.
+
+      :returns: True on success.
+
+
+
+   .. py:method:: unpin_chat_message(chat_id, message_id = None)
+      :async:
+
+
+      Unpin a message in a chat.
+
+      :param chat_id: Target chat ID.
+      :param message_id: Message ID to unpin. If omitted, unpins the most recent pinned message.
+
+      :returns: True on success.
+
+
+
+   .. py:method:: unpin_all_chat_messages(chat_id)
+      :async:
+
+
+      Unpin all pinned messages in a chat.
+
+      :param chat_id: Target chat ID.
+
+      :returns: True on success.
+
+
+
+   .. py:method:: get_chat(chat_id)
+      :async:
+
+
+      Get full information about a chat.
+
+      :param chat_id: Target chat ID or username.
+
+      :returns: ChatFullInfo object.
+
+
+
+   .. py:method:: answer_callback_query(callback_query_id, text = None, show_alert = None, url = None, cache_time = None)
+      :async:
+
+
+      Answer a callback query.
+
+      :param callback_query_id: Callback query identifier.
+      :param text: Text to display as a notification.
+      :param show_alert: Show an alert instead of a notification.
+      :param url: URL to open when the button is pressed.
+      :param cache_time: Maximum time in seconds the result may be cached.
+
+      :returns: True on success.
+
+
+
+   .. py:method:: edit_message_text(chat_id = None, message_id = None, text = None, parse_mode = None, entities = None, reply_markup = None, disable_web_page_preview = None)
+      :async:
+
+
+      Edit the text of a message.
+
+      :param chat_id: Chat ID (required for non-inline messages).
+      :param message_id: Message ID (required for non-inline messages).
+      :param text: New message text.
+      :param parse_mode: Parse mode for entities.
+      :param entities: List of MessageEntity.
+      :param reply_markup: New inline keyboard markup.
+      :param disable_web_page_preview: Disable link previews.
+
+      :returns: Updated Message or True if edited inline.
+
+
+
+   .. py:method:: edit_message_caption(chat_id = None, message_id = None, caption = None, parse_mode = None, caption_entities = None, reply_markup = None)
+      :async:
+
+
+      Edit the caption of a message.
+
+      :param chat_id: Chat ID.
+      :param message_id: Message ID.
+      :param caption: New caption.
+      :param parse_mode: Parse mode for caption.
+      :param caption_entities: List of MessageEntity.
+      :param reply_markup: New inline keyboard markup.
+
+      :returns: Updated Message or True.
+
+
+
+   .. py:method:: edit_message_media(media, chat_id = None, message_id = None, reply_markup = None)
+      :async:
+
+
+      Edit the media content of a message.
+
+      :param media: New media content.
+      :param chat_id: Chat ID.
+      :param message_id: Message ID.
+      :param reply_markup: New inline keyboard markup.
+
+      :returns: Updated Message or True.
+
+
+
+   .. py:method:: edit_message_reply_markup(chat_id = None, message_id = None, reply_markup = None)
+      :async:
+
+
+      Edit the inline keyboard markup of a message.
+
+      :param chat_id: Chat ID.
+      :param message_id: Message ID.
+      :param reply_markup: New inline keyboard markup.
+
+      :returns: Updated Message or True.
+
+
+
+   .. py:method:: delete_message(chat_id, message_id)
+      :async:
+
+
+      Delete a message.
+
+      :param chat_id: Target chat ID.
+      :param message_id: Message ID to delete.
+
+      :returns: True on success.
+
+
+
+   .. py:method:: set_my_commands(commands, scope = None, language_code = None)
+      :async:
+
+
+      Set the bot's command list.
+
+      :param commands: List of BotCommand objects.
+      :param scope: Scope for the commands.
+      :param language_code: Language code for localization.
+
+      :returns: True on success.
+
+
+
+   .. py:method:: delete_my_commands(scope = None, language_code = None)
+      :async:
+
+
+      Delete the bot's command list.
+
+      :param scope: Scope for the commands.
+      :param language_code: Language code.
+
+      :returns: True on success.
+
+
+
+   .. py:method:: get_my_commands(scope = None, language_code = None)
+      :async:
+
+
+      Get the current list of the bot's commands.
+
+      :param scope: Scope for the commands.
+      :param language_code: Language code.
+
+      :returns: List of BotCommand objects.
+
+
+
+   .. py:method:: wait_for(update_type, check = None, timeout = None)
+      :async:
+
+
+      Wait for a specific update matching a condition.
+
+      :param update_type: Type of update to wait for.
+      :param check: Optional filter function.
+      :param timeout: Timeout in seconds. None means wait forever.
+
+      :returns: The matching event.
+
+      :raises asyncio.TimeoutError: If timeout expires.
+
+
+
+   .. py:method:: process_update(update)
+      :async:
+
+
+      Process a single update and dispatch to handlers.
+
+
+
+   .. py:method:: on_command(command, *filters)
+
+      Register a command handler.
+
+      Example::
+
+          @bot.on_command("start")
+          async def start(msg: Message):
+              await msg.reply("Hello!")
+
+      :param command: Command name (without /).
+      :param \*filters: Filter functions to apply.
+
+
+
+   .. py:method:: on_message(*filters)
+
+      Register a message handler.
+
+      Example::
+
+          @bot.on_message()
+          async def handler(msg: Message):
+              await msg.reply(msg.text)
+
+      :param \*filters: Filter functions to apply.
+
+
+
+   .. py:method:: on_edited_message(*filters)
+
+      Register an edited message handler.
+
+
+
+   .. py:method:: on_callback_query(*filters)
+
+      Register a callback query handler.
+
+      Example::
+
+          @bot.on_callback_query()
+          async def callback(cb: CallbackQuery):
+              await cb.answer("OK")
+
+      :param \*filters: Filter functions to apply.
+
+
+
+   .. py:method:: on_update(*filters)
+
+      Register a handler for all update types.
+
+
+
+   .. py:method:: add_handler(update_type, callback, *filters, **kwargs)
+
+      Manually register a handler.
+
+
+
+   .. py:method:: remove_handler(callback)
+
+      Remove a specific handler.
+
+
+
+   .. py:method:: remove_all_handlers()
+
+      Remove all registered handlers.
+
+
+
+   .. py:method:: start_polling(timeout = 30, limit = 100)
+      :async:
+
+
+      Start long-polling for updates.
+
+      This is the main loop that fetches and processes updates.
+
+      :param timeout: Long-polling timeout in seconds.
+      :param limit: Maximum updates per request (1-100).
+
+
+
+   .. py:method:: stop()
+      :async:
+
+
+      Stop the polling loop.
+
+
+
+   .. py:method:: handle_webhook_update(update_data)
+      :async:
+
+
+      Process an update received via webhook.
+
+      :param update_data: Raw update dictionary from the webhook POST body.
+
+
+
+   .. py:method:: __aenter__()
+      :async:
+
+
+      Enter async context manager: fetches bot info.
+
+
+
+   .. py:method:: __aexit__(exc_type, exc_val, exc_tb)
+      :async:
+
+
+      Exit async context manager: stops polling.
+
+
+

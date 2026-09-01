@@ -1,0 +1,47 @@
+plustik.objects.replykeyboardremove
+===================================
+
+.. py:module:: plustik.objects.replykeyboardremove
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.replykeyboardremove.ReplyKeyboardRemove
+
+
+Module Contents
+---------------
+
+.. py:class:: ReplyKeyboardRemove(remove_keyboard = True, selective = None, **kwargs)
+
+   Upon receiving a message with this object, clients remove the current custom keyboard.
+
+   .. attribute:: remove_keyboard
+
+      Requests clients to remove the custom keyboard
+
+      :type: bool
+
+   .. attribute:: selective
+
+      Remove keyboard only for specific users
+
+      :type: Optional[bool]
+
+
+   .. py:attribute:: remove_keyboard
+      :value: True
+
+
+
+   .. py:attribute:: selective
+      :value: None
+
+
+
+   .. py:method:: to_dict()
+
+

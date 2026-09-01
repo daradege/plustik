@@ -1,0 +1,31 @@
+plustik.objects.webappdata
+==========================
+
+.. py:module:: plustik.objects.webappdata
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.webappdata.WebAppData
+
+
+Module Contents
+---------------
+
+.. py:class:: WebAppData(data)
+
+   Represents data from a Web App.
+
+   .. attribute:: data
+
+      The data
+
+      :type: str
+
+
+   .. py:attribute:: data
+
+

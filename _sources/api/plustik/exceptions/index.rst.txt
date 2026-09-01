@@ -1,0 +1,15 @@
+plustik.exceptions
+==================
+
+.. py:module:: plustik.exceptions
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /api/plustik/exceptions/common/index
+
+

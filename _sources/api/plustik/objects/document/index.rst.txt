@@ -1,0 +1,84 @@
+plustik.objects.document
+========================
+
+.. py:module:: plustik.objects.document
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.document.Document
+
+
+Module Contents
+---------------
+
+.. py:class:: Document(file_id, file_unique_id, thumb = None, file_name = None, mime_type = None, file_size = None, **kwargs)
+
+   Represents a general file.
+
+   .. attribute:: file_id
+
+      Identifier for this file
+
+      :type: str
+
+   .. attribute:: file_unique_id
+
+      Unique identifier for this file
+
+      :type: str
+
+   .. attribute:: thumb
+
+      Document thumbnail
+
+      :type: Optional[PhotoSize]
+
+   .. attribute:: file_name
+
+      Original filename
+
+      :type: Optional[str]
+
+   .. attribute:: mime_type
+
+      MIME type of the file
+
+      :type: Optional[str]
+
+   .. attribute:: file_size
+
+      File size in bytes
+
+      :type: Optional[int]
+
+
+   .. py:attribute:: file_id
+
+
+   .. py:attribute:: file_unique_id
+
+
+   .. py:attribute:: thumb
+      :value: None
+
+
+
+   .. py:attribute:: file_name
+      :value: None
+
+
+
+   .. py:attribute:: mime_type
+      :value: None
+
+
+
+   .. py:attribute:: file_size
+      :value: None
+
+
+

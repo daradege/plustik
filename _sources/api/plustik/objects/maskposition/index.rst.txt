@@ -1,0 +1,58 @@
+plustik.objects.maskposition
+============================
+
+.. py:module:: plustik.objects.maskposition
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.maskposition.MaskPosition
+
+
+Module Contents
+---------------
+
+.. py:class:: MaskPosition(point, x_shift, y_shift, scale, **kwargs)
+
+   Describes the position where the mask is placed in a sticker.
+
+   .. attribute:: point
+
+      The part of the user's face to which the mask is attached
+
+      :type: str
+
+   .. attribute:: x_shift
+
+      Shift by the horizontal axis relative to the chosen part
+
+      :type: float
+
+   .. attribute:: y_shift
+
+      Shift by the vertical axis relative to the chosen part
+
+      :type: float
+
+   .. attribute:: scale
+
+      Mask scaling coefficient
+
+      :type: float
+
+
+   .. py:attribute:: point
+
+
+   .. py:attribute:: x_shift
+
+
+   .. py:attribute:: y_shift
+
+
+   .. py:attribute:: scale
+
+

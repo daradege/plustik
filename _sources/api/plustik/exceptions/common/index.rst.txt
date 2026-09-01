@@ -1,0 +1,88 @@
+plustik.exceptions.common
+=========================
+
+.. py:module:: plustik.exceptions.common
+
+
+Exceptions
+----------
+
+.. autoapisummary::
+
+   plustik.exceptions.common.PlustikException
+   plustik.exceptions.common.InvalidTokenException
+   plustik.exceptions.common.NotFoundException
+   plustik.exceptions.common.ForbiddenException
+   plustik.exceptions.common.InternalServerException
+   plustik.exceptions.common.TimeoutException
+   plustik.exceptions.common.ConflictException
+   plustik.exceptions.common.RateLimitException
+
+
+Module Contents
+---------------
+
+.. py:exception:: PlustikException
+
+   Bases: :py:obj:`Exception`
+
+
+   Base exception for all Plustik errors.
+
+
+.. py:exception:: InvalidTokenException
+
+   Bases: :py:obj:`PlustikException`
+
+
+   Raised when the provided token is invalid.
+
+
+.. py:exception:: NotFoundException
+
+   Bases: :py:obj:`PlustikException`
+
+
+   Raised when a requested resource is not found (404).
+
+
+.. py:exception:: ForbiddenException
+
+   Bases: :py:obj:`PlustikException`
+
+
+   Raised when access is forbidden (403).
+
+
+.. py:exception:: InternalServerException
+
+   Bases: :py:obj:`PlustikException`
+
+
+   Raised when the server returns a 500 error.
+
+
+.. py:exception:: TimeoutException
+
+   Bases: :py:obj:`PlustikException`
+
+
+   Raised when an operation times out.
+
+
+.. py:exception:: ConflictException
+
+   Bases: :py:obj:`PlustikException`
+
+
+   Raised when there is a conflict (409).
+
+
+.. py:exception:: RateLimitException
+
+   Bases: :py:obj:`PlustikException`
+
+
+   Raised when rate limit is exceeded (429).
+
+

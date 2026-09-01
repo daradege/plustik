@@ -1,0 +1,154 @@
+plustik.objects.sticker
+=======================
+
+.. py:module:: plustik.objects.sticker
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.sticker.Sticker
+
+
+Module Contents
+---------------
+
+.. py:class:: Sticker(file_id, file_unique_id, width, height, is_animated, is_video, type = None, thumb = None, emoji = None, set_name = None, premium_animation = None, mask_position = None, custom_emoji_id = None, file_size = None, **kwargs)
+
+   Represents a sticker.
+
+   .. attribute:: file_id
+
+      Identifier for this file
+
+      :type: str
+
+   .. attribute:: file_unique_id
+
+      Unique identifier for this file
+
+      :type: str
+
+   .. attribute:: width
+
+      Sticker width
+
+      :type: int
+
+   .. attribute:: height
+
+      Sticker height
+
+      :type: int
+
+   .. attribute:: is_animated
+
+      True if the sticker is animated
+
+      :type: bool
+
+   .. attribute:: is_video
+
+      True if the sticker is a video sticker
+
+      :type: bool
+
+   .. attribute:: type
+
+      Type of sticker
+
+      :type: Optional[str]
+
+   .. attribute:: thumb
+
+      Sticker thumbnail
+
+      :type: Optional[PhotoSize]
+
+   .. attribute:: emoji
+
+      Associated emoji
+
+      :type: Optional[str]
+
+   .. attribute:: set_name
+
+      Name of the sticker set
+
+      :type: Optional[str]
+
+   .. attribute:: premium_animation
+
+      Premium animation for the sticker
+
+      :type: Optional[dict]
+
+   .. attribute:: mask_position
+
+      Position where the mask is placed
+
+      :type: Optional[MaskPosition]
+
+   .. attribute:: custom_emoji_id
+
+      Custom emoji identifier
+
+      :type: Optional[str]
+
+   .. attribute:: file_size
+
+      File size in bytes
+
+      :type: Optional[int]
+
+
+   .. py:attribute:: file_id
+
+
+   .. py:attribute:: file_unique_id
+
+
+   .. py:attribute:: width
+
+
+   .. py:attribute:: height
+
+
+   .. py:attribute:: is_animated
+
+
+   .. py:attribute:: is_video
+
+
+   .. py:attribute:: type
+      :value: None
+
+
+
+   .. py:attribute:: emoji
+      :value: None
+
+
+
+   .. py:attribute:: set_name
+      :value: None
+
+
+
+   .. py:attribute:: premium_animation
+      :value: None
+
+
+
+   .. py:attribute:: custom_emoji_id
+      :value: None
+
+
+
+   .. py:attribute:: file_size
+      :value: None
+
+
+

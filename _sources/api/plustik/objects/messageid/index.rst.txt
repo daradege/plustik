@@ -1,0 +1,31 @@
+plustik.objects.messageid
+=========================
+
+.. py:module:: plustik.objects.messageid
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.messageid.MessageId
+
+
+Module Contents
+---------------
+
+.. py:class:: MessageId(message_id)
+
+   Represents a message identifier.
+
+   .. attribute:: message_id
+
+      The message identifier
+
+      :type: int
+
+
+   .. py:attribute:: message_id
+
+

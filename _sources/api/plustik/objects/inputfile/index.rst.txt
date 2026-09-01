@@ -1,0 +1,50 @@
+plustik.objects.inputfile
+=========================
+
+.. py:module:: plustik.objects.inputfile
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.inputfile.InputFile
+
+
+Module Contents
+---------------
+
+.. py:class:: InputFile(file_input, *, file_name = None)
+
+   Represents a file to be uploaded.
+
+   .. attribute:: file_input
+
+      The file content
+
+      :type: bytes
+
+   .. attribute:: file_name
+
+      The filename
+
+      :type: Optional[str]
+
+
+   .. py:attribute:: file_input
+      :type:  bytes
+
+
+   .. py:attribute:: file_name
+      :type:  Optional[str]
+      :value: None
+
+
+
+   .. py:method:: __del__()
+
+
+   .. py:method:: close()
+
+

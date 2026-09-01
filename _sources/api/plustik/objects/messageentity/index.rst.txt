@@ -1,0 +1,74 @@
+plustik.objects.messageentity
+=============================
+
+.. py:module:: plustik.objects.messageentity
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.messageentity.MessageEntity
+
+
+Module Contents
+---------------
+
+.. py:class:: MessageEntity(type, offset, length, url = None, user = None, language = None, **kwargs)
+
+   Represents a special entity in a message text.
+
+   .. attribute:: type
+
+      Type of the entity
+
+      :type: MessageEntityType
+
+   .. attribute:: offset
+
+      Offset in UTF-16 code units to the start of the entity
+
+      :type: int
+
+   .. attribute:: length
+
+      Length of the entity in UTF-16 code units
+
+      :type: int
+
+   .. attribute:: url
+
+      URL for text_link entities
+
+      :type: Optional[str]
+
+   .. attribute:: user
+
+      User for text_mention entities
+
+      :type: Optional[User]
+
+   .. attribute:: language
+
+      Programming language for pre entities
+
+      :type: Optional[str]
+
+
+   .. py:attribute:: offset
+
+
+   .. py:attribute:: length
+
+
+   .. py:attribute:: url
+      :value: None
+
+
+
+   .. py:attribute:: language
+      :value: None
+
+
+

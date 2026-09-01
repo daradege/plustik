@@ -1,0 +1,73 @@
+plustik.objects.contact
+=======================
+
+.. py:module:: plustik.objects.contact
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.contact.Contact
+
+
+Module Contents
+---------------
+
+.. py:class:: Contact(phone_number, first_name, last_name = None, user_id = None, vcard = None, **kwargs)
+
+   Represents a phone contact.
+
+   .. attribute:: phone_number
+
+      Contact's phone number
+
+      :type: str
+
+   .. attribute:: first_name
+
+      Contact's first name
+
+      :type: str
+
+   .. attribute:: last_name
+
+      Contact's last name
+
+      :type: Optional[str]
+
+   .. attribute:: user_id
+
+      Contact's user ID
+
+      :type: Optional[int]
+
+   .. attribute:: vcard
+
+      Additional data as a vCard
+
+      :type: Optional[str]
+
+
+   .. py:attribute:: phone_number
+
+
+   .. py:attribute:: first_name
+
+
+   .. py:attribute:: last_name
+      :value: None
+
+
+
+   .. py:attribute:: user_id
+      :value: None
+
+
+
+   .. py:attribute:: vcard
+      :value: None
+
+
+

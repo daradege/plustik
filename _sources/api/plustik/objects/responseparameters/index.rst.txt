@@ -1,0 +1,33 @@
+plustik.objects.responseparameters
+==================================
+
+.. py:module:: plustik.objects.responseparameters
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.responseparameters.ResponseParameters
+
+
+Module Contents
+---------------
+
+.. py:class:: ResponseParameters(retry_after = None, **kwargs)
+
+   Describes why a request was unsuccessful.
+
+   .. attribute:: retry_after
+
+      Number of seconds to wait before retrying
+
+      :type: Optional[int]
+
+
+   .. py:attribute:: retry_after
+      :value: None
+
+
+

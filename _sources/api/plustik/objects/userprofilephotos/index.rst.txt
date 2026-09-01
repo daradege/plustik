@@ -1,0 +1,40 @@
+plustik.objects.userprofilephotos
+=================================
+
+.. py:module:: plustik.objects.userprofilephotos
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.userprofilephotos.UserProfilePhotos
+
+
+Module Contents
+---------------
+
+.. py:class:: UserProfilePhotos(total_count, photos, **kwargs)
+
+   Represents a user's profile photos.
+
+   .. attribute:: total_count
+
+      Total number of profile photos
+
+      :type: int
+
+   .. attribute:: photos
+
+      Requested profile photos
+
+      :type: List[List[PhotoSize]]
+
+
+   .. py:attribute:: total_count
+
+
+   .. py:attribute:: photos
+
+

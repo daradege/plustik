@@ -1,0 +1,64 @@
+plustik.objects.keyboardbutton
+==============================
+
+.. py:module:: plustik.objects.keyboardbutton
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.keyboardbutton.KeyboardButton
+
+
+Module Contents
+---------------
+
+.. py:class:: KeyboardButton(text, request_contact = False, request_location = False, web_app = None, **kwargs)
+
+   Represents a button in a reply keyboard.
+
+   .. attribute:: text
+
+      Button text
+
+      :type: str
+
+   .. attribute:: request_contact
+
+      If True, the user's phone number will be sent
+
+      :type: bool
+
+   .. attribute:: request_location
+
+      If True, the user's location will be sent
+
+      :type: bool
+
+   .. attribute:: web_app
+
+      Web app to open when pressed
+
+      :type: Optional[WebAppInfo]
+
+
+   .. py:attribute:: text
+
+
+   .. py:attribute:: request_contact
+      :value: False
+
+
+
+   .. py:attribute:: request_location
+      :value: False
+
+
+
+   .. py:attribute:: web_app
+      :value: None
+
+
+

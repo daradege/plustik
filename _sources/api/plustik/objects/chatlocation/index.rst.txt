@@ -1,0 +1,37 @@
+plustik.objects.chatlocation
+============================
+
+.. py:module:: plustik.objects.chatlocation
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   plustik.objects.chatlocation.ChatLocation
+
+
+Module Contents
+---------------
+
+.. py:class:: ChatLocation(location, address, **kwargs)
+
+   Represents the location of a chat.
+
+   .. attribute:: location
+
+      The location of the chat
+
+      :type: Location
+
+   .. attribute:: address
+
+      The address of the chat
+
+      :type: str
+
+
+   .. py:attribute:: address
+
+
